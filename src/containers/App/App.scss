@@ -1,0 +1,20 @@
+.app {
+  .brand-logo {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: url('./main_logo.png') no-repeat center center;
+    $size: 40px;
+    width: $size;
+    height: $size;
+    background-size: 80%;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .brand-title {
+    margin-left: 30px;
+  }
+  .navbar-brand {
+    position: relative;
+  }
+}
