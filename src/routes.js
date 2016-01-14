@@ -3,6 +3,7 @@ import { Router, Route } from 'react-router';
 
 import {
   App,
+  Login,
   Users,
   User,
   NewUser
@@ -11,9 +12,10 @@ import {
 export default () => {
   return (
     <Route path="/" component={App}>
-      <Route path="users" component={Users} willRenderChildrenAbove={true} >
-        <Route path="/users/new" component={NewUser} />
-        <Route path="/users/:id" component={User} />
+      <Route path="/login" component={Login}/>
+      <Route path="users" component={Users}>
+        <Route path="/users/new" component={NewUser}/>
+        <Route path="/users/:id" component={User}/>
       </Route>
     </Route>
   );

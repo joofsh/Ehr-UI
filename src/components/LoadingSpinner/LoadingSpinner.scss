@@ -1,6 +1,12 @@
 .LoadingSpinner {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  font-size: 4em;
+  &.large {
+    font-size: 4em;
+  }
+  &.absolute {
+    position: absolute;
+  }
+  &.center {
+    left: 50%;
+    top: 50%;
+  }
 }

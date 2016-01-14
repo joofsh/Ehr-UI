@@ -19,7 +19,7 @@ export class Users extends Component {
 
   render() {
     if (this.props.isFetching) {
-      return <LoadingSpinner/>;
+      return <LoadingSpinner large absolute center/>;
     }
 
     return <div className="container-users">
@@ -36,7 +36,7 @@ export class Users extends Component {
         </thead>
         <tbody>
           {this.props.users.map(user => {
-            return <tr key={user.key}>
+            return <tr key={user.id}>
               {COLUMNS.map(column => {
                 return <td key={column.key}>
                   <Link to={`/users/${user.id}`}>
@@ -81,4 +81,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Users)
+)(Users);
