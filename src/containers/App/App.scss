@@ -17,4 +17,30 @@
   .navbar-brand {
     position: relative;
   }
+  /*TODO: Reimplement these slide animation rules*/
+  /*.container {*/
+    /*position: relative;*/
+    /*overflow: hidden;*/
+  /*}*/
+  /*.containder-slide-wrapper {*/
+    /*width: 200%;*/
+    /*overflow: hidden;*/
+  /*}*/
+  /*.container-enter {*/
+    /*opacity: 0.01;*/
+  /*}*/
+
+  /*.container-enter.container-enter-active {*/
+    /*opacity: 1;*/
+    /*transition: opacity 5000ms slide-right;*/
+  /*}*/
+
+  /*.container-leave {*/
+    /*opacity: 1;*/
+  /*}*/
+
+  /*.container-leave.container-leave-active {*/
+    /*opacity: 0.01;*/
+    /*transition: opacity 3000ms slide-left;*/
+  /*}*/
 }

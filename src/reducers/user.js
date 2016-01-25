@@ -1,5 +1,3 @@
-import apiUtil from 'utils/api';
-
 const initialState = {
   isFetching: false,
   didInvalidate: false,
@@ -18,7 +16,7 @@ export default function user(state = initialState, action = {}) {
       return {
         ...state,
         isFetching: false,
-        users: action.users,
+        users: action.response.users,
         lastUpdated: Date.now()
       };
     case 'REQUEST_ADD_USER':
@@ -34,9 +32,6 @@ export default function user(state = initialState, action = {}) {
       };
 
     default:
-      if (action.type.indexOf('@@') < 0) {
-        console.warn('!! Default action triggered !! ', action.type);
-      }
       return state;
   }
-}
+};

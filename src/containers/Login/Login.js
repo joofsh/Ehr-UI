@@ -3,18 +3,24 @@ import { LoadingSpinner, FormGroup } from 'components';
 import { ButtonInput } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import apiUtil from 'utils/api';
+import { pushPath } from 'redux-simple-router';
 
 export class Login extends Component {
-  static propTypes = {
-    login: PropTypes.object.isRequired,
-    handleSubmit: PropTypes.func.isRequired
-  }
+  //static propTypes = {
+    //fields: PropTypes.object.isRequired,
+    //handleSubmit: PropTypes.func.isRequired,
+    //resetForm: PropTypes.func.isRequired,
+    //submitting: PropTypes.bool.isRequired,
+    //error: PropTypes.string
+  //};
 
   render() {
     const {
       fields: { identifier, password },
       handleSubmit,
-      submitting
+      submitting,
+      errorMessage,
+      bar
     } = this.props;
 
     require('./Login.scss');
@@ -23,6 +29,7 @@ export class Login extends Component {
         <div className="col-md-4 col-md-offset-4">
           <h1>Login</h1>
           <form onSubmit={handleSubmit}>
+            {errorMessage && <p className="text-danger">{errorMessage}</p>}
             <FormGroup title='Username' placeholder='Enter Username or Email' {...identifier}/>
             <FormGroup title='Password' {...password}/>
             <button className='btn btn-success btn-block'
@@ -42,21 +49,28 @@ function mapDispatchToProps(dispatch) {
     onSubmit(login) {
       dispatch({ type: 'REQUEST_AUTHENTICATE' });
 
-      return apiUtil.post('/api/users/authorize', login)
+      return apiUtil.post('/authorize', login)
         .then(user => {
-          dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCES' })
+          dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', response: user });
+          dispatch(pushPath('/'));
+        }).catch(error => {
+          dispatch({ type: 'RECEIVE_AUTHENTICATE_ERROR', error: error.response });
         });
     }
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    errorMessage: state.session.error
+  };
+};
 
-Login = reduxForm({
+
+export default reduxForm({
   form: 'login',
   fields: ['identifier', 'password']
 },
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);
-
-export default Login;

@@ -14,15 +14,13 @@ global.__CLIENT__ = true;
 require('bootstrap-loader'); // load bootstrap css & js
 require('font-awesome-webpack!./theme/font-awesome.config.js'); // load font-awesome
 
-const initializeState = window.__INITIAL_STATE__ || {};
+const initializeState = Object.assign({}, window.__INITIAL_STATE__);
 const store = configureStore(initializeState);
 const history = createHistory();
 
 syncReduxAndRouter(history, store);
 
-const configuredRoutes = routes(history);
 const dest = document.getElementById('root');
-
 
 ReactDOM.render(
   <Provider store={store}>
@@ -35,8 +33,9 @@ ReactDOM.render(
   dest
 );
 
-if (process.env.NODE_ENV !== 'production') {
-  window.React = React; // enable debugger
+if (__DEVELOPMENT__) {
+  global.React = React;
+  global.store = store;
 
   if (!dest || !dest.firstChild || !dest.firstChild.attributes || !dest.firstChild.attributes['data-react-checksum']) {
     console.error('Server-side React render was discarded. Make sure that your initial render does not contain any client-side code.');

@@ -2,8 +2,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from 'reducers/reducer';
 import { DevTools } from 'containers';
 import thunk from 'redux-thunk';
+import apiMiddleware from 'reducers/middleware/api';
 
-const middleware = [thunk];
+const middleware = [apiMiddleware, thunk];
 
 let finalCreateStore;
 if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {

@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import apiUtil from '../../utils/api';
 import { LoadingSpinner } from '../../components';
+import moment from 'moment';
+import { pushPath } from 'redux-simple-router';
+
+global.moment = moment;
 
 const COLUMNS = [
   {key: 1, name: 'id', title: 'ID' },
@@ -13,49 +17,91 @@ const COLUMNS = [
 ];
 
 export class Users extends Component {
-  componentWillMount() {
-    this.props.onLoad();
+  static fetchData({ store }) {
+    return store.dispatch(loadUsers());
+  }
+
+  componentDidMount() {
+    this.props.loadUsers();
+  }
+
+  lastUpdated() {
+    return moment(this.props.lastUpdated).fromNow();
+  }
+
+  renderNewUserLink() {
+    // TODO: Figure out better way to know when to hide link
+    return this.props.location.pathname !== '/users/new';
+  }
+
+  renderUsers() {
+    return !this.props.children;
   }
 
   render() {
+    require('./Users.scss');
+
     if (this.props.isFetching) {
       return <LoadingSpinner large absolute center/>;
     }
 
     return <div className="container-users">
-      <Link to="/users/new" className="btn btn-primary">
-        Add User
-      </Link>
-      <Table striped bordered condensed hover>
-        <thead>
-          <tr>
-            {COLUMNS.map(column => {
-              return <th key={column.key}>{column.title}</th>
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.users.map(user => {
-            return <tr key={user.id}>
+      { this.renderNewUserLink() &&
+        <Link to="/users/new" className="btn btn-primary">
+          Add User
+        </Link>}
+      {this.renderUsers() && <div>
+        <div className="pull-right refresh">
+          <a href="#" onClick={this.props.refreshUsers}>
+            <i className="fa fa-refresh"/>
+          </a>
+          Last Update: {this.lastUpdated()}
+        </div>
+        <Table striped bordered condensed hover>
+          <thead>
+            <tr>
               {COLUMNS.map(column => {
-                return <td key={column.key}>
-                  <Link to={`/users/${user.id}`}>
-                    {user[column.name]}
-                  </Link>
-                </td>
+                return <th key={column.key}>{column.title}</th>
               })}
             </tr>
-          })}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {this.props.users.map(user => {
+              return <tr key={user.id}>
+                {COLUMNS.map(column => {
+                  return <td key={column.key}>
+                    <Link to={`/users/${user.id}`}>
+                      {user[column.name]}
+                    </Link>
+                  </td>
+                })}
+              </tr>
+            })}
+          </tbody>
+        </Table>
+      </div>}
       {this.props.children}
     </div>
   }
 }
 
+function loadUsers() {
+  return {
+    type: 'CALL_API',
+    method: 'get',
+    url: '/api/users',
+    successType: 'RECEIVE_USERS',
+    errorType: (dispatch) => {
+      dispatch(pushPath('/login'));
+      dispatch({ type: 'CLEAR_SESSION_USER' });
+    }
+  }
+};
+
+
 function mapDispatchToProps(dispatch) {
   return {
-    onLoad: () => {
+    loadUsers: () => {
       dispatch((dispatch, getState) => {
 
         // Only fetch users if not already fetched
@@ -64,19 +110,21 @@ function mapDispatchToProps(dispatch) {
         }
 
         dispatch({ type: 'REQUEST_USERS' });
-        return apiUtil.get('/api/users')
-          .then(resp => {
-            dispatch({ type: 'RECEIVE_USERS', users: resp.users });
-          });
+        dispatch(loadUsers());
+      });
+    },
+    refreshUsers: () => {
+      dispatch((dispatch, getState) => {
+        dispatch({ type: 'REQUEST_USERS' });
+        dispatch(loadUsers());
       });
     }
-  };
-}
+  }
+};
 
 function mapStateToProps(state) {
-  window.store = state;
   return state.user;
-}
+};
 
 export default connect(
   mapStateToProps,

@@ -5,8 +5,8 @@ var rootDir = path.resolve(__dirname, '..');
 
 global.__CLIENT__ = false;
 global.__SERVER__ = true;
-global.__DISABLE_SSR__ = false;  // <----- DISABLES SERVER SIDE RENDERING FOR ERROR DEBUGGING
-global.__DISABLE_CSR__ = false;  // <----- DISABLES CLIENT SIDE RENDERING FOR ERROR DEBUGGING
+global.__DISABLE_SSR__ = false;  // <----- DISABLES SERVER SIDE RENDERING
+global.__DISABLE_CSR__ = false;  // <----- DISABLES CLIENT SIDE RENDERING
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 
 if (__DEVELOPMENT__) {

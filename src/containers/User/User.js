@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import stringUtil from 'utils/string';
+
+const ATTRIBUTES = [
+  'first_name',
+  'last_name',
+  'email',
+  'role'
+];
 
 export class User extends Component {
   constructor(props) {
@@ -32,9 +40,18 @@ export class User extends Component {
 
   render() {
     var { user } = this.state;
-    if (!user) { return; }
-    return <div>
+
+    require('./User.scss');
+    return <div className="container-user container">
       <h1>{this.state.user.name}</h1>
+      <dl className="row">
+        {ATTRIBUTES.map((attr, key) => {
+          return <div key={key}>
+            <dt className="col-sm-2">{stringUtil.titleize(attr)}</dt>
+            <dd className="col-sm-10">{user[attr]}</dd>
+          </div>
+        })}
+      </dl>
     </div>
   }
 };
