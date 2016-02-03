@@ -18,7 +18,7 @@ import { match, RoutingContext } from 'react-router';
 import { createLocation } from 'history';
 import { Provider } from 'react-redux';
 
-import apiUtil from './utils/api';
+import ApiClient from './utils/api';
 import bodyParser from 'body-parser';
 import config from '../config';
 import Html from './helpers/Html';
@@ -40,16 +40,19 @@ const proxy = httpProxy.createProxyServer({
 
 proxy.on('proxyReq', function(proxyReq, req, res, options) {
   if (req.session.user) {
-    console.info('setting Authnorization header:', req.session.user);
     proxyReq.setHeader('Authorization', 'Bearer ' + req.session.user.token);
   }
 });
 
+var RedisStore = require('connect-redis')(session);
+
 // Session
 app.use(session({
   name: 'session',
+  store: new RedisStore(),
   secret: 'my secret token',
   resave: false,
+  proxy: true,
   saveUninitialized: true,
   cookie: { maxAge: 2592000 }
 }));
@@ -63,15 +66,15 @@ app.use('/api', (req, res) => {
 app.use(bodyParser.json());
 
 app.post('/authorize', function(req, res) {
-  apiUtil.post('/api/authorize', req.body).then(resp => {
+  const client = new ApiClient(req);
+  client.post('/api/authorize', { data: req.body }).then(resp => {
     req.session.user = resp.user;
-    console.info('updated session after authorize: ', req.session);
     let user = Server.filterSessionForClient(req.session).user;
     res.status = resp.status;
     res.send(user);
-  }).catch(err => {
-    res.status(err.response.status);
-    res.send(err.response);
+  }, err => {
+    res.status(err.status);
+    res.send(err.body);
   });
 });
 
@@ -92,6 +95,7 @@ proxy.on('error', (error, req, res) => {
 app.use(handleRender);
 
 function handleRender(req, res) {
+  console.log('sesison user: ', req.session.user);
   let sessionForClient = Server.filterSessionForClient(req.session);
 
   const initialState = {
@@ -99,7 +103,8 @@ function handleRender(req, res) {
       user: sessionForClient.user || null
     }
   };
-  const store = configureStore(initialState);
+  const client = new ApiClient(req);
+  const store = configureStore(initialState, client);
 
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();

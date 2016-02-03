@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import apiUtil from '../../utils/api';
-import { LoadingSpinner } from '../../components';
+import apiUtil from 'src/utils/api';
+import { LoadingSpinner } from 'src/components';
 import moment from 'moment';
 import { pushPath } from 'redux-simple-router';
 
@@ -45,7 +45,7 @@ export class Users extends Component {
       return <LoadingSpinner large absolute center/>;
     }
 
-    return <div className="container-users">
+    return <div className="container-users container">
       { this.renderNewUserLink() &&
         <Link to="/users/new" className="btn btn-primary">
           Add User

@@ -1,4 +1,7 @@
 .app {
+  a {
+    text-decoration: none;
+  }
   .brand-logo {
     position: absolute;
     top: 5px;
@@ -17,6 +20,14 @@
   .navbar-brand {
     position: relative;
   }
+
+  .profilePic {
+    width: 35px;
+    position: absolute;
+    top: 8px;
+    left: -27px;
+  }
+
   /*TODO: Reimplement these slide animation rules*/
   /*.container {*/
     /*position: relative;*/

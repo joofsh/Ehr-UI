@@ -1,0 +1,13 @@
+.form-group {
+  &.has-error {
+    input {
+      float: left;
+      width: 80%;
+    }
+    .help-block {
+      float: right;
+      width: 20%;
+      text-align: center;
+    }
+  }
+}

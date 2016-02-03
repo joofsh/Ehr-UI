@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Input, ButtonInput } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
-import apiUtil from 'utils/api';
-import { FormGroup, LoadingSpinner } from 'components';
+import apiUtil from 'src/utils/api';
+import { UserForm } from 'src/components';
 import { pushPath } from 'redux-simple-router'
 
 export class NewUser extends Component {
@@ -16,29 +16,22 @@ export class NewUser extends Component {
 
   render() {
     const {
-      fields: { first_name, last_name, role, username, email },
+      fields,
       handleSubmit,
-      submitting
+      submitting,
     } = this.props;
 
-    return <form onSubmit={handleSubmit}>
+    return <div className="container-newUser container">
       <h2>Create a New User:</h2>
-      <FormGroup title='Username' {...username} />
-      <FormGroup title='First Name' {...first_name} />
-      <FormGroup title='Last Name' {...last_name }/>
-      <FormGroup title='Email' {...email }/>
-      <FormGroup title='Role' {...role}
-        type='select'
-        options={['patient', 'therapist']}
-        defaultOption='Select Role:'/>
-
-      <div className='form-group'>
-        <button className='btn btn-success'
-          disabled={submitting} onClick={handleSubmit}>
-          {submitting ? <LoadingSpinner/> : <i className="fa fa-paper-plane"/> } Submit
-        </button>
+      <div className="row">
+        <UserForm
+          handleSubmit={handleSubmit}
+          fields={fields}
+          submitting={submitting}
+          groupClassName="col-lg-6 col-md-12"
+        />
       </div>
-    </form>;
+    </div>;
   }
 }
 

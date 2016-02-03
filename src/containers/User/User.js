@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import stringUtil from 'utils/string';
+import stringUtil from 'src/utils/string';
 
 const ATTRIBUTES = [
   'first_name',

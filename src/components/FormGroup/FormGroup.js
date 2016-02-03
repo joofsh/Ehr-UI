@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Input } from 'react-bootstrap';
-import stringUtil from 'utils/string';
+import stringUtil from 'src/utils/string';
 
 export default class FormGroup extends Component {
   inputChildren() {
@@ -9,7 +9,7 @@ export default class FormGroup extends Component {
       let { defaultOption, options } = this.props;
 
       if (defaultOption) {
-        children.push(<option key={0} value=''disabled>{defaultOption}</option>);
+        children.push(<option key={0} value='' disabled>{defaultOption}</option>);
       }
 
       options.map((option, key) => {
@@ -21,17 +21,21 @@ export default class FormGroup extends Component {
     }
   }
   render() {
-    return <div className='form-group'>
-      <label htmlFor={this.props.name}>
-        {this.props.title}
+    let { title, type, name, placeholder, error, formGroupClasses } = this.props;
+    require('./FormGroup.scss');
+    title = title || stringUtil.titleize(name);
+    return (
         <Input
-          type={this.props.type || 'text'}
-          id={this.props.name}
-          placeholder={this.props.placeholder || `Enter ${this.props.title}`}
-          {...this.props}
-          children={this.inputChildren()}/>
-      </label>
-    </div>
+          wrapperClassName='input-with-help'
+          label={title}
+          type={type || 'text'}
+          id={name}
+          placeholder={placeholder || `Enter ${title}`}
+          children={this.inputChildren()}
+          bsStyle={error ? 'error' : null}
+          help={error}
+          {...this.props}/>
+    );
   }
 };
 

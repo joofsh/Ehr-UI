@@ -11,13 +11,12 @@ var host = (process.env.HOST || 'localhost');
 var port = parseInt(process.env.PORT) + 1 || 3002;
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'inline-source-map',
   entry: [
-    //'webpack-dev-server/client?http://localhost:3001',
-    //'webpack/hot/only-dev-server',
     'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
     './src/client'
   ],
+  progress: true,
   output: {
     path: '/',
     filename: 'bundle.js',
@@ -33,7 +32,7 @@ module.exports = {
       __CLIENT__: true,
       __SERVER__: false,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true
+      __DEVTOOLS__: false
     }),
     webpackIsomorphicToolsPlugin.development()
   ],

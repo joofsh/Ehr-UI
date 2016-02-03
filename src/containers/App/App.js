@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, CollapsibleNav } from 'react-bootstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, CollapsibleNav, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 
 export class App extends Component {
   static propTypes = {
@@ -29,17 +27,19 @@ export class App extends Component {
   }
 
   render() {
-    const styles = require('./App.scss');
-    let authed = !!this.props.session.user;
+    const { session: { user } } = this.props;
+    let authed = !!user;
 
+    const styles = require('./App.scss');
     return <div className="app">
       {authed && <Navbar>
         <NavbarBrand>
-          <IndexLink to="/" activeStyle={{color: '#33e0ff'}}>
+          <IndexLink to="/" activeStyle={{color: '#3C58B6'}}>
             <div className="brand-logo"></div>
             <span className="brand-title">Patient Manager</span>
           </IndexLink>
         </NavbarBrand>
+         <Navbar.Toggle />
 
         <Navbar.Collapse>
           <Nav navbar>
@@ -47,12 +47,19 @@ export class App extends Component {
               <NavItem active={true}>Users</NavItem>
             </LinkContainer>
           </Nav>
+          <Nav pullRight>
+            <NavItem>
+              <Image src={user.image_url} className="profilePic" circle/>
+              {user.name}
+            </NavItem>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>}
 
       <div className="container">
         {this.props.children}
       </div>
+      {__DEVELOPMENT__ && <div id="devtools"/>}
     </div>;
   }
 };

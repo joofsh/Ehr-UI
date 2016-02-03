@@ -4,11 +4,14 @@ import { connect } from 'react-redux';
 
 export class Home extends Component {
   render() {
-    return <div className="container-home">
-      <h1>Select a service:</h1>
-      <Link to="/shelters">
-        Shelters
-      </Link>
+    require('./Home.scss')
+    return <div className="container-home container">
+      <div className="row">
+        <Link to="/clients/new" className="col-lg-3 col-md-4 col-sm-6 col-xs-12 toolkit">
+          <i className="fa fa-user"/>
+          Create new Client Profile
+        </Link>
+      </div>
     </div>;
   }
 };

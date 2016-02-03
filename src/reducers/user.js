@@ -1,7 +1,6 @@
 const initialState = {
   isFetching: false,
   didInvalidate: false,
-  isSubmittingUser: false,
   users: []
 };
 
@@ -18,11 +17,6 @@ export default function user(state = initialState, action = {}) {
         isFetching: false,
         users: action.response.users,
         lastUpdated: Date.now()
-      };
-    case 'REQUEST_ADD_USER':
-      return {
-        ...state,
-        isSubmittingUser: true
       };
     case 'RECEIVE_ADD_USER':
       return {

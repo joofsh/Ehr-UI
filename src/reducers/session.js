@@ -10,16 +10,11 @@ export default function session(state = initialState, action = {}) {
         ...state,
         user: null
       };
-    case 'REQUEST_AUTHENTICATE':
-      return {
+    case 'INVALIDATE_CURRENT_USER':
+        return {
         ...state,
-        error: null
-      };
-    case 'RECEIVE_AUTHENTICATE_ERROR':
-      return {
-        ...state,
-        error: `Login Failed: ${action.error.statusText}`
-      };
+        user: null
+      }
     case 'RECEIVE_AUTHENTICATE_SUCCESS':
       return {
         ...state,

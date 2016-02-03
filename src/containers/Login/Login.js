@@ -1,25 +1,25 @@
 import React, { Component, PropTypes } from 'react';
-import { LoadingSpinner, FormGroup } from 'components';
+import { LoadingSpinner, FormGroup } from 'src/components';
 import { ButtonInput } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
-import apiUtil from 'utils/api';
+import ApiClient from 'src/utils/api';
 import { pushPath } from 'redux-simple-router';
 
 export class Login extends Component {
-  //static propTypes = {
-    //fields: PropTypes.object.isRequired,
-    //handleSubmit: PropTypes.func.isRequired,
-    //resetForm: PropTypes.func.isRequired,
-    //submitting: PropTypes.bool.isRequired,
-    //error: PropTypes.string
-  //};
+  static propTypes = {
+    fields: PropTypes.object.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    resetForm: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired,
+    error: PropTypes.string
+  };
 
   render() {
     const {
       fields: { identifier, password },
       handleSubmit,
       submitting,
-      errorMessage,
+      error,
       bar
     } = this.props;
 
@@ -29,11 +29,11 @@ export class Login extends Component {
         <div className="col-md-4 col-md-offset-4">
           <h1>Login</h1>
           <form onSubmit={handleSubmit}>
-            {errorMessage && <p className="text-danger">{errorMessage}</p>}
             <FormGroup title='Username' placeholder='Enter Username or Email' {...identifier}/>
             <FormGroup title='Password' {...password}/>
+            {error && <p className="text-danger error">{error}</p>}
             <button className='btn btn-success btn-block'
-              disabled={submitting} onClick={handleSubmit}>
+              disabled={submitting}>
               {submitting ? <LoadingSpinner/> : <i className="fa fa-sign-in"/> } Submit
             </button>
 
@@ -47,23 +47,21 @@ export class Login extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     onSubmit(login) {
-      dispatch({ type: 'REQUEST_AUTHENTICATE' });
-
-      return apiUtil.post('/authorize', login)
-        .then(user => {
-          dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', response: user });
-          dispatch(pushPath('/'));
-        }).catch(error => {
-          dispatch({ type: 'RECEIVE_AUTHENTICATE_ERROR', error: error.response });
-        });
+      return new Promise((resolve, reject) => {
+        new ApiClient().post('/authorize', { data: login })
+          .then(user => {
+            dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', response: user });
+            resolve(dispatch(pushPath('/')));
+          }, error => {
+            reject({ _error: 'Login Failed. Please verify your username and password are correct' })
+          });
+      });
     }
   }
 }
 
 function mapStateToProps(state) {
-  return {
-    errorMessage: state.session.error
-  };
+  return {};
 };
 
 

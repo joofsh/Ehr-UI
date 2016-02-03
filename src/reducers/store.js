@@ -1,27 +1,33 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from 'reducers/reducer';
-import { DevTools } from 'containers';
+import rootReducer from './reducer';
+import { DevTools } from 'src/containers';
 import thunk from 'redux-thunk';
-import apiMiddleware from 'reducers/middleware/api';
+import apiMiddleware from './middleware/api';
+import createLogger from 'redux-logger';
 
-const middleware = [apiMiddleware, thunk];
-
-let finalCreateStore;
-if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
-  const { persistState } = require('redux-devtools');
-  const DevTools = require('../containers/DevTools/DevTools');
-
-  finalCreateStore = compose(
-    applyMiddleware(...middleware),
-    window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument(),
-    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
-  )(createStore);
-} else {
-  finalCreateStore = applyMiddleware(...middleware)(createStore);
+function getDebugSessionKey() {
+  const matches = window.location.href.match(/[?&]debug_session=([^&]+)\b/);
+  return (matches && matches.length > 0)? matches[1] : null;
 }
 
+export default function configureStore(initialState = {}, client) {
+  const middleware = [apiMiddleware(client), thunk];
 
-export default function configureStore(initialState = {}) {
+  if (__CLIENT__ && __DEVELOPMENT__) {
+    middleware.push(createLogger());
+  }
+
+  let finalCreateStore;
+  if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
+    finalCreateStore = compose(
+      applyMiddleware(...middleware),
+      DevTools.instrument()
+    )(createStore);
+  } else {
+    finalCreateStore = applyMiddleware(...middleware)(createStore);
+  }
+
+
   const store = finalCreateStore(rootReducer, initialState);
 
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
