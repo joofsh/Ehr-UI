@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import stringUtil from 'src/utils/string';
+import _find from 'lodash/find';
 
 const ATTRIBUTES = [
   'first_name',
@@ -10,40 +11,20 @@ const ATTRIBUTES = [
 ];
 
 export class User extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {}
-    };
+  static fetchData({ store, params }) {
+    return store.dispatch(fetchUser(+params.id));
   }
 
-  setUser() {
-    var { users, params } = this.props;
-    if (users.length) {
-      const id = +params.id;
-      const user = users.filter(user => user.id === id)[0];
-      this.setState({ user });
-    }
-  }
-
-  componentWillMount() {
-    this.setUser();
-  }
-  componentDidUpdate(prevProps) {
-    const prevId = prevProps.params.id;
-    const newId = this.props.params.id;
-
-    if (prevId !== newId || !prevProps.users.length) {
-      this.setUser();
-    }
+  componentDidMount() {
+    this.props.fetchUser(+this.props.params.id);
   }
 
   render() {
-    var { user } = this.state;
+    var { user } = this.props;
 
     require('./User.scss');
     return <div className="container-user container">
-      <h1>{this.state.user.name}</h1>
+      <h1>{user.name}</h1>
       <dl className="row">
         {ATTRIBUTES.map((attr, key) => {
           return <div key={key}>
@@ -56,12 +37,42 @@ export class User extends Component {
   }
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
+  let id = +ownProps.params.id;
+  let user = _find(state.user.users, user => user.id === id);
   return {
-    users: state.user.users
+    user
   };
 };
 
+function fetchUser(id) {
+  return {
+    type: 'CALL_API',
+    method: 'get',
+    url: `/api/users/${id}`,
+    successType: 'RECEIVE_USER_SUCCESS'
+  }
+};
+
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    fetchUser: () => {
+      dispatch((dispatch, getState) => {
+        let id = +ownProps.params.id;
+        let user = _find(getState().user.users, user => user.id === id);
+
+        // Only fetch user if not already fetched
+        if (user) {
+          return;
+        }
+
+        dispatch(fetchUser(id));
+      });
+    }
+  }
+};
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(User);

@@ -95,7 +95,6 @@ proxy.on('error', (error, req, res) => {
 app.use(handleRender);
 
 function handleRender(req, res) {
-  console.log('sesison user: ', req.session.user);
   let sessionForClient = Server.filterSessionForClient(req.session);
 
   const initialState = {
@@ -129,7 +128,7 @@ function handleRender(req, res) {
       let comp = renderProps.components[renderProps.components.length - 1];
       console.log('getting redux promise for component {',
                   comp.displayName, '}. FetchData: ', !!comp.fetchData);
-      return (comp.fetchData ? comp.fetchData({ store }): Promise.resolve());
+      return (comp.fetchData ? comp.fetchData({ store, params: renderProps.params }): Promise.resolve());
     };
 
     if (error) {

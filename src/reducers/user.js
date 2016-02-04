@@ -18,6 +18,11 @@ export default function user(state = initialState, action = {}) {
         users: action.response.users,
         lastUpdated: Date.now()
       };
+    case 'RECEIVE_USER_SUCCESS':
+      return {
+        ...state,
+        users: state.users.concat(action.response)
+      };
     case 'RECEIVE_ADD_USER':
       return {
         ...state,

@@ -10,19 +10,19 @@ import { pushPath } from 'redux-simple-router';
 global.moment = moment;
 
 const COLUMNS = [
-  {key: 1, name: 'id', title: 'ID' },
-  {key: 2, name: 'name', title: 'Name' },
-  {key: 3, name: 'username', title: 'Username' },
-  {key: 4, name: 'email', title: 'Email' },
+  {name: 'id', title: 'ID' },
+  {name: 'name', title: 'Name' },
+  {name: 'username', title: 'Username' },
+  {name: 'email', title: 'Email' },
 ];
 
 export class Users extends Component {
   static fetchData({ store }) {
-    return store.dispatch(loadUsers());
+    return store.dispatch(fetchUsers());
   }
 
   componentDidMount() {
-    this.props.loadUsers();
+    this.props.fetchUsers();
   }
 
   lastUpdated() {
@@ -60,16 +60,16 @@ export class Users extends Component {
         <Table striped bordered condensed hover>
           <thead>
             <tr>
-              {COLUMNS.map(column => {
-                return <th key={column.key}>{column.title}</th>
+              {COLUMNS.map((column, i) => {
+                return <th key={i}>{column.title}</th>
               })}
             </tr>
           </thead>
           <tbody>
             {this.props.users.map(user => {
               return <tr key={user.id}>
-                {COLUMNS.map(column => {
-                  return <td key={column.key}>
+                {COLUMNS.map((column, i) => {
+                  return <td key={i}>
                     <Link to={`/users/${user.id}`}>
                       {user[column.name]}
                     </Link>
@@ -85,23 +85,19 @@ export class Users extends Component {
   }
 }
 
-function loadUsers() {
+function fetchUsers() {
   return {
     type: 'CALL_API',
     method: 'get',
     url: '/api/users',
-    successType: 'RECEIVE_USERS',
-    errorType: (dispatch) => {
-      dispatch(pushPath('/login'));
-      dispatch({ type: 'CLEAR_SESSION_USER' });
-    }
+    successType: 'RECEIVE_USERS'
   }
 };
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadUsers: () => {
+    fetchUsers: () => {
       dispatch((dispatch, getState) => {
 
         // Only fetch users if not already fetched
@@ -110,13 +106,13 @@ function mapDispatchToProps(dispatch) {
         }
 
         dispatch({ type: 'REQUEST_USERS' });
-        dispatch(loadUsers());
+        dispatch(fetchUsers());
       });
     },
     refreshUsers: () => {
       dispatch((dispatch, getState) => {
         dispatch({ type: 'REQUEST_USERS' });
-        dispatch(loadUsers());
+        dispatch(fetchUsers());
       });
     }
   }
