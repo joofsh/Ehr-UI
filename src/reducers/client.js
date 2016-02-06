@@ -23,4 +23,4 @@ export default function client(state = initialState, action = {}) {
     default:
       return state;
   }
-};
+}

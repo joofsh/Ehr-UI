@@ -33,7 +33,7 @@ const proxy = httpProxy.createProxyServer({
   ws: false
 });
 
-proxy.on('proxyReq', function(proxyReq, req, res, options) {
+proxy.on('proxyReq', function (proxyReq, req, res, options) {
   if (req.session.user) {
     proxyReq.setHeader('Authorization', 'Bearer ' + req.session.user.token);
   }
@@ -60,7 +60,7 @@ app.use('/api', (req, res) => {
 
 app.use(bodyParser.json());
 
-app.post('/authorize', function(req, res) {
+app.post('/authorize', function (req, res) {
   const client = new ApiClient(req);
   client.post('/api/authorize', { data: req.body }).then(resp => {
     req.session.user = resp.user;
@@ -80,10 +80,10 @@ proxy.on('error', (error, req, res) => {
     console.error('proxy error', error);
   }
   if (!res.headersSent) {
-    res.writeHead(500, {'content-type': 'application/json'});
+    res.writeHead(500, { 'content-type': 'application/json' });
   }
 
-  json = {error: 'proxy_error', reason: error.message};
+  json = { error: 'proxy_error', reason: error.message };
   res.end(JSON.stringify(json));
 });
 
@@ -117,14 +117,14 @@ function handleRender(req, res) {
   const location = createLocation(req.originalUrl);
   const routes = _routes();
   match({ routes, location }, (error, redirectLocation, renderProps) => {
-    console.info("--- Handling request: ", req.url);
+    console.info('--- Handling request: ', req.url);
 
     function getReduxPromise() {
       let comp = renderProps.components[renderProps.components.length - 1];
       console.log('getting redux promise for component {',
                   comp.displayName, '}. FetchData: ', !!comp.fetchData);
-      return (comp.fetchData ? comp.fetchData({ store, params: renderProps.params }): Promise.resolve());
-    };
+      return (comp.fetchData ? comp.fetchData({ store, params: renderProps.params }) : Promise.resolve());
+    }
 
     if (error) {
       res.status(500);

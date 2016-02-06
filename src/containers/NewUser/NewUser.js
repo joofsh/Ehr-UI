@@ -1,10 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Input, ButtonInput } from 'react-bootstrap';
-import { reduxForm } from 'redux-form';
 import apiUtil from 'src/utils/api';
 import { UserForm } from 'src/components';
-import { pushPath } from 'redux-simple-router'
+import { pushPath } from 'redux-simple-router';
 
 export class NewUser extends Component {
   static propTypes = {
@@ -21,7 +19,7 @@ export class NewUser extends Component {
       submitting,
     } = this.props;
 
-    return <div className="container-newUser container">
+    return (<div className="container-newUser container">
       <h2>Create a New User:</h2>
       <div className="row">
         <UserForm
@@ -31,30 +29,25 @@ export class NewUser extends Component {
           groupClassName="col-lg-6 col-md-12"
         />
       </div>
-    </div>;
+    </div>);
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     onSubmit: (user) => {
-      dispatch({ type: 'REQUEST_ADD_USER' })
+      dispatch({ type: 'REQUEST_ADD_USER' });
 
       return apiUtil.post('/api/users', { user })
-        .then(user => {
-          dispatch({ type: 'RECEIVE_ADD_USER', response: user });
+        .then(response => {
+          dispatch({ type: 'RECEIVE_ADD_USER', response });
           dispatch(pushPath(`/users/${user.id}`));
         });
     }
   };
 }
 
-NewUser = reduxForm({
-  form: 'newUser',
-  fields: ['first_name', 'last_name', 'role', 'username', 'email']
-},
+export default connect(
   null,
   mapDispatchToProps
 )(NewUser);
-
-export default NewUser;

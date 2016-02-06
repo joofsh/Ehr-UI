@@ -1,20 +1,27 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 
 export default class LoadingSpinner extends Component {
+  static propTypes = {
+    absolute: PropTypes.bool,
+    large: PropTypes.bool,
+    center: PropTypes.bool
+  };
+
   render() {
-    require('./LoadingSpinner.scss');
-    var classes = classnames(
+    let { absolute, large, center } = this.props;
+    let classes = classnames(
       ['fa',
         'fa-spinner',
         'fa-pulse',
         'LoadingSpinner'
       ], {
-      absolute: this.props.absolute,
-      large: this.props.large,
-      center: this.props.center
-    });
+        absolute,
+        large,
+        center
+      });
 
+    require('./LoadingSpinner.scss');
     return <i className={classes}/>;
   }
 }

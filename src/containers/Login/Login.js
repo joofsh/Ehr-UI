@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { LoadingSpinner, FormGroup } from 'src/components';
-import { ButtonInput } from 'react-bootstrap';
 import { reduxForm } from 'redux-form';
 import ApiClient from 'src/utils/api';
 import { pushPath } from 'redux-simple-router';
@@ -15,34 +14,34 @@ export class Login extends Component {
   };
 
   render() {
-    const {
+    let {
       fields: { identifier, password },
       handleSubmit,
       submitting,
-      error,
-      bar
+      error
     } = this.props;
 
     require('./Login.scss');
-    return <div className="container-login container">
+    return (<div className="container-login container">
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <h1>Login</h1>
           <form onSubmit={handleSubmit}>
-            <FormGroup title='Username' placeholder='Enter Username or Email' {...identifier}/>
-            <FormGroup title='Password' {...password}/>
+            <FormGroup title="Username" placeholder="Enter Username or Email" {...identifier}/>
+            <FormGroup title="Password" {...password}/>
             {error && <p className="text-danger error">{error}</p>}
-            <button className='btn btn-success btn-block'
-              disabled={submitting}>
+            <button className="btn btn-success btn-block"
+              disabled={submitting}
+            >
               {submitting ? <LoadingSpinner/> : <i className="fa fa-sign-in"/> } Submit
             </button>
 
           </form>
         </div>
       </div>
-    </div>
+    </div>);
   }
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -52,17 +51,19 @@ function mapDispatchToProps(dispatch) {
           .then(user => {
             dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', response: user });
             resolve(dispatch(pushPath('/')));
-          }, error => {
-            reject({ _error: 'Login Failed. Please verify your username and password are correct' })
+          }, () => {
+            reject(
+              { _error: 'Login Failed. Please verify your username and password are correct' }
+            );
           });
       });
     }
-  }
+  };
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {};
-};
+}
 
 
 export default reduxForm({

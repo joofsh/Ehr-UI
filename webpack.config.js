@@ -27,7 +27,7 @@ module.exports = {
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
+    //new webpack.NoErrorsPlugin(), // Must be commented out for eslint-loader
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __SERVER__: false,
@@ -40,7 +40,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['react-hot', 'babel', 'eslint-loader'],
         include: path.join(__dirname, 'src')
       },
       {
@@ -67,5 +67,9 @@ module.exports = {
   },
   stats: {
     colors: true
+  },
+  eslint: {
+    formatter: require('eslint-stylish-config/stylish'),
+    fix: true
   }
 };

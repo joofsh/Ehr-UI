@@ -8,4 +8,4 @@ export default {
 
     return _session;
   }
-}
+};

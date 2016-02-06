@@ -4,25 +4,25 @@ import { connect } from 'react-redux';
 
 export class Home extends Component {
   render() {
-    require('./Home.scss')
-    return <div className="container-home container">
+    require('./Home.scss');
+    return (<div className="container-home container">
       <div className="row">
         <Link to="/clients/new" className="col-lg-3 col-md-4 col-sm-6 col-xs-12 toolkit">
           <i className="fa fa-user"/>
           Create new Client Profile
         </Link>
       </div>
-    </div>;
+    </div>);
   }
-};
+}
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps() {
   return {};
 }
 
-function mapStateToProps(state) {
+function mapStateToProps() {
   return {};
-};
+}
 
 export default connect(
   mapStateToProps,

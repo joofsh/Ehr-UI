@@ -1,25 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import apiUtil from 'src/utils/api';
 import { LoadingSpinner } from 'src/components';
 import moment from 'moment';
-import { pushPath } from 'redux-simple-router';
 
 global.moment = moment;
 
+function fetchUsers() {
+  return {
+    type: 'CALL_API',
+    method: 'get',
+    url: '/api/users',
+    successType: 'RECEIVE_USERS'
+  };
+}
+
 const COLUMNS = [
-  {name: 'id', title: 'ID' },
-  {name: 'name', title: 'Name' },
-  {name: 'username', title: 'Username' },
-  {name: 'email', title: 'Email' },
+  { name: 'id', title: 'ID' },
+  { name: 'name', title: 'Name' },
+  { name: 'username', title: 'Username' },
+  { name: 'email', title: 'Email' },
 ];
 
 export class Users extends Component {
   static fetchData({ store }) {
     return store.dispatch(fetchUsers());
   }
+
+  static propTypes = {
+    fetchUsers: PropTypes.func.isRequired,
+    refreshUsers: PropTypes.func.isRequired,
+    lastUpdated: PropTypes.number.isRequired,
+    location: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    users: PropTypes.array.isRequired,
+    children: PropTypes.array
+  };
 
   componentDidMount() {
     this.props.fetchUsers();
@@ -45,7 +62,7 @@ export class Users extends Component {
       return <LoadingSpinner large absolute center/>;
     }
 
-    return <div className="container-users container">
+    return (<div className="container-users container">
       { this.renderNewUserLink() &&
         <Link to="/users/new" className="btn btn-primary">
           Add User
@@ -61,38 +78,29 @@ export class Users extends Component {
           <thead>
             <tr>
               {COLUMNS.map((column, i) => {
-                return <th key={i}>{column.title}</th>
+                return <th key={i}>{column.title}</th>;
               })}
             </tr>
           </thead>
           <tbody>
             {this.props.users.map(user => {
-              return <tr key={user.id}>
+              return (<tr key={user.id}>
                 {COLUMNS.map((column, i) => {
-                  return <td key={i}>
+                  return (<td key={i}>
                     <Link to={`/users/${user.id}`}>
                       {user[column.name]}
                     </Link>
-                  </td>
+                  </td>);
                 })}
-              </tr>
+              </tr>);
             })}
           </tbody>
         </Table>
       </div>}
       {this.props.children}
-    </div>
+    </div>);
   }
 }
-
-function fetchUsers() {
-  return {
-    type: 'CALL_API',
-    method: 'get',
-    url: '/api/users',
-    successType: 'RECEIVE_USERS'
-  }
-};
 
 
 function mapDispatchToProps(dispatch) {
@@ -110,17 +118,17 @@ function mapDispatchToProps(dispatch) {
       });
     },
     refreshUsers: () => {
-      dispatch((dispatch, getState) => {
+      dispatch((dispatch) => {
         dispatch({ type: 'REQUEST_USERS' });
         dispatch(fetchUsers());
       });
     }
-  }
-};
+  };
+}
 
 function mapStateToProps(state) {
   return state.user;
-};
+}
 
 export default connect(
   mapStateToProps,

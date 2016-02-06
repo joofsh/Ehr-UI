@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, CollapsibleNav, Image } from 'react-bootstrap';
+import { Navbar, NavbarBrand, Nav, NavItem, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
@@ -16,25 +16,26 @@ export class App extends Component {
     store: PropTypes.object.isRequired
   };
 
-  // TODO: Check auth everytime App receives props. Currently
-  // creates infinite loop
-  componentWillReceiveProps(nextProps) {
-    //this.props.ensureAuthed(nextProps);
-  }
-
   componentWillMount() {
     this.props.ensureAuthed();
   }
 
+  // TODO: Check auth everytime App receives props. Currently
+  // creates infinite loop
+  componentWillReceiveProps() {
+    // this.props.ensureAuthed(nextProps);
+  }
+
+
   render() {
-    const { session: { user } } = this.props;
+    let { session: { user } } = this.props;
     let authed = !!user;
 
-    const styles = require('./App.scss');
-    return <div className="app">
+    require('./App.scss');
+    return (<div className="app">
       {authed && <Navbar>
         <NavbarBrand>
-          <IndexLink to="/" activeStyle={{color: '#3C58B6'}}>
+          <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
             <div className="brand-logo"></div>
             <span className="brand-title">Patient Manager</span>
           </IndexLink>
@@ -44,7 +45,7 @@ export class App extends Component {
         <Navbar.Collapse>
           <Nav navbar>
             <LinkContainer to="/users">
-              <NavItem active={true}>Users</NavItem>
+              <NavItem active>Users</NavItem>
             </LinkContainer>
           </Nav>
           <Nav pullRight>
@@ -60,30 +61,30 @@ export class App extends Component {
         {this.props.children}
       </div>
       {__DEVELOPMENT__ && <div id="devtools"/>}
-    </div>;
+    </div>);
   }
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return {
-    ensureAuthed: (nextProps) => {
+    ensureAuthed: () => {
       dispatch((dispatch, getState) => {
         if (!getState().session.user) {
           console.info('redirecting to login!');
           dispatch(pushPath('/login'));
         }
-      })
+      });
     }
-  }
+  };
 }
 
 function mapStateToProps(state) {
   return {
     session: state.session
   };
-};
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(App)
+)(App);

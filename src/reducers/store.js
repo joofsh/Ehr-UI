@@ -2,12 +2,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducer';
 import { DevTools } from 'src/containers';
 import thunk from 'redux-thunk';
+import { persistState } from 'redux-devtools';
 import apiMiddleware from './middleware/api';
 import createLogger from 'redux-logger';
 
 function getDebugSessionKey() {
   const matches = window.location.href.match(/[?&]debug_session=([^&]+)\b/);
-  return (matches && matches.length > 0)? matches[1] : null;
+  return (matches && matches.length > 0) ? matches[1] : null;
 }
 
 export default function configureStore(initialState = {}, client) {
@@ -21,7 +22,8 @@ export default function configureStore(initialState = {}, client) {
   if (__DEVELOPMENT__ && __CLIENT__ && __DEVTOOLS__) {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
-      DevTools.instrument()
+      DevTools.instrument(),
+      persistState(getDebugSessionKey())
     )(createStore);
   } else {
     finalCreateStore = applyMiddleware(...middleware)(createStore);

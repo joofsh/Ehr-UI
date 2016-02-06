@@ -9,6 +9,9 @@
     "rule": "cyan",
     "summary": "gray",
     "noproblem": "green"
+  },
+  "background colors": {
+    "path": "bgRed"
   }
 }
 

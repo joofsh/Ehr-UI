@@ -11,10 +11,10 @@ export default function session(state = initialState, action = {}) {
         user: null
       };
     case 'INVALIDATE_CURRENT_USER':
-        return {
+      return {
         ...state,
         user: null
-      }
+      };
     case 'RECEIVE_AUTHENTICATE_SUCCESS':
       return {
         ...state,

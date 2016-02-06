@@ -11,7 +11,24 @@
   },
   "rules": {
     "no-console": 0,
+    "prefer-const": 0,
     "comma-dangle": 0,
+    "padded-blocks": 0,
+    "block-scoped-var": 0,
+    // prevents error in JSX blocks
+    "arrow-body-style": 0,
+    "react/sort-comp": [1, {
+      order: [
+      'fetchData',
+      'constructor',
+      'lifecycle',
+      'everything-else',
+      'render'
+    ]
+    }],
+    "no-shadow": [2, {
+      "allow": ["dispatch"]
+    }]
   },
   "plugins": [
     "react"
@@ -19,9 +36,10 @@
   "settings": {
     "import/parser": "babel-eslint",
     "import/resolve": {
-moduleDirectory: ["node_modules", "src"]
+      moduleDirectory: ["node_modules", "src"]
     }
   },
+  "parser": "babel-eslint",
   "globals": {
     "__DEVELOPMENT__": true,
     "__CLIENT__": true,

@@ -1,5 +1,5 @@
 import RSVP from 'rsvp';
-import { pushPath } from 'redux-simple-router'
+import { pushPath } from 'redux-simple-router';
 
 function handleForbiddenRequest(dispatch) {
   dispatch({ type: 'INVALIDATE_CURRENT_USER' });
@@ -48,4 +48,4 @@ export default function apiMiddleware(client) {
 
     return deferred.promise;
   };
-};
+}
