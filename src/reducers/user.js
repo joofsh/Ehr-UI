@@ -1,6 +1,7 @@
 const initialState = {
   isFetching: false,
   didInvalidate: false,
+  isEditing: false,
   users: []
 };
 
@@ -22,6 +23,11 @@ export default function user(state = initialState, action = {}) {
       return {
         ...state,
         users: state.users.concat(action.response)
+      };
+    case 'TOGGLE_EDIT_USER':
+      return {
+        ...state,
+        isEditing: !state.isEditing
       };
     case 'RECEIVE_ADD_USER':
       return {

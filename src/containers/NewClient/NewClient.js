@@ -18,7 +18,7 @@ const FIELDS = [
     defaultOption: 'Select Race', defaultValue: '' },
   { name: 'birthdate', title: 'Date of Birth', type: 'date' },
   { name: 'language' }
-]
+];
 
 export class NewClient extends Component {
   static propTypes = {

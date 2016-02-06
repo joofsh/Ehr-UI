@@ -1,11 +1,10 @@
 export default {
-  titleize: function(string) {
+  titleize(string) {
     return string.split('_').map(_string => {
-      return this.capitalize(_string);
+      this.capitalize(_string);
     }).join(' ');
   },
-  capitalize: function(string) {
+  capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-}
-
+};

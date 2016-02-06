@@ -8,16 +8,16 @@ function formatUrl(path) {
   let url = '';
 
   if (__SERVER__) {
-    url = `http://${config.host}`
+    url = `http://${config.host}`;
     if (config.port) {
       url += `:${config.port}`;
     }
   }
 
-  return `${url}${path}`
+  return `${url}${path}`;
 }
 
-export default class ApiClient {
+class _ApiClient {
   constructor(req) {
     methods.forEach(method => {
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
@@ -41,12 +41,16 @@ export default class ApiClient {
         request.end((err, resp) => {
           console.info(`Response received {${source}}: ${resp.status}`);
           if (resp.status >= 400 || err) {
-            reject(resp)
+            reject(resp);
           } else {
-            resolve(resp.body)
+            resolve(resp.body);
           }
         });
       });
     });
   }
 }
+
+const ApiClient = _ApiClient;
+
+export default ApiClient;

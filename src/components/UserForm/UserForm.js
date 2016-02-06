@@ -14,21 +14,22 @@ export default class UserForm extends Component {
   };
 
   formGroupFields() {
-    const { fields, userFields } = this.props;
+    const { fields, userFields, isEditing, groupClassName } = this.props;
     var formGroupFields = [];
     _forOwn(fields, (field, i) => {
 
-    _forOwn(fields, (field, key) => {
-      fields[key] = Object.assign({},
-                                  field,
-                                  _find(userFields, (f) => f.name === key));
-    });
+      _forOwn(fields, (field, key) => {
+        fields[key] = Object.assign({},
+                                    field,
+                                    _find(userFields, (f) => f.name === key));
+      });
 
       formGroupFields.push(
         <FormGroup
           {...field}
           key={i}
-          groupClassName={this.props.groupClassName}/>
+          isEditing={isEditing}
+          groupClassName={groupClassName}/>
       );
     });
     return formGroupFields;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Input } from 'react-bootstrap';
+import { FormControls } from 'react-bootstrap';
 import stringUtil from 'src/utils/string';
+
 
 export default class FormGroup extends Component {
   inputChildren() {
@@ -21,12 +23,15 @@ export default class FormGroup extends Component {
     }
   }
   render() {
-    let { title, type, name, placeholder, error, formGroupClasses } = this.props;
+    let { title, type, name, placeholder, error, isEditing } = this.props;
+    let formGroup;
+
     require('./FormGroup.scss');
     title = title || stringUtil.titleize(name);
-    return (
+
+    if (isEditing) {
+      formGroup = (
         <Input
-          wrapperClassName='input-with-help'
           label={title}
           type={type || 'text'}
           id={name}
@@ -35,7 +40,18 @@ export default class FormGroup extends Component {
           bsStyle={error ? 'error' : null}
           help={error}
           {...this.props}/>
-    );
+      );
+    } else {
+      formGroup = (
+        <FormControls.Static
+          label={title}
+          labelClassName="col-xs-2"
+          wrapperClassName="col-xs-10"
+          {...this.props}/>
+      );
+    }
+
+    return formGroup;
   }
 };
 

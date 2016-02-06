@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import stringUtil from 'src/utils/string';
+import { UserForm } from 'src/components';
+import { Button } from 'react-bootstrap';
 import _find from 'lodash/find';
 
-const ATTRIBUTES = [
-  'first_name',
-  'last_name',
-  'email',
-  'role'
+const FIELDS = [
+  { name: 'first_name' },
+  { name: 'last_name' },
+  { name: 'gender', type: 'select', title: 'Gender Identity',
+    options: ['I Identify as Male', 'I Identify as Female', 'Other'],
+    defaultOption: 'Select Gender Identity', defaultValue: '' },
+  { name: 'race', type: 'select', options: ['Caucasion', 'Black', 'Asian'],
+    defaultOption: 'Select Race', defaultValue: '' },
+  { name: 'birthdate', title: 'Date of Birth', type: 'date' },
+  { name: 'language' }
 ];
 
 export class User extends Component {
@@ -20,19 +27,23 @@ export class User extends Component {
   }
 
   render() {
-    var { user } = this.props;
+    var { user, isEditing, toggleEditUser } = this.props;
 
     require('./User.scss');
     return <div className="container-user container">
-      <h1>{user.name}</h1>
-      <dl className="row">
-        {ATTRIBUTES.map((attr, key) => {
-          return <div key={key}>
-            <dt className="col-sm-2">{stringUtil.titleize(attr)}</dt>
-            <dd className="col-sm-10">{user[attr]}</dd>
-          </div>
-        })}
-      </dl>
+      <div className="row">
+        <h1>{user.name}</h1>
+        <Button onClick={toggleEditUser} bsStyle='primary'>
+          {isEditing ? 'Cancel' : 'Edit'}
+        </Button>
+        <UserForm
+          userFields={ FIELDS }
+          initialValues={user}
+          fields={FIELDS.map(field => field.name)}
+          isEditing={isEditing}
+          groupClassName="col-lg-6 col-md-12"
+        />
+      </div>
     </div>
   }
 };
@@ -41,6 +52,7 @@ function mapStateToProps(state, ownProps) {
   let id = +ownProps.params.id;
   let user = _find(state.user.users, user => user.id === id);
   return {
+    isEditing: state.user.isEditing,
     user
   };
 };
@@ -68,6 +80,9 @@ function mapDispatchToProps(dispatch, ownProps) {
 
         dispatch(fetchUser(id));
       });
+    },
+    toggleEditUser: () => {
+      dispatch({ type: 'TOGGLE_EDIT_USER' });
     }
   }
 };

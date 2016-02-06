@@ -1,9 +1,4 @@
 import express from 'express';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.config';
-import WebpackIsomorphicTools from 'webpack-isomorphic-tools';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
@@ -54,7 +49,7 @@ app.use(session({
   resave: false,
   proxy: true,
   saveUninitialized: true,
-  cookie: { maxAge: 2592000 }
+  cookie: { maxAge: 2592000000 } // 30 days
 }));
 
 // Proxy to API

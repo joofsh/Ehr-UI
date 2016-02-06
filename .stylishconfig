@@ -1,0 +1,14 @@
+{
+"positionFormat": "line-col-space",
+  "colors": {
+    "path": "green",
+    "position": "magenta",
+    "warning": "yellow",
+    "error": "red",
+    "description": "dim",
+    "rule": "cyan",
+    "summary": "gray",
+    "noproblem": "green"
+  }
+}
+
