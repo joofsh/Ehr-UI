@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducer';
 import { DevTools } from 'src/containers';
 import thunk from 'redux-thunk';
@@ -30,12 +30,13 @@ export default function configureStore(initialState = {}, client) {
   }
 
 
-  const store = finalCreateStore(rootReducer, initialState);
+  const store = finalCreateStore(combineReducers(rootReducer), initialState);
 
   // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
   if (module.hot) {
     module.hot.accept('./reducer', () => {
-      store.replaceReducer(require('./reducer'));
+      let nextReducer = combineReducers(require('./reducer').default);
+      store.replaceReducer(nextReducer);
     });
   }
 
