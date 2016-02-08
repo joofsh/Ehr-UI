@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { UserForm } from 'src/components';
 import { Button } from 'react-bootstrap';
+import stringUtil from 'src/utils/string';
+import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
 
 const FIELDS = [
@@ -34,13 +36,19 @@ export class User extends Component {
     fetchUser: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    updateUser: PropTypes.func.isRequired,
     toggleEditUser: PropTypes.func.isRequired,
     user: PropTypes.object
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchUser(+this.props.params.id);
   }
+
+  updateUser = (user) => {
+    let _user = Object.assign({}, user, { user_id: this.props.user.id });
+    this.props.updateUser(_user);
+  };
 
   render() {
     let { user, isEditing, toggleEditUser } = this.props;
@@ -48,20 +56,41 @@ export class User extends Component {
     require('./User.scss');
     return (<div className="container-user container">
       <div className="row">
-        <h1>{user.name}</h1>
-        <Button onClick={toggleEditUser} bsStyle="primary">
-          {isEditing ? 'Cancel' : 'Edit'}
-        </Button>
+        <h1 className="col-xs-12">
+          {user.name}
+          <Button
+            className="pull-right"
+            onClick={toggleEditUser}
+            bsStyle={isEditing ? 'default' : 'primary' }
+          >
+            {isEditing ? 'Cancel' : 'Edit'}
+          </Button>
+        </h1>
         <UserForm
           customFields={FIELDS}
           initialValues={user}
           fields={FIELDS.map(field => field.name)}
           isEditing={isEditing}
-          groupClassName="col-lg-6 col-md-12"
+          onSubmit={this.props.updateUser}
+          groupClassName=""
         />
       </div>
     </div>);
   }
+}
+
+// TODO: Fix SSR of initial values into UserForm.
+// See bug for more details:
+// https://github.com/erikras/redux-form/issues/97
+// https://github.com/erikras/redux-form/issues/621
+
+function updateUserAction(user, userId) {
+  return {
+    type: 'CALL_API',
+    url: `/api/users/${userId}`,
+    method: 'put',
+    data: user
+  };
 }
 
 function mapStateToProps(state, ownProps) {
@@ -90,11 +119,34 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     toggleEditUser: () => {
       dispatch({ type: 'TOGGLE_EDIT_USER' });
+    },
+    updateUser: (userId) => {
+      return (user) => {
+
+        return dispatch(updateUserAction({ user }, userId)).then(response => {
+          dispatch({ type: 'RECEIVE_UPDATE_USER', response });
+          return Promise.resolve();
+        }, response => {
+          let error = { _error: 'We were unable to update this user.' };
+
+          _forOwn(response.body.errors, (field, key) => {
+            error[key] = stringUtil.capitalize(field[0]);
+          });
+          return Promise.reject(error);
+        });
+      };
     }
   };
 }
 
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  return Object.assign({}, ownProps, stateProps, dispatchProps, {
+    updateUser: dispatchProps.updateUser(+ownProps.params.id)
+  });
+}
+
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  mergeProps
 )(User);

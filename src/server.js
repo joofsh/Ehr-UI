@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import express from 'express';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
@@ -5,10 +7,8 @@ import path from 'path';
 import favicon from 'serve-favicon';
 import session from 'express-session';
 
-import { syncReduxAndRouter } from 'redux-simple-router';
 import ReactDOM from 'react-dom/server';
 import React from 'react';
-import { renderToString } from 'react-dom/server';
 import { match, RoutingContext } from 'react-router';
 import { createLocation } from 'history';
 import { Provider } from 'react-redux';
@@ -27,19 +27,19 @@ const port = config.port;
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
-const API_URL = 'http://' + config.apiHost + ':' + config.apiPort + '/' + config.apiVersion;
+const API_URL = `http://${config.apiHost}:${config.apiPort}/${config.apiVersion}`;
 const proxy = httpProxy.createProxyServer({
   target: API_URL,
   ws: false
 });
 
-proxy.on('proxyReq', function (proxyReq, req, res, options) {
+proxy.on('proxyReq', (proxyReq, req) => {
   if (req.session.user) {
-    proxyReq.setHeader('Authorization', 'Bearer ' + req.session.user.token);
+    proxyReq.setHeader('Authorization', `Bearer ${req.session.user.token}`);
   }
 });
 
-var RedisStore = require('connect-redis')(session);
+let RedisStore = require('connect-redis')(session);
 
 // Session
 app.use(session({
@@ -60,7 +60,7 @@ app.use('/api', (req, res) => {
 
 app.use(bodyParser.json());
 
-app.post('/authorize', function (req, res) {
+app.post('/authorize', (req, res) => {
   const client = new ApiClient(req);
   client.post('/api/authorize', { data: req.body }).then(resp => {
     req.session.user = resp.user;
@@ -87,8 +87,6 @@ proxy.on('error', (error, req, res) => {
   res.end(JSON.stringify(json));
 });
 
-app.use(handleRender);
-
 function handleRender(req, res) {
   let sessionForClient = Server.filterSessionForClient(req.session);
 
@@ -105,8 +103,8 @@ function handleRender(req, res) {
   }
 
   function hydrateOnClient() {
-    res.send('<!doctype html>\n' +
-      ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>));
+    res.send(`<!doctype html>
+      ${ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()} store={store}/>)}`);
   }
 
   if (__DISABLE_SSR__) {
@@ -123,7 +121,8 @@ function handleRender(req, res) {
       let comp = renderProps.components[renderProps.components.length - 1];
       console.log('getting redux promise for component {',
                   comp.displayName, '}. FetchData: ', !!comp.fetchData);
-      return (comp.fetchData ? comp.fetchData({ store, params: renderProps.params }) : Promise.resolve());
+      return (comp.fetchData ?
+        comp.fetchData({ store, params: renderProps.params }) : Promise.resolve());
     }
 
     if (error) {
@@ -140,17 +139,21 @@ function handleRender(req, res) {
           </Provider>
         );
 
-        res.send('<!doctype html>\n' +
-                 ReactDOM.renderToString(<Html assets={webpackIsomorphicTools.assets()}
-                                         component={component}
-                                         store={store}/>));
-      }).catch((error) => {
-        console.error('Rendering error:', error);
-        console.error(error.stack);
+        res.send(`<!doctype html>
+                 ${ReactDOM.renderToString(
+                  <Html assets={webpackIsomorphicTools.assets()}
+                    component={component}
+                    store={store}
+                  />)}`);
+      }).catch((_error) => {
+        console.error('Rendering error:', _error);
+        console.error(_error.stack);
       });
     }
   });
 }
+
+app.use(handleRender);
 
 app.listen(port, (error) => {
   if (error) {

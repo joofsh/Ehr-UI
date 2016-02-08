@@ -1,7 +1,7 @@
 export default {
   titleize(string) {
     return string.split('_').map(_string => {
-      this.capitalize(_string);
+      return this.capitalize(_string);
     }).join(' ');
   },
   capitalize(string) {

@@ -35,7 +35,7 @@ export class Users extends Component {
     location: PropTypes.object.isRequired,
     isFetching: PropTypes.bool.isRequired,
     users: PropTypes.array.isRequired,
-    children: PropTypes.array
+    children: PropTypes.object
   };
 
   componentDidMount() {
@@ -48,7 +48,8 @@ export class Users extends Component {
 
   renderNewUserLink() {
     // TODO: Figure out better way to know when to hide link
-    return this.props.location.pathname !== '/users/new';
+    // Disabled for now
+    // return this.props.location.pathname !== '/users/new';
   }
 
   renderUsers() {

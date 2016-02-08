@@ -21,10 +21,9 @@ export default () => {
       <Route path="clients">
         <Route path="/clients/new" component={NewClient}/>
       </Route>
-      <Route path="users" component={Users}>
-        <Route path="/users/new" component={NewUser}/>
-        <Route path="/users/:id" component={User}/>
-      </Route>
+      <Route path="/users" component={Users} />
+      <Route path="/users/new" component={NewUser}/>
+      <Route path="/users/:id" component={User}/>
       <Route path="/shelters" component={Shelters}/>
       <Route path="*" component={NotFound}/>
     </Route>

@@ -7,8 +7,10 @@ import stringUtil from 'src/utils/string';
 export default class FormGroup extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    isEditing: PropTypes.bool.isRequired,
     placeholder: PropTypes.string,
+    initialValue: PropTypes.string,
+    value: PropTypes.string,
+    isEditing: PropTypes.bool,
     title: PropTypes.string,
     type: PropTypes.string,
     defaultOption: PropTypes.string,
@@ -36,32 +38,38 @@ export default class FormGroup extends Component {
     return children;
   }
   render() {
-    let { title, type, name, placeholder, error, isEditing } = this.props;
+    let { title, type, name, placeholder, error, isEditing, initialValue, value } = this.props;
     let formGroup;
 
+    if (name === 'first_name') {
+      console.log(this.props);
+    }
     require('./FormGroup.scss');
-    title = title || stringUtil.titleize(name);
+    let label = title || stringUtil.titleize(name);
 
-    if (isEditing) {
+    let _isEditing = isEditing === undefined ? true : isEditing;
+
+    if (_isEditing) {
       formGroup = (
         <Input
-          label={title}
+          {...this.props}
+          label={label}
           type={type || 'text'}
           id={name}
-          placeholder={placeholder || `Enter ${title}`}
+          placeholder={placeholder || `Enter ${label}`}
           children={this.inputChildren()}
           bsStyle={error ? 'error' : null}
           help={error}
-          {...this.props}
         />
       );
     } else {
       formGroup = (
         <FormControls.Static
-          label={title}
+          name={name}
+          label={label}
           labelClassName="col-xs-2"
           wrapperClassName="col-xs-10"
-          {...this.props}
+          value={value || initialValue || 'None'}
         />
       );
     }

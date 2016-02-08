@@ -1,3 +1,5 @@
+import _indexOf from 'lodash/indexOf';
+
 const initialState = {
   isFetching: false,
   didInvalidate: false,
@@ -6,6 +8,9 @@ const initialState = {
 };
 
 export default function user(state = initialState, action = {}) {
+  let _users;
+  let index;
+
   switch (action.type) {
     case 'REQUEST_USERS':
       return {
@@ -28,6 +33,16 @@ export default function user(state = initialState, action = {}) {
       return {
         ...state,
         isEditing: !state.isEditing
+      };
+    case 'RECEIVE_UPDATE_USER':
+      _users = state.users.slice();
+      index = _indexOf(_users, u => u.id === action.response.id);
+      _users[index] = action.response.user;
+
+      return {
+        ...state,
+        users: _users,
+        isEditing: false
       };
     case 'RECEIVE_ADD_USER':
       return {

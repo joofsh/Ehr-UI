@@ -40,7 +40,7 @@ export class NewClient extends Component {
   }
 }
 
-function submitClient(client) {
+function submitClientAction(client) {
   return {
     type: 'CALL_API',
     url: '/api/users',
@@ -62,7 +62,7 @@ function mapDispatchToProps(dispatch) {
           user: _client
         };
 
-        return dispatch(submitClient(data)).then(user => {
+        return dispatch(submitClientAction(data)).then(user => {
           dispatch({ type: 'RECEIVE_ADD_USER', user });
           dispatch(pushPath(`/users/${user.id}`));
           return Promise.resolve();
