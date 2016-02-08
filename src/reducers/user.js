@@ -1,4 +1,4 @@
-import _indexOf from 'lodash/indexOf';
+import _findIndex from 'lodash/findIndex';
 
 const initialState = {
   isFetching: false,
@@ -7,7 +7,7 @@ const initialState = {
   users: []
 };
 
-export default function user(state = initialState, action = {}) {
+export default function reducer(state = initialState, action = {}) {
   let _users;
   let index;
 
@@ -36,8 +36,8 @@ export default function user(state = initialState, action = {}) {
       };
     case 'RECEIVE_UPDATE_USER':
       _users = state.users.slice();
-      index = _indexOf(_users, u => u.id === action.response.id);
-      _users[index] = action.response.user;
+      index = _findIndex(_users, u => u.id === action.response.id);
+      _users[index] = action.response;
 
       return {
         ...state,
