@@ -1,3 +1,5 @@
+@import "../../theme/variables.scss";
+
 .app {
   a {
     text-decoration: none;
@@ -26,6 +28,15 @@
     position: absolute;
     top: 8px;
     left: -27px;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    .profilePic {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      margin-right: 10px;
+    }
   }
 
   /*TODO: Reimplement these slide animation rules*/

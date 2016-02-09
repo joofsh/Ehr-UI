@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, NavbarBrand, Nav, NavItem, Image } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Image } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
@@ -34,14 +34,15 @@ export class App extends Component {
     require('./App.scss');
     return (<div className="app">
       {authed && <Navbar>
-        <NavbarBrand>
-          <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
-            <div className="brand-logo"></div>
-            <span className="brand-title">Patient Manager</span>
-          </IndexLink>
-        </NavbarBrand>
-         <Navbar.Toggle />
-
+        <Navbar.Header>
+          <Navbar.Brand>
+            <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
+              <div className="brand-logo"></div>
+              <span className="brand-title">Patient Manager</span>
+            </IndexLink>
+          </Navbar.Brand>
+          <Navbar.Toggle />
+        </Navbar.Header>
         <Navbar.Collapse>
           <Nav navbar>
             <LinkContainer to="/users">
