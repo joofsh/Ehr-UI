@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "therapy management UI app",
   "scripts": {
-    "start-dev": "better-npm-run start-dev",
-    "build-client": "better-npm-run watch-client",
-    "dev": "concurrent --kill-others \"npm run watch-client\" \"npm run start-dev \"",
+    "dev-server": "better-npm-run start-dev",
+    "build-client": "better-npm-run build-client",
+    "dev": "concurrent --colors --kill-others \"npm run client:watch\" \"npm run dev-server \"",
     "start-api": "node bin/api.js",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "lint": "esw -c .eslintrc -f node_modules/eslint-friendly-formatter src -w -c ./.eslintrc",
@@ -21,7 +21,7 @@
         "PORT": 3001
       }
     },
-    "watch-client": {
+    "build-client": {
       "command": "node bin/webpack-dev-server.js",
       "env": {
         "UV_THREADPOOL_SIZE": 100,
