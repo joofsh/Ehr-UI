@@ -41,9 +41,6 @@ export default class FormGroup extends Component {
     let { title, type, name, placeholder, error, isEditing, initialValue, value } = this.props;
     let formGroup;
 
-    if (name === 'first_name') {
-      console.log(this.props);
-    }
     require('./FormGroup.scss');
     let label = title || stringUtil.titleize(name);
 

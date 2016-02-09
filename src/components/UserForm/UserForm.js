@@ -41,6 +41,7 @@ export default class UserForm extends Component {
     const {
       handleSubmit,
       submitting,
+      isEditing,
       error
     } = this.props;
 
@@ -48,11 +49,11 @@ export default class UserForm extends Component {
       { this.formGroupFields() }
       <div className="form-group col-xs-12">
         { error && <p className="text-danger error">{error}</p>}
-        <button className="btn btn-success btn-lg"
+        {isEditing && <button className="btn btn-success btn-lg"
           type="submit" disabled={submitting}
         >
           {submitting ? <LoadingSpinner/> : <i className="fa fa-paper-plane"/> } Submit
-        </button>
+        </button>}
       </div>
     </form>);
   }

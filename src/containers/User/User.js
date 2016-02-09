@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { UserForm } from 'src/components';
-import { Button } from 'react-bootstrap';
+import { UserForm, ToggleButton } from 'src/components';
 import stringUtil from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
@@ -58,13 +57,13 @@ export class User extends Component {
       <div className="row">
         <h1 className="col-xs-12">
           {user.name}
-          <Button
+          <ToggleButton
             className="pull-right"
             onClick={toggleEditUser}
-            bsStyle={isEditing ? 'default' : 'primary' }
-          >
-            {isEditing ? 'Cancel' : 'Edit'}
-          </Button>
+            isActive={isEditing}
+            inactiveText="Edit"
+            activeText="Cancel"
+          />
         </h1>
         <UserForm
           customFields={FIELDS}
