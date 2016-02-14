@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { UserForm, ToggleButton } from 'src/components';
+import { Form, ToggleButton } from 'src/components';
 import stringUtil from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
@@ -17,7 +17,7 @@ const FIELDS = [
   { name: 'language' }
 ];
 
-function fetchUser(id) {
+function fetchUserAction(id) {
   return {
     type: 'CALL_API',
     method: 'get',
@@ -28,7 +28,7 @@ function fetchUser(id) {
 
 export class User extends Component {
   static fetchData({ store, params }) {
-    return store.dispatch(fetchUser(+params.id));
+    return store.dispatch(fetchUserAction(+params.id));
   }
 
   static propTypes = {
@@ -44,13 +44,8 @@ export class User extends Component {
     this.props.fetchUser(+this.props.params.id);
   }
 
-  updateUser = (user) => {
-    let _user = Object.assign({}, user, { user_id: this.props.user.id });
-    this.props.updateUser(_user);
-  };
-
   render() {
-    let { user, isEditing, toggleEditUser } = this.props;
+    let { user, isEditing, toggleEditUser, updateUser } = this.props;
 
     require('./User.scss');
     return (<div className="container-user container">
@@ -65,12 +60,12 @@ export class User extends Component {
             activeText="Cancel"
           />
         </h1>
-        <UserForm
+        <Form
           customFields={FIELDS}
           initialValues={user}
           fields={FIELDS.map(field => field.name)}
           isEditing={isEditing}
-          onSubmit={this.props.updateUser}
+          onSubmit={updateUser}
           groupClassName=""
         />
       </div>
@@ -78,8 +73,7 @@ export class User extends Component {
   }
 }
 
-// TODO: Fix SSR of initial values into UserForm.
-// See bug for more details:
+// If issues arise again with SSR of Form data
 // https://github.com/erikras/redux-form/issues/97
 // https://github.com/erikras/redux-form/issues/621
 
@@ -113,7 +107,7 @@ function mapDispatchToProps(dispatch, ownProps) {
           return;
         }
 
-        dispatch(fetchUser(id));
+        dispatch(fetchUserAction(id));
       });
     },
     toggleEditUser: () => {

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import apiUtil from 'src/utils/api';
-import { UserForm } from 'src/components';
+import { Form } from 'src/components';
 import { pushPath } from 'redux-simple-router';
 
 export class NewUser extends Component {
@@ -22,7 +22,7 @@ export class NewUser extends Component {
     return (<div className="container-newUser container">
       <h2>Create a New User:</h2>
       <div className="row">
-        <UserForm
+        <Form
           handleSubmit={handleSubmit}
           fields={fields}
           submitting={submitting}

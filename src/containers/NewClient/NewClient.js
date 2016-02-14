@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { UserForm } from 'src/components';
+import { Form } from 'src/components';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import stringUtil from 'src/utils/string';
@@ -28,7 +28,7 @@ export class NewClient extends Component {
     return (<div className="newClient-container container">
       <h2>New Client Profile</h2>
       <div className="row">
-        <UserForm
+        <Form
           onSubmit={onSubmit}
           customFields={FIELDS}
           fields={FIELDS.map(field => field.name)}

@@ -3,14 +3,16 @@ import { reduxForm } from 'redux-form';
 import { FormGroup, LoadingSpinner } from 'src/components';
 import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
+import classnames from 'classnames';
 
-export default class UserForm extends Component {
+export default class Form extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     fields: PropTypes.object.isRequired,
     submitting: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
     customFields: PropTypes.array,
+    className: PropTypes.string,
     groupClassName: PropTypes.string,
     error: PropTypes.string
   };
@@ -37,15 +39,25 @@ export default class UserForm extends Component {
     });
     return formGroupFields;
   }
+
   render() {
-    const {
+    let {
       handleSubmit,
       submitting,
       isEditing,
+      className,
       error
     } = this.props;
 
-    return (<form onSubmit={handleSubmit}>
+    // Use form-horizontal styling in read-only mode
+    let formClasses = classnames({
+      'form-horizontal': !isEditing,
+    },
+      [className]
+    );
+
+    require('./Form.scss');
+    return (<form onSubmit={handleSubmit} className={formClasses}>
       { this.formGroupFields() }
       <div className="form-group col-xs-12">
         { error && <p className="text-danger error">{error}</p>}
@@ -60,6 +72,5 @@ export default class UserForm extends Component {
 }
 
 export default reduxForm({
-  form: 'userForm'
-},
-)(UserForm);
+  form: 'customForm'
+})(Form);
