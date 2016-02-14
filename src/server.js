@@ -145,6 +145,14 @@ function handleRender(req, res) {
                     component={component}
                     store={store}
                   />)}`);
+      }, resp => {
+        // TODO: conslidate this with redux state?
+        // Not sure if this should be necessary or if the `pushState('/login')`
+        // call should be able to handle this on SSR
+        if (resp.status === 403) {
+          req.session.user = null;
+          res.redirect('/login');
+        }
       }).catch((_error) => {
         console.error('Rendering error:', _error);
         console.error(_error.stack);
