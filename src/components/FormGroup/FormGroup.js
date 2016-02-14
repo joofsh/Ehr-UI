@@ -64,8 +64,8 @@ export default class FormGroup extends Component {
         <FormControls.Static
           name={name}
           label={label}
-          labelClassName="col-xs-2"
-          wrapperClassName="col-xs-10"
+          labelClassName="col-xs-3"
+          wrapperClassName="col-xs-9"
           value={value || initialValue || 'None'}
         />
       );
