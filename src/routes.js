@@ -10,7 +10,9 @@ import {
   User,
   NewUser,
   NewClient,
-  NotFound
+  NotFound,
+  Resources,
+  Resource
 } from './containers';
 
 export default () => {
@@ -24,6 +26,9 @@ export default () => {
       <Route path="/users" component={Users} />
       <Route path="/users/new" component={NewUser}/>
       <Route path="/users/:id" component={User}/>
+      <Route path="/users" component={Users} />
+      <Route path="/resources" component={Resources}/>
+      <Route path="/resources/:id" component={Resource}/>
       <Route path="/shelters" component={Shelters}/>
       <Route path="*" component={NotFound}/>
     </Route>

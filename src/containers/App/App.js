@@ -48,6 +48,9 @@ export class App extends Component {
             <LinkContainer to="/users">
               <NavItem active>Users</NavItem>
             </LinkContainer>
+            <LinkContainer to="/resources">
+              <NavItem active>Resources</NavItem>
+            </LinkContainer>
           </Nav>
           <Nav pullRight>
             <NavItem>

@@ -8,3 +8,5 @@ export Login from './Login/Login';
 export User from './User/User';
 export Shelters from './Shelters/Shelters';
 export NotFound from './NotFound/NotFound';
+export Resources from './Resources/Resources';
+export Resource from './Resource/Resource';
