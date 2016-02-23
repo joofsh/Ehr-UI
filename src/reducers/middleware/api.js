@@ -1,5 +1,6 @@
 import RSVP from 'rsvp';
 import { pushPath } from 'redux-simple-router';
+import _castArray from 'lodash/castArray';
 
 function handleForbiddenRequest(dispatch) {
   dispatch({ type: 'INVALIDATE_CURRENT_USER' });
@@ -12,7 +13,7 @@ export default function apiMiddleware(client) {
       return next(action);
     }
 
-    let { method, url, successType, errorType, params, data } = action;
+    const { method, url, successType, errorType, params, data } = action;
     let deferred = RSVP.defer();
 
     client[method](url, { params, data }).then(response => {
@@ -20,14 +21,18 @@ export default function apiMiddleware(client) {
         if (typeof successType === 'function') {
           next(successType);
         } else {
-          next({
-            type: successType,
-            response
+          let _successType = _castArray(successType);
+
+          _successType.forEach(type => {
+            next({
+              type,
+              response
+            });
           });
         }
       }
       deferred.resolve(response);
-    }, (response) => {
+    }, response => {
       if (response.status === 403) {
         handleForbiddenRequest(store.dispatch);
       }

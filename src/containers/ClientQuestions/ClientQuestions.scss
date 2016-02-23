@@ -1,0 +1,32 @@
+@import "../../theme/variables.scss";
+
+.container-clientQuestions {
+  .answer-question-wrapper {
+    margin-top: 50px;
+    .question {
+      margin-bottom: 20px;
+      padding: 50px 25px;
+      border-bottom: 1px dashed $light-gray;
+      font-size: 16px;
+    }
+    .choices {
+      clear: both;
+    }
+    .choice {
+      cursor: pointer;
+      padding: 15px 15px;
+      border: 2px solid $light-gray;
+      &:hover {
+        border: 2px solid $brand-info;
+      }
+      &.selected {
+        background-color: $brand-success;
+        border: 2px solid $brand-success;
+        color: #FFF;
+      }
+    }
+  }
+  .submit-box {
+    margin-top: 10px;
+  }
+}

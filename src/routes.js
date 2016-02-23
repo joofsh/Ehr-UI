@@ -12,7 +12,9 @@ import {
   NewClient,
   NotFound,
   Resources,
-  Resource
+  Resource,
+  ClientQuestions,
+  ClientResources
 } from './containers';
 
 export default () => {
@@ -20,15 +22,20 @@ export default () => {
     <Route path="/" component={App}>
       <IndexRoute component={Home}/>
       <Route path="/login" component={Login}/>
-      <Route path="clients">
-        <Route path="/clients/new" component={NewClient}/>
-      </Route>
+
+      <Route path="/clients/new" component={NewClient}/>
+      <Route path="/clients/:id" component={User}/>
+      <Route path="/clients/:id/questions" component={ClientQuestions}/>
+      <Route path="/clients/:id/resources" component={ClientResources}/>
+
       <Route path="/users" component={Users} />
       <Route path="/users/new" component={NewUser}/>
       <Route path="/users/:id" component={User}/>
       <Route path="/users" component={Users} />
+
       <Route path="/resources" component={Resources}/>
       <Route path="/resources/:id" component={Resource}/>
+
       <Route path="/shelters" component={Shelters}/>
       <Route path="*" component={NotFound}/>
     </Route>
