@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import apiUtil from 'src/utils/api';
+import { user as userFields } from 'src/utils/formFields';
 import { Form } from 'src/components';
 import { pushPath } from 'redux-simple-router';
 
 export class NewUser extends Component {
   static propTypes = {
-    fields: PropTypes.object.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     resetForm: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
@@ -14,7 +14,6 @@ export class NewUser extends Component {
 
   render() {
     const {
-      fields,
       handleSubmit,
       submitting,
     } = this.props;
@@ -24,7 +23,8 @@ export class NewUser extends Component {
       <div className="row">
         <Form
           handleSubmit={handleSubmit}
-          fields={fields}
+          customFields={userFields}
+          fields={userFields.map(f => f.name)}
           submitting={submitting}
           groupClassName="col-lg-6 col-md-12"
         />

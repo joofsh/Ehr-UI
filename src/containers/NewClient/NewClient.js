@@ -1,21 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Form } from 'src/components';
+import { UserForm } from 'src/components';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
-import stringUtil from 'src/utils/string';
+import string from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
-
-const FIELDS = [
-  { name: 'first_name' },
-  { name: 'last_name' },
-  { name: 'gender', type: 'select', title: 'Gender Identity',
-    options: ['I Identify as Male', 'I Identify as Female', 'Other'],
-    defaultOption: 'Select Gender Identity', defaultValue: '' },
-  { name: 'race', type: 'select', options: ['Caucasion', 'Black', 'Asian'],
-    defaultOption: 'Select Race', defaultValue: '' },
-  { name: 'birthdate', title: 'Date of Birth', type: 'date' },
-  { name: 'language' }
-];
 
 export class NewClient extends Component {
   static propTypes = {
@@ -26,14 +14,11 @@ export class NewClient extends Component {
     const { onSubmit } = this.props;
 
     return (<div className="newClient-container container">
-      <h2>New Client Profile</h2>
       <div className="row">
-        <Form
-          onSubmit={onSubmit}
-          customFields={FIELDS}
-          fields={FIELDS.map(field => field.name)}
+        <UserForm
+          formTitle="Create Client Profile"
           isEditing
-          groupClassName="col-lg-6 col-md-12"
+          onSubmit={onSubmit}
         />
       </div>
     </div>);
@@ -70,7 +55,7 @@ function mapDispatchToProps(dispatch) {
           let error = { _error: 'We were unable to create this client.' };
 
           _forOwn(response.body.errors, (field, key) => {
-            error[key] = stringUtil.capitalize(field[0]);
+            error[key] = string.capitalize(field[0]);
           });
           return Promise.reject(error);
         });

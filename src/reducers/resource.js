@@ -17,6 +17,22 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         isFetching: true
       };
+    case 'ADD_CLIENT_RESOURCES': // Add resources pulled in from client page
+      _resources = state.resources.slice();
+      action.response.resources.forEach(resource => {
+        index = _findIndex(_resources, r => r.id === resource.id);
+        if (index >= 0) {
+          _resources[index] = resource;
+        } else {
+          _resources.push(resource);
+        }
+      });
+
+      return {
+        ...state,
+        isFetching: false,
+        resources: _resources
+      };
     case 'RECEIVE_RESOURCE_SUCCESS':
       _resources = state.resources.slice();
       index = _findIndex(_resources, r => r.id === action.response.id);

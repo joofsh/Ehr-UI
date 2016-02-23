@@ -1,17 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Form, ToggleButton } from 'src/components';
-import stringUtil from 'src/utils/string';
+import { ResourceForm, LoadingSpinner, ToggleButton } from 'src/components';
+import string from 'src/utils/string';
 import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
-
-const FIELDS = [
-  { name: 'title' },
-  { name: 'operating_hours' },
-  { name: 'phone' },
-  { name: 'url' },
-  { name: 'image_url' }
-];
 
 function fetchResourceAction(id) {
   return {
@@ -28,7 +20,7 @@ export class Resource extends Component {
   }
 
   static propTypes = {
-    resource: PropTypes.object.isRequired,
+    resource: PropTypes.object,
     params: PropTypes.object.isRequired,
     fetchResource: PropTypes.func.isRequired,
     toggleEditResource: PropTypes.func.isRequired,
@@ -48,23 +40,23 @@ export class Resource extends Component {
       updateResource
     } = this.props;
 
+    if (!resource) {
+      return <LoadingSpinner absolute large center/>;
+    }
+
     require('./Resource.scss');
     return (<div className="container container-resource">
       <div className="row">
-        <h1>
-          {resource.title}
-          <ToggleButton
-            className="pull-right"
-            onClick={toggleEditResource}
-            isActive={isEditing}
-            inactiveText="Edit"
-            activeText="Cancel"
-          />
-        </h1>
-        <Form className="col-xs-12"
-          customFields={FIELDS}
+        <ToggleButton
+          className="pull-right"
+          onClick={toggleEditResource}
+          isActive={isEditing}
+          inactiveText="Edit"
+          activeText="Cancel"
+        />
+        <ResourceForm
+          formTitle={resource.title}
           initialValues={resource}
-          fields={FIELDS.map(field => field.name)}
           isEditing={isEditing}
           onSubmit={updateResource}
         />
@@ -120,7 +112,7 @@ function mapDispatchToProps(dispatch, ownProps) {
           let error = { _error: 'We were unable to update this resource.' };
 
           _forOwn(response.body.errors, (field, key) => {
-            error[key] = stringUtil.capitalize(field[0]);
+            error[key] = string.capitalize(field[0]);
           });
           return Promise.reject(error);
         });

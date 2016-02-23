@@ -1,21 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Form, ToggleButton } from 'src/components';
+import { Link } from 'react-router';
+import { LoadingSpinner, UserForm, ToggleButton } from 'src/components';
 import stringUtil from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
-
-const FIELDS = [
-  { name: 'first_name' },
-  { name: 'last_name' },
-  { name: 'gender', type: 'select', title: 'Gender Identity',
-    options: ['I Identify as Male', 'I Identify as Female', 'Other'],
-    defaultOption: 'Select Gender Identity', defaultValue: '' },
-  { name: 'race', type: 'select', options: ['Caucasion', 'Black', 'Asian'],
-    defaultOption: 'Select Race', defaultValue: '' },
-  { name: 'birthdate', title: 'Date of Birth', type: 'date' },
-  { name: 'language' }
-];
 
 function fetchUserAction(id) {
   return {
@@ -48,26 +37,32 @@ export class User extends Component {
     let { user, isEditing, toggleEditUser, updateUser } = this.props;
 
     require('./User.scss');
+    if (!user) {
+      return <LoadingSpinner large absolute center/>;
+    }
+
     return (<div className="container-user container">
       <div className="row">
-        <h1 className="col-xs-12">
-          {user.name}
-          <ToggleButton
-            className="pull-right"
-            onClick={toggleEditUser}
-            isActive={isEditing}
-            inactiveText="Edit"
-            activeText="Cancel"
-          />
-        </h1>
-        <Form
-          customFields={FIELDS}
+        <ToggleButton
+          className="pull-right"
+          onClick={toggleEditUser}
+          isActive={isEditing}
+          inactiveText="Edit"
+          activeText="Cancel"
+        />
+        <UserForm
+          formTitle={user.name}
           initialValues={user}
-          fields={FIELDS.map(field => field.name)}
           isEditing={isEditing}
           onSubmit={updateUser}
-          groupClassName=""
         />
+        {!isEditing &&
+          <Link
+            to={`/clients/${user.id}/questions`}
+            className="pull-right btn btn-success btn-lg"
+          >
+            Find Personalized Resources
+          </Link>}
       </div>
     </div>);
   }
