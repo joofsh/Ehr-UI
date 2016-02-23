@@ -3,4 +3,7 @@ export FormGroup from './FormGroup/FormGroup';
 export ToggleButton from './ToggleButton/ToggleButton';
 export FontIcon from './FontIcon/FontIcon';
 export DataTable from './DataTable/DataTable';
+export AddressForm from './AddressForm/AddressForm';
+export UserForm from './UserForm/UserForm';
+export ResourceForm from './ResourceForm/ResourceForm';
 export Form from './Form/Form';

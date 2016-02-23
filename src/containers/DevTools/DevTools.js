@@ -1,7 +1,7 @@
 import React from 'react';
 import { createDevTools } from 'redux-devtools';
 import DockMonitor from 'redux-devtools-dock-monitor';
-import SliderMonitor from 'redux-slider-monitor';
+import DiffMonitor from 'redux-devtools-diff-monitor';
 
 const DevTools = createDevTools(
   <DockMonitor
@@ -10,7 +10,7 @@ const DevTools = createDevTools(
     defaultSize={0.22}
     changePositionKey="ctrl-q"
   >
-    <SliderMonitor keyboardEnabled />
+    <DiffMonitor theme="solarized"/>
   </DockMonitor>
 );
 
