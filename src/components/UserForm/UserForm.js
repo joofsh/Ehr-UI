@@ -45,7 +45,7 @@ export default class UserForm extends Component {
               {...gender}
               isEditing={isEditing}
               type="select"
-              initialValue=""
+              defaultValue=""
             >
               <option disabled value="">Select Gender Identity</option>
               <option value="male">I Identify as Male</option>
@@ -56,7 +56,7 @@ export default class UserForm extends Component {
               {...race}
               isEditing={isEditing}
               type="select"
-              initialValue=""
+              defaultValue=""
             >
               <option disabled value="">Select Race</option>
               <option value="Caucasion">Caucasion</option>
