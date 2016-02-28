@@ -38,7 +38,7 @@ export class App extends Component {
           <Navbar.Brand>
             <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
               <div className="brand-logo"></div>
-              <span className="brand-title">Patient Manager</span>
+              <span className="brand-title">DC Resources</span>
             </IndexLink>
           </Navbar.Brand>
           <Navbar.Toggle />
