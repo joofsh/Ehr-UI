@@ -1,0 +1,71 @@
+@import "../../theme/variables.scss";
+
+.formGroupTag {
+  .form-group {
+    &.has-error {
+      input {
+        float: left;
+        width: 80%;
+      }
+      .help-block {
+        float: right;
+        width: 20%;
+        text-align: center;
+      }
+    }
+  }
+
+  .typeahead {
+    position: relative;
+  }
+
+  .tokenized-tag, .typeahead-token {
+    background-color: $brand-success;
+    border-radius: 2px;
+    border: 1px solid darker($brand-success, 10%);
+    color: #FFF;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 7px;
+  }
+
+  .typeahead-token-close {
+    margin-left: 5px;
+    color: #FFF;
+  }
+
+  .typeahead-list {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    background: #FFF;
+    list-style: none;
+    padding: 0;
+    border: 1px solid $brand-success;
+    border-top: 0px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .typeahead-listItem {
+    padding: 10px;
+    &:not(:last-child) {
+      border-bottom: 1px solid $brand-success;
+    }
+    a {
+      color: $text-color;
+      display: block;
+    }
+    &:hover:not(.typeahead-listItem--hover) {
+      background-color: $light-gray;
+    }
+  }
+
+  .typeahead-listItem--hover {
+    background-color: $brand-success;
+    a {
+      color: #FFF;
+    }
+  }
+}

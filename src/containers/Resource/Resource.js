@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ResourceForm, LoadingSpinner, ToggleButton } from 'src/components';
+import { fetchTagsAction } from 'src/actions';
 import string from 'src/utils/string';
 import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
@@ -26,6 +27,7 @@ export class Resource extends Component {
     toggleEditResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    tags: PropTypes.array
   };
 
   componentWillMount() {
@@ -37,7 +39,8 @@ export class Resource extends Component {
       resource,
       toggleEditResource,
       isEditing,
-      updateResource
+      updateResource,
+      tags
     } = this.props;
 
     if (!resource) {
@@ -59,6 +62,7 @@ export class Resource extends Component {
           initialValues={resource}
           isEditing={isEditing}
           onSubmit={updateResource}
+          tagSearchResults={tags}
         />
       </div>
     </div>);
@@ -80,6 +84,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     isEditing: state.resource.isEditing,
+    tags: state.tag.tags.map(t => t.name),
     resource
   };
 }
@@ -100,7 +105,13 @@ function mapDispatchToProps(dispatch, ownProps) {
       });
     },
     toggleEditResource: () => {
-      dispatch({ type: 'TOGGLE_EDIT_RESOURCE' });
+      dispatch((dispatch, getState) => {
+        if (!getState().tag.tags.lastUpdated) {
+          dispatch(fetchTagsAction());
+        }
+
+        dispatch({ type: 'TOGGLE_EDIT_RESOURCE' });
+      });
     },
     updateResource: (resourceId) => {
       return (resource) => {

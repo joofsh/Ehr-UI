@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { AddressForm, FormGroup, LoadingSpinner } from 'src/components';
-import TagsInput from 'react-tagsinput';
+import { AddressForm, FormGroup, LoadingSpinner, FormGroupTag } from 'src/components';
 
 export default class ResourceForm extends Component {
   static propTypes = {
@@ -29,6 +28,7 @@ export default class ResourceForm extends Component {
       submitting,
       isEditing,
       className,
+      tagSearchResults,
       error
     } = this.props;
 
@@ -42,7 +42,12 @@ export default class ResourceForm extends Component {
             <FormGroup {...operating_hours} isEditing={isEditing}/>
             <FormGroup {...phone} isEditing={isEditing} type="phone"/>
             <FormGroup {...url} title="Website" isEditing={isEditing} type="url"/>
-            <FormGroup {...tags} title="Tags" isEditing={isEditing} type="tags"/>
+            <FormGroupTag
+              {...tags}
+              title="Tags"
+              isEditing={isEditing}
+              searchResults={tagSearchResults}
+            />
           </div>
         </fieldset>
       </div>

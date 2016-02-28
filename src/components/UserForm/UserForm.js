@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { AddressForm, FormGroup, LoadingSpinner } from 'src/components';
+import { AddressForm, FormGroup, LoadingSpinner, FormGroupTag } from 'src/components';
 
 export default class UserForm extends Component {
   static propTypes = {
@@ -22,6 +22,7 @@ export default class UserForm extends Component {
         race,
         birthdate,
         language,
+        tags,
         mailing_address,
         home_address
       },
@@ -30,6 +31,7 @@ export default class UserForm extends Component {
       submitting,
       isEditing,
       className,
+      tagSearchResults,
       error
     } = this.props;
 
@@ -66,6 +68,12 @@ export default class UserForm extends Component {
             </FormGroup>
             <FormGroup {...birthdate} title="Birthday" isEditing={isEditing} type="date"/>
             <FormGroup {...language} isEditing={isEditing}/>
+            <FormGroupTag
+              {...tags}
+              title="Tags"
+              isEditing={isEditing}
+              searchResults={tagSearchResults}
+            />
           </div>
         </fieldset>
       </div>
@@ -82,7 +90,7 @@ export default class UserForm extends Component {
 
       <div className="form-group col-xs-12">
         { error && <p className="text-danger error">{error}</p>}
-        {isEditing && <button className="btn btn-success btn-lg"
+        {isEditing && <button className="btn btn-success btn-lg pull-right"
           type="submit" disabled={submitting}
         >
           {submitting ? <LoadingSpinner/> : <i className="fa fa-paper-plane"/> } Submit
@@ -101,6 +109,7 @@ export default reduxForm({
     'race',
     'birthdate',
     'language',
+    'tags',
 
     'mailing_address.street',
     'mailing_address.city',

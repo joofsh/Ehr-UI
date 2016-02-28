@@ -1,76 +1,98 @@
 import React, { Component, PropTypes } from 'react';
 import { Input } from 'react-bootstrap';
 import { FormControls } from 'react-bootstrap';
-import stringUtil from 'src/utils/string';
-
+import string from 'src/utils/string';
+import TagsInput from 'react-tagsinput';
 
 export default class FormGroup extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    initialValue: PropTypes.string,
-    value: PropTypes.string,
+    initialValue: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.array
+    ]),
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.array
+    ]),
     isEditing: PropTypes.bool,
     title: PropTypes.string,
     type: PropTypes.string,
+    labelClassName: PropTypes.string,
+    wrapperClassName: PropTypes.string,
     defaultOption: PropTypes.string,
-    options: PropTypes.array,
+    children: PropTypes.arrayOf(PropTypes.node),
     error: PropTypes.string
   };
 
-  inputChildren() {
-    let children;
-    if (this.props.type === 'select') {
-      children = [];
-      let { defaultOption, options } = this.props;
+  getStaticValue() {
+    let { value, initialValue, type } = this.props;
+    let _value = value || initialValue;
+    let content;
 
-      if (defaultOption) {
-        children.push(<option key={0} value="" disabled>{defaultOption}</option>);
-      }
-
-      options.map((option, key) => {
-        children.push(
-          <option value={option} key={key + 1}>{stringUtil.capitalize(option)}</option>
-        );
-      });
+    if (type === 'url' && _value) {
+      content = <a target="_blank" href={_value}>{_value}</a>;
+    } else if (type == 'tags' && _value) {
+    } else {
+      content = <span>{_value || 'None'}</span>;
     }
-
-    return children;
+    return content;
   }
+
+  label() {
+    let { title, name } = this.props;
+
+    return title || string.titleize(name);
+  }
+
+  isEditing() {
+    let { isEditing } = this.props;
+
+    return isEditing === undefined ? true : isEditing;
+  }
+
   render() {
-    let { title, type, name, placeholder, error, isEditing, initialValue, value } = this.props;
+    let {
+      type,
+      name,
+      value,
+      initialValue,
+      placeholder,
+      error,
+      labelClassName,
+      wrapperClassName,
+      children
+    } = this.props;
     let formGroup;
 
-    require('./FormGroup.scss');
-    let label = title || stringUtil.titleize(name);
-
-    let _isEditing = isEditing === undefined ? true : isEditing;
-
-    if (_isEditing) {
+    if (this.isEditing()) {
       formGroup = (
         <Input
           {...this.props}
-          label={label}
+          label={this.label()}
           type={type || 'text'}
           id={name}
-          placeholder={placeholder || `Enter ${label}`}
-          children={this.inputChildren()}
+          placeholder={placeholder || `Enter ${this.label()}`}
           bsStyle={error ? 'error' : null}
           help={error}
-        />
-      );
+          children={children}
+          labelClassName={labelClassName || 'col-xs-3'}
+          wrapperClassName={wrapperClassName || 'col-xs-9'}
+        />);
     } else {
       formGroup = (
         <FormControls.Static
           name={name}
-          label={label}
+          label={this.label()}
           labelClassName="col-xs-3"
           wrapperClassName="col-xs-9"
-          value={value || initialValue || 'None'}
+          value={this.getStaticValue()}
         />
       );
     }
 
+    require('./FormGroup.scss');
     return formGroup;
   }
 }

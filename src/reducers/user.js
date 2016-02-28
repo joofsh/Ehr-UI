@@ -4,6 +4,7 @@ const initialState = {
   isFetching: false,
   didInvalidate: false,
   isEditing: false,
+  lastUpdated: null,
   users: []
 };
 
