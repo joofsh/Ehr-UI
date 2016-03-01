@@ -64,7 +64,6 @@ export default function reducer(state = initialState, action = {}) {
         submitting: false,
         selectedChoiceId: null,
         responses: state.responses.concat(action.response.response),
-        resources: action.response.resources,
         hasAnsweredAllQuestions: !!nextQuestionId,
         currentQuestionId: nextQuestionId
       };
