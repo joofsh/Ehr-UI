@@ -3,17 +3,33 @@
   "version": "1.0.0",
   "description": "therapy management UI app",
   "scripts": {
-    "dev-server": "better-npm-run start-dev",
+    "start-prod-server": "better-npm-run start-prod-server",
+    "start-dev-server": "better-npm-run start-dev-server",
     "build-client": "better-npm-run build-client",
-    "dev": "concurrent --colors --kill-others \"npm run client:watch\" \"npm run dev-server \"",
-    "start-api": "node bin/api.js",
+    "build": "better-npm-run build",
+    "dev": "concurrent --colors --kill-others \"npm run client:watch\" \"npm run start-dev-server \"",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "lint": "esw -c .eslintrc -f node_modules/eslint-friendly-formatter src -w -c ./.eslintrc",
     "client:watch": "concurrent --kill-others \"npm run build-client\" \"npm run lint\"",
     "test:watch": "npm run test -- --watch"
   },
   "betterScripts": {
-    "start-dev": {
+    "build": {
+      "command": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+      "env": {
+        "NODE_PATH": ".",
+        "NODE_ENV": "production"
+      }
+    },
+    "start-prod-server": {
+      "command": "node ./bin/server.js",
+      "env": {
+        "NODE_PATH": ".",
+        "NODE_ENV": "production",
+        "PORT": 8080
+      }
+    },
+    "start-dev-server": {
       "command": "node ./bin/server.js",
       "env": {
         "NODE_PATH": ".",
@@ -22,18 +38,10 @@
       }
     },
     "build-client": {
-      "command": "node bin/webpack-dev-server.js",
+      "command": "node ./webpack/webpack-dev-server.js",
       "env": {
         "UV_THREADPOOL_SIZE": 100,
         "NODE_PATH": "./src"
-      }
-    },
-    "start-api": {
-      "command": "node ./bin/api.js",
-      "env": {
-        "NODE_PATH": "./api",
-        "NODE_ENV": "development",
-        "APIPORT": 4000
       }
     }
   },
@@ -65,6 +73,7 @@
     "eslint-plugin-react": "^3.6.2",
     "eslint-stylish-config": "0.0.2",
     "eslint-watch": "^2.1.7",
+    "extract-text-webpack-plugin": "^1.0.1",
     "jsdom": "^7.2.2",
     "mocha": "^2.3.4",
     "pretty-error": "^2.0.0",
@@ -74,6 +83,7 @@
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.1",
     "redux-slider-monitor": "^1.0.1",
+    "strip-loader": "^0.1.2",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1",
     "webpack-hot-middleware": "^2.6.0",

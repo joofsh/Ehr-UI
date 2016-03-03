@@ -4,3 +4,8 @@ npm-debug.log
 dist
 
 webpack-assets.json
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
