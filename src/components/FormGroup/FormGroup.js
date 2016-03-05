@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { Input } from 'react-bootstrap';
 import { FormControls } from 'react-bootstrap';
 import string from 'src/utils/string';
-import TagsInput from 'react-tagsinput';
 
 export default class FormGroup extends Component {
   static propTypes = {

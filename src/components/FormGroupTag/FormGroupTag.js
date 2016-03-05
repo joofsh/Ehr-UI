@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import string from 'src/utils/string';
-import TagsInput from 'react-tagsinput';
 import { Tokenizer } from 'react-typeahead';
 import _remove from 'lodash/remove';
 
