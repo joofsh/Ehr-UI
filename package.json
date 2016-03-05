@@ -80,6 +80,7 @@
     "webpack-hot-middleware": "^2.6.0"
   },
   "dependencies": {
+    "babel": "^6.5.2",
     "babel-core": "^6.0.20",
     "babel-plugin-lodash": "^2.0.1",
     "babel-polyfill": "^6.3.14",
@@ -140,6 +141,7 @@
     "style-loader": "^0.13.0",
     "superagent": "^1.7.1",
     "url-loader": "^0.5.7",
+    "webpack": "^1.12.14",
     "webpack-isomorphic-tools": "^2.2.24"
   }
 }
