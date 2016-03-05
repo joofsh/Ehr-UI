@@ -7,6 +7,7 @@ export default class FormGroupTag extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
     initialValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.array
@@ -75,7 +76,7 @@ export default class FormGroupTag extends Component {
           onTokenRemove={this.onTokenRemove}
           values={this.props.value}
           defaultSelected={_values}
-          placeholder='Add a Tag'
+          placeholder="Add a Tag"
           inputProps={{
             ...rest,
             autoComplete: 'off',

@@ -10,4 +10,4 @@ export function fetchTagsAction() {
     },
     successType: 'RECEIVE_TAGS_SUCCESS'
   };
-};
+}

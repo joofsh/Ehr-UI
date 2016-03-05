@@ -8,6 +8,7 @@ export default class ResourceForm extends Component {
     fields: PropTypes.object.isRequired,
     submitting: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    tagSearchResults: PropTypes.array.isRequired,
     className: PropTypes.string,
     formTitle: PropTypes.string,
     error: PropTypes.string

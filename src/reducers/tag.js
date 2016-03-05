@@ -16,7 +16,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         searchValue: action.value
-      }
+      };
     default:
       return state;
   }

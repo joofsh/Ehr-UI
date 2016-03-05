@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 
-import Express from 'express';
+import express from 'express';
 import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
@@ -21,14 +21,14 @@ import Server from './helpers/Server';
 import configureStore from './reducers/store';
 import _routes from './routes';
 
-const app = Express();
+const app = express();
 const port = config.port;
 
 app.use(compression());
 app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 
 // To server the static css & js in production
-app.use(Express.static(path.join(__dirname, '..', 'static')));
+app.use(express.static(path.join(__dirname, '..', 'static')));
 
 const API_URL = `http://${config.apiHost}:${config.apiPort}/${config.apiVersion}`;
 const proxy = httpProxy.createProxyServer({

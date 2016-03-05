@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { LoadingSpinner } from 'src/components';
+import { LoadingSpinner, ClientQuestionChoice } from 'src/components';
 import { pushPath } from 'redux-simple-router';
 import _find from 'lodash/find';
-import classnames from 'classnames';
 
 function fetchClientQuestionsAction(id) {
   return {
@@ -25,45 +24,6 @@ function submitAnswerAction(id, data) {
   };
 }
 
-export class Choice extends Component {
-  constructor() {
-    super();
-    this.selectChoice = this.selectChoice.bind(this);
-  }
-
-  static propTypes = {
-    id: PropTypes.number.isRequired,
-    stem: PropTypes.string.isRequired,
-    selected: PropTypes.bool.isRequired,
-    selectChoice: PropTypes.func.isRequired,
-    _error: PropTypes.string,
-    selectedChoiceId: PropTypes.number
-  };
-
-  selectChoice() {
-    this.props.selectChoice(this.props.id);
-  }
-
-  render() {
-    let {
-      stem,
-      selected
-    } = this.props;
-
-    let classes = classnames({
-      selected
-    }, 'col-md-6', 'col-sx-12', 'choice');
-
-    return (
-      <div
-        className={classes}
-        onClick={this.selectChoice}
-      >
-        {stem}
-      </div>);
-  }
-}
-
 export class ClientQuestions extends Component {
   static fetchData({ store, params }) {
     return store.dispatch(fetchClientQuestionsAction(+params.id));
@@ -82,7 +42,8 @@ export class ClientQuestions extends Component {
     submitting: PropTypes.bool.isRequired,
     currentQuestion: PropTypes.object,
     selectedChoiceId: PropTypes.number,
-    client: PropTypes.object
+    client: PropTypes.object,
+    _error: PropTypes.string
   };
 
   componentWillMount() {
@@ -137,7 +98,7 @@ export class ClientQuestions extends Component {
             <div className="choices">
               {currentQuestion.choices.map(choice => {
                 return (
-                  <Choice
+                  <ClientQuestionChoice
                     {...choice}
                     key={choice.id}
                     selected={selectedChoiceId === choice.id}

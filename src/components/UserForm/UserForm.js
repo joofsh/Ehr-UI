@@ -10,6 +10,7 @@ export default class UserForm extends Component {
     isEditing: PropTypes.bool.isRequired,
     formTitle: PropTypes.string,
     className: PropTypes.string,
+    tagSearchResults: PropTypes.array,
     error: PropTypes.string
   };
 

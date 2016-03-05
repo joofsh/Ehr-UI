@@ -32,7 +32,6 @@ export default class FormGroup extends Component {
 
     if (type === 'url' && _value) {
       content = <a target="_blank" href={_value}>{_value}</a>;
-    } else if (type == 'tags' && _value) {
     } else {
       content = <span>{_value || 'None'}</span>;
     }
@@ -55,8 +54,6 @@ export default class FormGroup extends Component {
     let {
       type,
       name,
-      value,
-      initialValue,
       placeholder,
       error,
       labelClassName,

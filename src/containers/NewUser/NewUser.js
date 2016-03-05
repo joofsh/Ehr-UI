@@ -18,10 +18,10 @@ export class NewUser extends Component {
       <h2>Create a New User:</h2>
       <div className="row">
         <UserForm
-          formTitle='New User'
-          isEditing={true}
+          formTitle="New User"
           onSubmit={handleSubmit}
           tagSearchResults={[]}
+          isEditing
         />
       </div>
     </div>);
