@@ -76,6 +76,13 @@ app.post('/authorize', (req, res) => {
   });
 });
 
+app.put('/logout', (req, res) => {
+  console.log('logout hit!');
+  req.session.user = null;
+  res.status(200);
+  res.send({});
+});
+
 
 proxy.on('error', (error, req, res) => {
   let json;

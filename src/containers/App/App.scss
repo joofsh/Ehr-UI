@@ -29,7 +29,7 @@
     width: 35px;
     position: absolute;
     top: 8px;
-    left: -27px;
+    left: 0px;
   }
 
   @media (max-width: $screen-sm-max) {
@@ -39,6 +39,12 @@
       left: 0px;
       margin-right: 10px;
     }
+  }
+  // For consistency with pages that do not have a navbar, content is pushed down
+  // an equal amount
+  .navbar-dummy {
+    height: 52px;
+    margin-bottom: 20px;
   }
 
   /*TODO: Reimplement these slide animation rules*/

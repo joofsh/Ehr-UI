@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, Nav, NavItem, Image } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, Image, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 
+const UNRESTRICTED_PATHS = [/^\/login$/, /^\/resources(.*)?/];
+
 export class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     session: PropTypes.object.isRequired,
-    ensureAuthed: PropTypes.func.isRequired
+    ensureAuthed: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    path: PropTypes.string.isRequired
   };
 
   static contextTypes = {
@@ -23,17 +27,29 @@ export class App extends Component {
   // TODO: Check auth everytime App receives props. Currently
   // creates infinite loop
   componentWillReceiveProps() {
-    // this.props.ensureAuthed(nextProps);
+    let { ensureAuthed, path } = this.props;
+    let requireAuth = true;
+
+    UNRESTRICTED_PATHS.forEach(unrestricted_path => {
+      // Skip auth check if the current path matches one of the
+      // unrestricted regexes
+      if (unrestricted_path.test(path)) {
+        requireAuth = false;
+      }
+    });
+
+    if (requireAuth) {
+      ensureAuthed();
+    }
   }
 
-
   render() {
-    let { session: { user } } = this.props;
+    let { logout, session: { user } } = this.props;
     let authed = !!user;
 
     require('./App.scss');
     return (<div className="app">
-      {authed && <Navbar>
+      {authed ? <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
@@ -53,13 +69,15 @@ export class App extends Component {
             </LinkContainer>
           </Nav>
           <Nav pullRight>
+            <NavDropdown title={user.name} id="user-dropdown" className="pull-right">
+              <NavItem onClick={logout}>Logout</NavItem>
+            </NavDropdown>
             <NavItem>
               <Image src={user.image_url} className="profilePic" circle/>
-              {user.name}
             </NavItem>
           </Nav>
         </Navbar.Collapse>
-      </Navbar>}
+        </Navbar> : <div className="navbar-dummy"/>}
 
       <div className="container">
         {this.props.children}
@@ -67,6 +85,18 @@ export class App extends Component {
       {__DEVELOPMENT__ && <div id="devtools"/>}
     </div>);
   }
+}
+
+function logoutAction() {
+  return {
+    type: 'CALL_API',
+    method: 'put',
+    url: '/logout',
+    successType: (dispatch) => {
+      dispatch({ type: 'INVALIDATE_CURRENT_USER' });
+      dispatch(pushPath('/login'));
+    }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -78,13 +108,17 @@ function mapDispatchToProps(dispatch) {
           dispatch(pushPath('/login'));
         }
       });
+    },
+    logout: () => {
+      dispatch(logoutAction());
     }
   };
 }
 
 function mapStateToProps(state) {
   return {
-    session: state.session
+    session: state.session,
+    path: state.routing.path
   };
 }
 
