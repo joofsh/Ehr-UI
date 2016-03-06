@@ -20,6 +20,11 @@ export default function session(state = initialState, action = {}) {
         ...state,
         user: action.response
       };
+    case 'RECEIVE_HEALTHCHECK':
+      return {
+        ...state,
+        healthcheck: action.response
+      };
     default:
       return state;
   }

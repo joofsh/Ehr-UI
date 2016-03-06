@@ -13,7 +13,7 @@ export class App extends Component {
     session: PropTypes.object.isRequired,
     ensureAuthed: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    path: PropTypes.string.isRequired
+    path: PropTypes.string
   };
 
   static contextTypes = {

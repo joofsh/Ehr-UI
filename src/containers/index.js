@@ -1,4 +1,5 @@
 export App from './App/App';
+export Healthcheck from './Healthcheck/Healthcheck';
 export Home from './Home/Home';
 export NewUser from './NewUser/NewUser';
 export NewClient from './NewClient/NewClient';

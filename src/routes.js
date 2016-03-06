@@ -3,6 +3,7 @@ import { IndexRoute, Route } from 'react-router';
 
 import {
   App,
+  Healthcheck,
   Home,
   Login,
   Shelters,
@@ -22,6 +23,7 @@ export default () => {
     <Route path="/" component={App}>
       <IndexRoute component={Home}/>
       <Route path="/login" component={Login}/>
+      <Route path="/healthcheck" component={Healthcheck}/>
 
       <Route path="/clients/new" component={NewClient}/>
       <Route path="/clients/:id" component={User}/>
