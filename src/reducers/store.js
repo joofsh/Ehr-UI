@@ -14,7 +14,8 @@ function getDebugSessionKey() {
 export default function configureStore(initialState = {}, client) {
   const middleware = [apiMiddleware(client), thunk];
 
-  if (__CLIENT__ && __DEVELOPMENT__) {
+
+  if (__CLIENT__ && (__DEVELOPMENT__ || global.localStorage.getItem('logReduxActions'))) {
     middleware.push(createLogger());
   }
 
