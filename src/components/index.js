@@ -8,3 +8,4 @@ export AddressForm from './AddressForm/AddressForm';
 export UserForm from './UserForm/UserForm';
 export ResourceForm from './ResourceForm/ResourceForm';
 export Form from './Form/Form';
+export ClientQuestionChoice from './ClientQuestionChoice/ClientQuestionChoice';
