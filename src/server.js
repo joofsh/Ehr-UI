@@ -31,6 +31,7 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, '..', 'static')));
 
 const API_URL = `http://${config.apiHost}:${config.apiPort}/${config.apiVersion}`;
+console.log(API_URL);
 const proxy = httpProxy.createProxyServer({
   target: API_URL,
   ws: false
@@ -42,12 +43,11 @@ proxy.on('proxyReq', (proxyReq, req) => {
   }
 });
 
-let RedisStore = require('connect-redis')(session);
-
 // Session
 app.use(session({
   name: 'session',
-  store: new RedisStore(),
+  //TODO: reimplement redis in production
+  //store: new RedisStore(),
   secret: 'my secret token',
   resave: false,
   proxy: true,
@@ -65,6 +65,15 @@ app.use(bodyParser.json());
 
 app.post('/authorize', (req, res) => {
   const client = new ApiClient(req);
+
+  client.get('/api/healthcheck').then(resp => {
+    console.log('VIA PROXY: ', resp);
+  });
+
+  client.get(API_URL + '/healthcheck').then(resp => {
+    console.log('DIRECT: ', resp);
+  });
+
   client.post('/api/authorize', { data: req.body }).then(resp => {
     req.session.user = resp.user;
     let user = Server.filterSessionForClient(req.session).user;

@@ -7,7 +7,7 @@ const methods = ['get', 'post', 'put', 'patch', 'del'];
 function formatUrl(path) {
   let url = '';
 
-  if (__SERVER__) {
+  if (__SERVER__ && path[0] === '/') {
     url = `http://${config.host}`;
     if (config.port) {
       url += `:${config.port}`;
@@ -21,7 +21,8 @@ class _ApiClient {
   constructor(req) {
     methods.forEach(method => {
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
-        const request = superagent[method](formatUrl(path));
+        let url = formatUrl(path);
+        const request = superagent[method](url);
 
         if (params) {
           request.query(params);
@@ -37,7 +38,7 @@ class _ApiClient {
 
         const source = __SERVER__ ? 'server' : 'client';
 
-        console.info(`Sending request {${source}}: ${path}`);
+        console.info(`Sending request {${source}}: ${url}`);
         request.end((err, resp) => {
           console.info(`Response received {${source}}: ${resp.status}`);
           if (resp.status >= 400 || err) {

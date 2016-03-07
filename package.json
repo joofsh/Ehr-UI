@@ -27,8 +27,7 @@
       "command": "node ./bin/server.js",
       "env": {
         "NODE_PATH": ".",
-        "NODE_ENV": "production",
-        "PORT": 8080
+        "NODE_ENV": "production"
       }
     },
     "start-dev-server": {
@@ -107,7 +106,6 @@
     "font-awesome-webpack": "0.0.4",
     "history": "^1.17.0",
     "http-proxy": "^1.13.2",
-    "immutable": "^3.7.6",
     "jquery": "^2.1.4",
     "less": "^2.5.3",
     "lodash": "^4.5.0",
