@@ -46,6 +46,7 @@ export default class Html extends Component {
 
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          { bootstrapCSS }
           {/* styles (will be present only in production with webpack extract text plugin) */}
           {Object.keys(assets.styles).map((style, key) =>
             <link
@@ -64,7 +65,6 @@ export default class Html extends Component {
             <style
               dangerouslySetInnerHTML={{ __html: require('../containers/App/App.scss')._style }}
             /> : null }
-          { bootstrapCSS }
         </head>
         <body>
           <div id="root" dangerouslySetInnerHTML={{ __html: content }}/>
