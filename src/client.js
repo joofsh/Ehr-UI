@@ -16,7 +16,6 @@ global.__CLIENT__ = true;
 // TODO: reimplement boostrap only via bootstrap-loader
 //global.jQuery = require('jquery'); // load jquery
 //require('bootstrap-loader'); // load bootstrap css & js
-require('font-awesome-webpack!./theme/font-awesome.config.js'); // load font-awesome
 
 const initializeState = Object.assign({}, window.__INITIAL_STATE__);
 const store = configureStore(initializeState, new ApiClient());
