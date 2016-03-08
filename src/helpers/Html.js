@@ -28,16 +28,12 @@ export default class Html extends Component {
       clientJS = <script src={assets.javascript.main} charSet="UTF-8"/>;
     }
 
-    let bootstrapCSS;
     // TODO: Refactor this into production compiled CSS
-    if (true || !__DEVELOPMENT__) {
-      // For reducing the "CSS blink" from bootstrap styling
-      bootstrapCSS = (
-        <link
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-          rel="stylesheet" type="text/css" charSet="UTF-8"
-        />);
-    }
+    let bootstrapCSS = (
+      <link
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        rel="stylesheet" type="text/css" charSet="UTF-8"
+      />);
 
     return (
       <html lang="en-us">

@@ -31,7 +31,8 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, '..', 'static')));
 
 const API_URL = `http://${config.apiHost}:${config.apiPort}/${config.apiVersion}`;
-console.log(API_URL);
+console.log('API_URL: ', API_URL);
+
 const proxy = httpProxy.createProxyServer({
   target: API_URL,
   ws: false
@@ -65,15 +66,6 @@ app.use(bodyParser.json());
 
 app.post('/authorize', (req, res) => {
   const client = new ApiClient(req);
-
-  client.get('/api/healthcheck').then(resp => {
-    console.log('VIA PROXY: ', resp);
-  });
-
-  client.get(API_URL + '/healthcheck').then(resp => {
-    console.log('DIRECT: ', resp);
-  });
-
   client.post('/api/authorize', { data: req.body }).then(resp => {
     req.session.user = resp.user;
     let user = Server.filterSessionForClient(req.session).user;
@@ -86,7 +78,6 @@ app.post('/authorize', (req, res) => {
 });
 
 app.put('/logout', (req, res) => {
-  console.log('logout hit!');
   req.session.user = null;
   res.status(200);
   res.send({});
