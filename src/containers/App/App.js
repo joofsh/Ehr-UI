@@ -5,7 +5,12 @@ import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 
-const UNRESTRICTED_PATHS = [/^\/login$/, /^\/resources(.*)?/];
+// Paths that do not require authentication
+const UNRESTRICTED_PATHS = [
+  /^\/$/, // homepage
+  /^\/login$/, // login
+  /^\/resources(.*)?/ // resources & subroutes
+];
 
 export class App extends Component {
   static propTypes = {
@@ -24,32 +29,16 @@ export class App extends Component {
     this.props.ensureAuthed();
   }
 
-  // TODO: Check auth everytime App receives props. Currently
-  // creates infinite loop
   componentWillReceiveProps() {
-    let { ensureAuthed, path } = this.props;
-    let requireAuth = true;
-
-    UNRESTRICTED_PATHS.forEach(unrestricted_path => {
-      // Skip auth check if the current path matches one of the
-      // unrestricted regexes
-      if (unrestricted_path.test(path)) {
-        requireAuth = false;
-      }
-    });
-
-    if (requireAuth) {
-      ensureAuthed();
-    }
+    this.props.ensureAuthed();
   }
 
   render() {
-    let { logout, session: { user } } = this.props;
-    let authed = !!user;
+    let { logout, authedStaff } = this.props;
 
     require('./App.scss');
     return (<div className="app">
-      {authed ? <Navbar>
+      {<Navbar>
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
@@ -60,28 +49,29 @@ export class App extends Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav navbar>
-            <LinkContainer to="/users">
+          <Nav navbar pullRight>
+            {authedStaff && <LinkContainer to="/users">
               <NavItem active>Users</NavItem>
-            </LinkContainer>
+            </LinkContainer>}
             <LinkContainer to="/resources">
               <NavItem active>Resources</NavItem>
             </LinkContainer>
+            <LinkContainer to="/login">
+              <NavItem active>Sign In</NavItem>
+            </LinkContainer>
           </Nav>
-          <Nav pullRight>
+          {/*<Nav pullRight>
             <NavDropdown title={user.name} id="user-dropdown" className="pull-right">
               <NavItem onClick={logout}>Logout</NavItem>
             </NavDropdown>
             <NavItem>
               <Image src={user.image_url} className="profilePic" circle/>
             </NavItem>
-          </Nav>
+          </Nav>*/}
         </Navbar.Collapse>
-        </Navbar> : <div className="navbar-dummy"/>}
+        </Navbar>}
 
-      <div className="container">
         {this.props.children}
-      </div>
       {__DEVELOPMENT__ && <div id="devtools"/>}
     </div>);
   }
@@ -103,7 +93,18 @@ function mapDispatchToProps(dispatch) {
   return {
     ensureAuthed: () => {
       dispatch((dispatch, getState) => {
-        if (!getState().session.user) {
+        let path = getState().routing.path;
+        let requireAuth = true;
+
+        UNRESTRICTED_PATHS.forEach(unrestricted_path => {
+          // Skip auth check if the current path matches one of the
+          // unrestricted regexes
+          if (unrestricted_path.test(path)) {
+            requireAuth = false;
+          }
+        });
+
+        if (requireAuth && !getState().session.user) {
           console.info('redirecting to login!');
           dispatch(pushPath('/login'));
         }
@@ -118,7 +119,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     session: state.session,
-    path: state.routing.path
+    path: state.routing.path,
+    authedStaff: state.session.user && state.session.user.staff
   };
 }
 

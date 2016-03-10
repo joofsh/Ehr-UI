@@ -6,14 +6,13 @@ import { FontIcon } from 'src/components';
 export class Home extends Component {
   render() {
     require('./Home.scss');
-    return (<div className="container-home container">
-      <div className="row">
-        <Link to="/clients/new" className="col-lg-3 col-md-4 col-sm-6 col-xs-12 toolkit">
-          <FontIcon type="user"/>
-          Create new Client Profile
-        </Link>
-        <Link to="/resources" className="col-lg-3 col-md-4 col-sm-6 col-xs-12 toolkit">
-          <FontIcon type="folder-open"/>
+    return (<div className="container-home container-fluid">
+      <div className="banner-image">
+        <h1 className="banner-title">An Easier Way To Find Help</h1>
+      </div>
+      <h2 className="subtitle">Find The Right Resources For You</h2>
+      <div className="call-to-action">
+        <Link to="/resources" className="btn btn-primary btn-lg">
           View Resources
         </Link>
       </div>

@@ -83,6 +83,11 @@ app.put('/logout', (req, res) => {
   res.send({});
 });
 
+app.get('/logout', (req, res) => {
+  req.session.user = null;
+  res.redirect('/');
+});
+
 
 proxy.on('error', (error, req, res) => {
   let json;
