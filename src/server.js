@@ -30,7 +30,7 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 // To server the static css & js in production
 app.use(express.static(path.join(__dirname, '..', 'static')));
 
-const API_URL = `http://${config.apiHost}:${config.apiPort}/${config.apiVersion}`;
+const API_URL = `http://${config.apiHost}:${config.apiPort}`;
 console.log('API_URL: ', API_URL);
 
 const proxy = httpProxy.createProxyServer({
@@ -66,8 +66,8 @@ app.use(bodyParser.json());
 
 app.post('/authorize', (req, res) => {
   const client = new ApiClient(req);
-  client.post('/api/authorize', { data: req.body }).then(resp => {
-    req.session.user = resp.user;
+  client.post('/api/users/authorize', { data: req.body }).then(resp => {
+    req.session.user = resp;
     let user = Server.filterSessionForClient(req.session).user;
     res.status = resp.status;
     res.send(user);

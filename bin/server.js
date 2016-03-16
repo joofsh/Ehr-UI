@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
 require('../server/server.babel');
 var path = require('path');
 var rootDir = path.resolve(__dirname, '..');
