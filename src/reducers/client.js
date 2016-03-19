@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
   client: null,
   questions: [],
   responses: [],
@@ -7,7 +7,7 @@ const initialState = {
   selectedChoiceId: null,
   submitting: false,
   hasAnsweredAllQuestions: false,
-  _error: null
+  error: null
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -64,7 +64,7 @@ export default function reducer(state = initialState, action = {}) {
         submitting: false,
         selectedChoiceId: null,
         responses: state.responses.concat(action.response.response),
-        hasAnsweredAllQuestions: !!nextQuestionId,
+        hasAnsweredAllQuestions: !nextQuestionId,
         currentQuestionId: nextQuestionId
       };
 

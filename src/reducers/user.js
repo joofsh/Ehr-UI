@@ -1,6 +1,6 @@
 import _findIndex from 'lodash/findIndex';
 
-const initialState = {
+export const initialState = {
   isFetching: false,
   didInvalidate: false,
   isEditing: false,
@@ -48,7 +48,6 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_ADD_USER':
       return {
         ...state,
-        isSubmittingUser: false,
         users: state.users.concat(action.user)
       };
 

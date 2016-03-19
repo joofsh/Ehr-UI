@@ -1,6 +1,6 @@
 import _findIndex from 'lodash/findIndex';
 
-const initialState = {
+export const initialState = {
   isFetching: false,
   didInvalidate: false,
   isEditing: false,
@@ -36,16 +36,17 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_RESOURCE_SUCCESS':
       _resources = state.resources.slice();
       index = _findIndex(_resources, r => r.id === action.response.id);
-      if (index) {
+
+      if (index >= 0) {
         _resources[index] = action.response;
       } else {
-        _resources.concat(action.response);
+        _resources.push(action.response);
       }
 
       return {
         ...state,
         isFetching: false,
-        resources: state.resources.concat(action.response)
+        resources: _resources
       };
     case 'RECEIVE_RESOURCES_SUCCESS':
       return {
@@ -62,7 +63,10 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_UPDATE_RESOURCE_SUCCESS':
       _resources = state.resources.slice();
       index = _findIndex(_resources, r => r.id === action.response.id);
-      _resources[index] = action.response;
+
+      if (index >= 0) {
+        _resources[index] = action.response;
+      }
 
       return {
         ...state,
