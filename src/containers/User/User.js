@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { LoadingSpinner, UserForm, ToggleButton } from 'src/components';
-import { fetchTagsAction } from 'src/actions';
 import stringUtil from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
@@ -28,7 +27,6 @@ export class User extends Component {
     updateUser: PropTypes.func.isRequired,
     toggleEditUser: PropTypes.func.isRequired,
     user: PropTypes.object,
-    tags: PropTypes.array
   };
 
   componentWillMount() {
@@ -36,7 +34,7 @@ export class User extends Component {
   }
 
   render() {
-    let { user, isEditing, toggleEditUser, updateUser, tags } = this.props;
+    let { user, isEditing, toggleEditUser, updateUser } = this.props;
 
     require('./User.scss');
     if (!user) {
@@ -57,7 +55,6 @@ export class User extends Component {
           initialValues={user}
           isEditing={isEditing}
           onSubmit={updateUser}
-          tagSearchResults={tags}
         />
         {!isEditing &&
           <Link
@@ -89,7 +86,6 @@ function mapStateToProps(state, ownProps) {
   let user = _find(state.user.users, u => u.id === id);
   return {
     isEditing: state.user.isEditing,
-    tags: state.tag.tags.map(t => t.name),
     user
   };
 }
@@ -110,10 +106,7 @@ function mapDispatchToProps(dispatch, ownProps) {
       });
     },
     toggleEditUser: () => {
-      dispatch((dispatch, getState) => {
-        if (!getState().tag.tags.lastUpdated) {
-          dispatch(fetchTagsAction());
-        }
+      dispatch((dispatch) => {
 
         dispatch({ type: 'TOGGLE_EDIT_USER' });
       });
