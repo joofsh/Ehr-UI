@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { AddressForm, FormGroup, LoadingSpinner, FormGroupTag } from 'src/components';
 
-export default class UserForm extends Component {
+export class UserForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     fields: PropTypes.object.isRequired,
@@ -69,12 +69,6 @@ export default class UserForm extends Component {
             </FormGroup>
             <FormGroup {...birthdate} title="Birthday" isEditing={isEditing} type="date"/>
             <FormGroup {...language} isEditing={isEditing}/>
-            <FormGroupTag
-              {...tags}
-              title="Tags"
-              isEditing={isEditing}
-              searchResults={tagSearchResults}
-            />
           </div>
         </fieldset>
       </div>
@@ -110,7 +104,6 @@ export default reduxForm({
     'race',
     'birthdate',
     'language',
-    'tags',
 
     'mailing_address.street',
     'mailing_address.city',

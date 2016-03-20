@@ -10,6 +10,7 @@ global.__SERVER__ = true;
 global.__DISABLE_SSR__ = false;  // <----- DISABLES SERVER SIDE RENDERING
 global.__DISABLE_CSR__ = false;  // <----- DISABLES CLIENT SIDE RENDERING
 global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
+global.__TEST__ = process.env.NODE_ENV == 'test';
 
 if (__DEVELOPMENT__) {
   if (!require('piping')({
