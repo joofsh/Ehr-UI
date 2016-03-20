@@ -1,4 +1,4 @@
-global.__TEST__  = true;
+global.__TEST__ = true;
 global.__DEVELOPMENT = false;
 
 import expect from 'expect';
@@ -13,9 +13,9 @@ import routes from 'src/routes';
 import ApiClient from 'src/utils/api';
 import { pushPath } from 'redux-simple-router';
 
-let store, history, renderer, result;
+let store, history, renderer, app;
 
-function app() {
+function appComponent() {
   store = configureStore({}, new ApiClient());
   history = createHistory();
 
@@ -38,17 +38,17 @@ function visit(path = '/') {
 
 describe('Acceptance - App', () => {
   beforeEach(() => {
-    renderer = renderIntoDocument(app());
+    renderer = renderIntoDocument(appComponent());
     visit('/');
   });
 
   it('loads', () => {
-    let app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
+    app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
     expect(app).toExist();
   });
 
   it('renders homepage', () => {
-    let app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
+    app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
     let banner = TestUtils.findRenderedDOMComponentWithClass(renderer, 'banner-image');
     let title = TestUtils.findRenderedDOMComponentWithClass(renderer, 'banner-title');
     let callToAction = TestUtils.findRenderedDOMComponentWithClass(renderer, 'btn-primary');

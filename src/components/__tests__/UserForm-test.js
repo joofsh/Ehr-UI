@@ -13,18 +13,20 @@ describe('Component - UserForm', () => {
       race: mockFormField('race'),
       birthdate: mockFormField('birthdate'),
       language: mockFormField('language'),
-      mailing_address: mockFormAddress('mailing_address'),
-      home_address: mockFormAddress('home_address')
+      mailing_address: mockFormAddress(),
+      home_address: mockFormAddress()
     };
 
     let renderer = createRenderer();
+    let handleSubmit = () => {};
+
     renderer.render(
       <UserForm
         fields={fields}
         submitting={false}
         isEditing={false}
-        formTitle='This is my title'
-        handleSubmit={() => {}}
+        formTitle="This is my title"
+        handleSubmit={handleSubmit}
       />);
     let result = renderer.getRenderOutput();
     expect(result.type).toBe('form');

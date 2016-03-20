@@ -5,11 +5,11 @@ export function mockFormField(name) {
   };
 }
 
-export function mockFormAddress(name) {
+export function mockFormAddress() {
   return {
     street: mockFormField('street'),
     city: mockFormField('city'),
     state: mockFormField('state'),
     zipcode: mockFormField('zipcode')
-  }
+  };
 }

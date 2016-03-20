@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { AddressForm, FormGroup, LoadingSpinner, FormGroupTag } from 'src/components';
+import { AddressForm, FormGroup, LoadingSpinner } from 'src/components';
 
 export class UserForm extends Component {
   static propTypes = {
@@ -10,7 +10,6 @@ export class UserForm extends Component {
     isEditing: PropTypes.bool.isRequired,
     formTitle: PropTypes.string,
     className: PropTypes.string,
-    tagSearchResults: PropTypes.array,
     error: PropTypes.string
   };
 
@@ -23,7 +22,6 @@ export class UserForm extends Component {
         race,
         birthdate,
         language,
-        tags,
         mailing_address,
         home_address
       },
@@ -32,7 +30,6 @@ export class UserForm extends Component {
       submitting,
       isEditing,
       className,
-      tagSearchResults,
       error
     } = this.props;
 

@@ -27,6 +27,10 @@
     "consistent-return": 0,
     // prevents error in JSX blocks
     "arrow-body-style": 0,
+    "one-var": [2, {
+      uninitialized: "always",
+      initialized: "never"
+    }],
     "react/sort-comp": [1, {
       order: [
       'fetchData',
