@@ -10,9 +10,9 @@ describe('Component - ToggleButton', () => {
 
     let onClick = () => {
       isActive = !isActive;
-    }
-    let activeText = "Active Stuff"
-    let inactiveText = "Inactive stuff"
+    };
+    let activeText = 'Active Stuff';
+    let inactiveText = 'Inactive stuff';
 
     function render() {
       renderer.render(
