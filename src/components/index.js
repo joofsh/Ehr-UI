@@ -8,4 +8,8 @@ export AddressForm from './AddressForm/AddressForm';
 export UserForm from './UserForm/UserForm';
 export ResourceForm from './ResourceForm/ResourceForm';
 export Form from './Form/Form';
+export ResourceRow from './ResourceRow/ResourceRow';
+export ResourceMap from './ResourceMap/ResourceMap';
+export ResourceMarker from './ResourceMarker/ResourceMarker';
+export MaxHeightContainer from './MaxHeightContainer/MaxHeightContainer';
 export ClientQuestionChoice from './ClientQuestionChoice/ClientQuestionChoice';

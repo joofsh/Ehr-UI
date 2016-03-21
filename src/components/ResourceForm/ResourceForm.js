@@ -10,6 +10,7 @@ export default class ResourceForm extends Component {
     isEditing: PropTypes.bool.isRequired,
     tagSearchResults: PropTypes.array.isRequired,
     className: PropTypes.string,
+    fieldSetClassName: PropTypes.string,
     formTitle: PropTypes.string,
     error: PropTypes.string
   };
@@ -29,6 +30,7 @@ export default class ResourceForm extends Component {
       submitting,
       isEditing,
       className,
+      fieldSetClassName,
       tagSearchResults,
       error
     } = this.props;
@@ -36,7 +38,7 @@ export default class ResourceForm extends Component {
     require('./ResourceForm.scss');
     return (<form onSubmit={handleSubmit} className={`${className} form-horizontal`}>
       <div className="row">
-        <fieldset className="col-xs-12 col-md-8 col-md-offset-2">
+        <fieldset className={fieldSetClassName}>
           <legend>{formTitle}</legend>
           <div className="col-md-9 col-offset-3">
             <FormGroup {...title} isEditing={isEditing}/>
@@ -53,7 +55,7 @@ export default class ResourceForm extends Component {
         </fieldset>
       </div>
       <div className="row">
-        <fieldset className="col-xs-12 col-md-8 col-md-offset-2">
+        <fieldset className={fieldSetClassName}>
           <legend>Address</legend>
           <div className="col-md-9 col-offset-3">
             <AddressForm {...address} isEditing={isEditing}/>

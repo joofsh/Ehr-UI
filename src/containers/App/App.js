@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, Nav, NavItem, Image, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
@@ -9,15 +9,17 @@ import { pushPath } from 'redux-simple-router';
 const UNRESTRICTED_PATHS = [
   /^\/$/, // homepage
   /^\/login$/, // login
-  /^\/resources(.*)?/ // resources & subroutes
+  /^\/resources(.*)?/, // resources & subroutes
+  /^\/(debug|context).html/ // testing pages
 ];
 
 export class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
-    session: PropTypes.object.isRequired,
     ensureAuthed: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    authed: PropTypes.bool,
+    authedStaff: PropTypes.bool,
     path: PropTypes.string
   };
 
@@ -34,11 +36,11 @@ export class App extends Component {
   }
 
   render() {
-    let { logout, authedStaff } = this.props;
+    let { logout, authed, authedStaff } = this.props;
 
     require('./App.scss');
     return (<div className="app">
-      {<Navbar>
+      <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
@@ -56,22 +58,17 @@ export class App extends Component {
             <LinkContainer to="/resources">
               <NavItem active>Resources</NavItem>
             </LinkContainer>
-            <LinkContainer to="/login">
-              <NavItem active>Sign In</NavItem>
-            </LinkContainer>
+            {authed ?
+              <NavItem onClick={logout}>Logout</NavItem> :
+              <LinkContainer to="/login">
+                <NavItem active>Sign In</NavItem>
+              </LinkContainer>}
           </Nav>
-          {/*<Nav pullRight>
-            <NavDropdown title={user.name} id="user-dropdown" className="pull-right">
-              <NavItem onClick={logout}>Logout</NavItem>
-            </NavDropdown>
-            <NavItem>
-              <Image src={user.image_url} className="profilePic" circle/>
-            </NavItem>
-          </Nav>*/}
         </Navbar.Collapse>
-        </Navbar>}
+      </Navbar>
 
         {this.props.children}
+
       {__DEVELOPMENT__ && <div id="devtools"/>}
     </div>);
   }
@@ -84,7 +81,7 @@ function logoutAction() {
     url: '/logout',
     successType: (dispatch) => {
       dispatch({ type: 'INVALIDATE_CURRENT_USER' });
-      dispatch(pushPath('/login'));
+      dispatch(pushPath('/'));
     }
   };
 }
@@ -118,7 +115,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    session: state.session,
+    authed: !!state.session.user,
     path: state.routing.path,
     authedStaff: state.session.user && state.session.user.staff
   };

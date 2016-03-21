@@ -11,7 +11,7 @@
     "build": "better-npm-run build",
     "dev": "concurrent --colors --kill-others \"npm run start-dev-server\" \"npm run client:watch\"",
     "test": "karma start",
-    "test-node": "mocha --compilers js:babel-core/register --require ./test/test_helper.js $(find src -name '*-test.js')",
+    "test-node": "mocha --compilers js:babel-core/register --require ./src/__tests__/test_helper.js $(find src -name '*-test.js')",
     "lint": "esw -f node_modules/eslint-friendly-formatter src -w -c ./.eslintrc",
     "client:watch": "concurrent --kill-others \"npm run build-client\" \"npm run lint\"",
     "test-node:watch": "npm run test -- --watch"

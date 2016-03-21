@@ -27,6 +27,7 @@ describe('Resource Reducer', () => {
                       response: { resources: mockResources } });
 
     expect(state.resources.length).toBe(3);
+    expect(state.resources[0].isMapInfoVisible).toBeA('boolean');
   });
 
   describe('RECEIVE_RESOURCE_SUCCESS', () => {
@@ -42,6 +43,7 @@ describe('Resource Reducer', () => {
                         response: { id: 4, title: 'New Resource' } });
       expect(state.resources.length).toBe(4);
       expect(state.resources[3].id).toBe(4);
+      expect(state.resources[3].isMapInfoVisible).toBeA('boolean');
     });
 
     it('replaces existing resource', () => {
@@ -118,7 +120,29 @@ describe('Resource Reducer', () => {
       expect(state.resources.length).toBe(4);
       expect(state.resources[2].title).toBe(newResources[0].title);
       expect(state.resources[3].title).toBe(newResources[1].title);
+      expect(state.resources[3].isMapInfoVisible).toBeA('boolean');
     });
   });
 
+  describe('SWITCH_MARKER_VISIBILITY', () => {
+    beforeEach(() => {
+      state = reducer(state,
+                      { type: 'RECEIVE_RESOURCES_SUCCESS',
+                        response: { resources: mockResources } });
+    });
+
+    it('switches visibility of resources info map', () => {
+      expect(state.resources[0].isMapInfoVisible).toBe(false);
+      expect(state.resources[1].isMapInfoVisible).toBe(false);
+
+      state =
+        reducer(state, {
+        type: 'SWITCH_MARKER_VISIBILITY',
+        payload: { id: state.resources[0].id, visibility: true }
+      });
+
+      expect(state.resources[0].isMapInfoVisible).toBe(true);
+      expect(state.resources[1].isMapInfoVisible).toBe(false);
+    });
+  });
 });

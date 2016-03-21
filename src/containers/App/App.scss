@@ -1,6 +1,12 @@
 @import "../../theme/variables.scss";
 
+// For 100% height containers
+body, html, #root, #root > div {
+  height: 100%;
+}
+
 .app {
+  height: 100%;
   background-color: #fff;
   padding-bottom: 25px;
   a {

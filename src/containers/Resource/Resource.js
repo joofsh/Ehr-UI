@@ -27,6 +27,7 @@ export class Resource extends Component {
     toggleEditResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    authedStaff: PropTypes.bool.isRequired,
     tags: PropTypes.array
   };
 
@@ -40,7 +41,8 @@ export class Resource extends Component {
       toggleEditResource,
       isEditing,
       updateResource,
-      tags
+      tags,
+      authedStaff
     } = this.props;
 
     if (!resource) {
@@ -48,21 +50,24 @@ export class Resource extends Component {
     }
 
     require('./Resource.scss');
-    return (<div className="container container-resource">
+    return (<div className="container container-resource col-xs-12">
       <div className="row">
-        <ToggleButton
-          className="pull-right"
-          onClick={toggleEditResource}
-          isActive={isEditing}
-          inactiveText="Edit"
-          activeText="Cancel"
-        />
+        <div className="clearfix">
+          {authedStaff && <ToggleButton
+            className="pull-right"
+            onClick={toggleEditResource}
+            isActive={isEditing}
+            inactiveText="Edit"
+            activeText="Cancel"
+          />}
+        </div>
         <ResourceForm
           formTitle={resource.title}
           initialValues={resource}
           isEditing={isEditing}
           onSubmit={updateResource}
           tagSearchResults={tags}
+          className="col-xs-12"
         />
       </div>
     </div>);
@@ -85,7 +90,8 @@ function mapStateToProps(state, ownProps) {
   return {
     isEditing: state.resource.isEditing,
     tags: state.tag.tags.map(t => t.name),
-    resource
+    resource,
+    authedStaff: !!(state.session.user && state.session.user.staff)
   };
 }
 

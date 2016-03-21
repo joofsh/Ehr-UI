@@ -9,8 +9,7 @@ export const initialState = {
 };
 
 export default function reducer(state = initialState, action = {}) {
-  let _users;
-  let index;
+  let _users, index;
 
   switch (action.type) {
     case 'REQUEST_USERS':

@@ -70,6 +70,7 @@ export default class Html extends Component {
             }}
             charSet="UTF-8"
           />
+          <script src={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places`}></script>
           { clientJS }
         </body>
       </html>

@@ -35,8 +35,9 @@ export default () => {
       <Route path="/users/:id" component={User}/>
       <Route path="/users" component={Users} />
 
-      <Route path="/resources" component={Resources}/>
-      <Route path="/resources/:id" component={Resource}/>
+      <Route path="/resources" component={Resources}>
+        <Route path="/resources/:id" component={Resource}/>
+      </Route>
 
       <Route path="/shelters" component={Shelters}/>
       <Route path="*" component={NotFound}/>

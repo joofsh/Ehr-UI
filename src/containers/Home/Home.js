@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { FontIcon } from 'src/components';
 
 export class Home extends Component {
   render() {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { LoadingSpinner, DataTable } from 'src/components';
+import { LoadingSpinner, ResourceRow, ResourceMap, MaxHeightContainer } from 'src/components';
 
 function fetchResources() {
   return {
@@ -10,12 +10,6 @@ function fetchResources() {
     successType: 'RECEIVE_RESOURCES_SUCCESS'
   };
 }
-
-const COLUMNS = [
-  { key: 'id', title: 'ID' },
-  { key: 'title', type: 'internalLink', linkBase: '/resources/' },
-  { key: 'url', title: 'URL', type: 'externalLink' }
-];
 
 export class Resources extends Component {
   static fetchData({ store }) {
@@ -35,21 +29,27 @@ export class Resources extends Component {
 
   render() {
     let { resources, children } = this.props;
+    let resourceContent;
     require('./Resources.scss');
 
     if (this.props.isFetching) {
-      return <LoadingSpinner large absolute center/>;
+      resourceContent = <LoadingSpinner large absolute center/>;
+    } else {
+      resourceContent = (<div className="list-group resource-list">
+        {resources.map((resource, i) => (
+          <ResourceRow key={i} {...resource} />
+        ))}
+      </div>);
     }
 
-    return (<div className="container container-resources">
+    return (<div className="container-fluid container-resources">
       <div className="row">
-        <div className="col-xs-12">
-          <DataTable
-            columns={COLUMNS}
-            data={resources}
-          />
-        </div>
-        {children}
+        <MaxHeightContainer className="col-md-6 col-xs-12 pull-right">
+          { children ? children : resourceContent }
+        </MaxHeightContainer>
+        <MaxHeightContainer className="col-md-6 col-xs-12 resource-map-wrapper">
+          <ResourceMap resources={resources}/>
+        </MaxHeightContainer>
       </div>
     </div>);
   }
