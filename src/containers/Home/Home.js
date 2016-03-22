@@ -7,9 +7,11 @@ export class Home extends Component {
     require('./Home.scss');
     return (<div className="container-home container-fluid">
       <div className="banner-image">
-        <h1 className="banner-title">An Easier Way To Find Help</h1>
+        <div className="banner-titleWrapper">
+          <h2 className="banner-title">A Simpler Way To Find Help</h2>
+        </div>
       </div>
-      <h2 className="subtitle">Find The Right Resources For You</h2>
+      <h3 className="subtitle">Find The Right Resources For You</h3>
       <div className="call-to-action">
         <Link to="/resources" className="btn btn-primary btn-lg">
           View Resources
