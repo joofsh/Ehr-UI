@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import {  Marker, InfoWindow } from 'react-google-maps';
+import { Marker, InfoWindow } from 'react-google-maps';
+import { Link } from 'react-router';
+import { pushPath } from 'redux-simple-router';
 
 export default class ResourceMarker extends Component {
   static propTypes = {
@@ -8,6 +10,7 @@ export default class ResourceMarker extends Component {
     address: PropTypes.object.isRequired,
     handleMarkerClick: PropTypes.func.isRequired,
     handleInfoWindowClose: PropTypes.func.isRequired,
+    visible: PropTypes.bool.isRequired,
     isMapInfoVisible: PropTypes.bool.isRequired
   };
 
@@ -16,6 +19,16 @@ export default class ResourceMarker extends Component {
 
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
+    this.onTitleClick = this.onTitleClick.bind(this);
+  }
+
+  linkUrl() {
+    return `/resources/${this.props.id}`
+  }
+
+  onTitleClick(event) {
+    event.preventDefault()
+    store.dispatch(pushPath(this.linkUrl()));
   }
 
   onMarkerClick() {
@@ -30,6 +43,7 @@ export default class ResourceMarker extends Component {
     let {
       id,
       title,
+      visible,
       address: {
         lat, lng
       },
@@ -44,7 +58,7 @@ export default class ResourceMarker extends Component {
         lat: +lat,
         lng: +lng
       }}
-      visible
+      visible={visible}
       clickable
       onClick={this.onMarkerClick}
     >
@@ -52,7 +66,7 @@ export default class ResourceMarker extends Component {
       <InfoWindow
         onCloseclick={this.onInfoWindowClose}
       >
-        {title}
+      <a href={this.linkUrl()} onClick={this.onTitleClick}>{title}</a>
       </InfoWindow> : null}
     </Marker>);
   }

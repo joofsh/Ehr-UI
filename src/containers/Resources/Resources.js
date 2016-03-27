@@ -20,6 +20,7 @@ export class Resources extends Component {
     fetchResources: PropTypes.func.isRequired,
     resources: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
+    params: PropTypes.object,
     children: PropTypes.node
   };
 
@@ -28,9 +29,14 @@ export class Resources extends Component {
   }
 
   render() {
-    let { resources, children } = this.props;
-    let resourceContent;
-    require('./Resources.scss');
+    let {
+      resources,
+      children,
+      params: {
+        id: activeResourceId
+      }
+    } = this.props;
+    let resourceContent, mapResources;
 
     if (this.props.isFetching) {
       resourceContent = <LoadingSpinner large absolute center/>;
@@ -42,13 +48,14 @@ export class Resources extends Component {
       </div>);
     }
 
+    require('./Resources.scss');
     return (<div className="container-fluid container-resources">
       <div className="row">
         <MaxHeightContainer className="col-md-6 col-xs-12 pull-right">
           { children ? children : resourceContent }
         </MaxHeightContainer>
         <MaxHeightContainer className="col-md-6 col-xs-12 resource-map-wrapper">
-          <ResourceMap resources={resources}/>
+          <ResourceMap resources={resources} activeResourceId={+activeResourceId}/>
         </MaxHeightContainer>
       </div>
     </div>);
@@ -75,6 +82,7 @@ function mapStateToProps(state) {
     isFetching: state.resource.isFetching
   };
 }
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

@@ -7,7 +7,7 @@ export const initialState = {
   resources: []
 };
 
-function buildResource(resource) {
+export function buildResource(resource) {
   return {
     ...resource,
     isMapInfoVisible: false
