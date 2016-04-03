@@ -7,6 +7,7 @@ import client from './client';
 import resource from './resource';
 import question from './question';
 import tag from './tag';
+import search from './search'
 
 export default {
   user,
@@ -15,6 +16,7 @@ export default {
   resource,
   question,
   tag,
+  search,
   form: formReducer,
   routing: routeReducer
 };

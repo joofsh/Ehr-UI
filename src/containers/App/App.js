@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
@@ -55,9 +55,18 @@ export class App extends Component {
             {authedStaff && <LinkContainer to="/users">
               <NavItem active>Users</NavItem>
             </LinkContainer>}
-            <LinkContainer to="/resources">
-              <NavItem active>Resources</NavItem>
-            </LinkContainer>
+            <NavDropdown title="Resources" id="resources-dropdown">
+              <LinkContainer to="/resources">
+                <MenuItem>
+                  View Resources
+                </MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/resources/new">
+                <MenuItem>
+                  Submit A Resources
+                </MenuItem>
+              </LinkContainer>
+            </NavDropdown>
             {authed ?
               <NavItem onClick={logout}>Logout</NavItem> :
               <LinkContainer to="/login">

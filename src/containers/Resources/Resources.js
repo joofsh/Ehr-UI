@@ -1,12 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { LoadingSpinner, ResourceRow, ResourceMap, MaxHeightContainer } from 'src/components';
+import {
+  LoadingSpinner,
+  ResourceRow,
+  ResourceMap,
+  MaxHeightContainer,
+  SearchBar
+} from 'src/components';
+
+import { collectionFilter } from 'src/reducers/search';
 
 function fetchResources() {
   return {
     type: 'CALL_API',
     method: 'get',
     url: '/api/resources',
+    params: { length: 10000 },
     successType: 'RECEIVE_RESOURCES_SUCCESS'
   };
 }
@@ -36,15 +45,21 @@ export class Resources extends Component {
         id: activeResourceId
       }
     } = this.props;
-    let resourceContent, mapResources;
+    let resourceContent;
 
     if (this.props.isFetching) {
       resourceContent = <LoadingSpinner large absolute center/>;
     } else {
-      resourceContent = (<div className="list-group resource-list">
-        {resources.map((resource, i) => (
-          <ResourceRow key={i} {...resource} />
-        ))}
+      resourceContent = (<div>
+        <SearchBar
+          name="resourceFilter"
+          placeholder="Find a Resource..."
+        />
+        <div className="list-group resource-list">
+          {resources.map((resource, i) => (
+            <ResourceRow key={i} {...resource} />
+          ))}
+        </div>
       </div>);
     }
 
@@ -52,7 +67,7 @@ export class Resources extends Component {
     return (<div className="container-fluid container-resources">
       <div className="row">
         <MaxHeightContainer className="col-md-6 col-xs-12 pull-right">
-          { children ? children : resourceContent }
+          { children || resourceContent }
         </MaxHeightContainer>
         <MaxHeightContainer className="col-md-6 col-xs-12 resource-map-wrapper">
           <ResourceMap resources={resources} activeResourceId={+activeResourceId}/>
@@ -77,8 +92,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
+  let resources = collectionFilter(state.resource.resources,
+                                   state.search.resourceFilter,
+                                  ['id', 'title', 'tags']);
   return {
-    resources: state.resource.resources,
+    resources,
     isFetching: state.resource.isFetching
   };
 }

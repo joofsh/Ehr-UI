@@ -14,6 +14,7 @@ import {
   NotFound,
   Resources,
   Resource,
+  NewResource,
   ClientQuestions,
   ClientResources
 } from './containers';
@@ -35,6 +36,7 @@ export default () => {
       <Route path="/users/:id" component={User}/>
       <Route path="/users" component={Users} />
 
+      <Route path="/resources/new" component={NewResource}/>
       <Route path="/resources" component={Resources}>
         <Route path="/resources/:id" component={Resource}/>
       </Route>

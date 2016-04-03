@@ -15,7 +15,7 @@ export function buildResource(resource) {
 }
 
 export default function reducer(state = initialState, action = {}) {
-  let _resources, _resource, index;
+  let _resources, _new_resources, _resource, index;
 
   switch (action.type) {
     case 'REQUEST_RESOURCES':
@@ -57,7 +57,20 @@ export default function reducer(state = initialState, action = {}) {
         resources: _resources
       };
     case 'RECEIVE_RESOURCES_SUCCESS':
-      _resources = action.response.resources.map((r) => buildResource(r));
+      _resources = state.resources.slice();
+
+      action.response.resources.forEach(resource => {
+        index = _findIndex(_resources, r => r.id === resource.id);
+
+        _resource = buildResource(resource);
+
+        if (index >= 0) {
+          _resources[index] = _resource;
+        } else {
+          _resources.push(_resource);
+        }
+      });
+
       return {
         ...state,
         isFetching: false,

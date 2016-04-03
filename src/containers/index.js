@@ -11,5 +11,6 @@ export Shelters from './Shelters/Shelters';
 export NotFound from './NotFound/NotFound';
 export Resources from './Resources/Resources';
 export Resource from './Resource/Resource';
+export NewResource from './NewResource/NewResource';
 export ClientQuestions from './ClientQuestions/ClientQuestions';
 export ClientResources from './ClientResources/ClientResources';

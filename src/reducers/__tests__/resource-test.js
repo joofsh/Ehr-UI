@@ -19,20 +19,38 @@ describe('Resource Reducer', () => {
     expect(state.isFetching).toBe(true);
   });
 
-  it('RECEIVE_RESOURCES_SUCCESS', () => {
-    state = initialState;
-    expect(state.resources.length).toBe(0);
-    state = reducer(state,
-                    { type: 'RECEIVE_RESOURCES_SUCCESS',
-                      response: { resources: mockResources } });
+  describe('RECEIVE_RESOURCES_SUCCESS', () => {
+    it('adds all the new resources', () => {
+      state = initialState;
+      expect(state.resources.length).toBe(0);
+      state = reducer(state,
+                      { type: 'RECEIVE_RESOURCES_SUCCESS',
+                        response: { resources: mockResources } });
 
-    expect(state.resources.length).toBe(3);
-    expect(state.resources[0].isMapInfoVisible).toBeA('boolean');
+      expect(state.resources.length).toBe(3);
+      expect(state.resources[0].isMapInfoVisible).toBeA('boolean');
+    });
+
+    it('adds new resources to existing ones', () => {
+      let originalResource = { id: 10, title: 'Original Resource' };
+      state = reducer(initialState,
+                      { type: 'RECEIVE_RESOURCE_SUCCESS',
+                        response: originalResource });
+
+      expect(state.resources.length).toBe(1);
+      state = reducer(state,
+                      { type: 'RECEIVE_RESOURCES_SUCCESS',
+                        response: { resources: mockResources } });
+
+      expect(state.resources.length).toBe(4);
+      expect(state.resources[0].title).toBe(originalResource.title);
+      expect(state.resources[1].title).toBe(mockResources[0].title);
+    });
   });
 
   describe('RECEIVE_RESOURCE_SUCCESS', () => {
     beforeEach(() => {
-      state = reducer(state,
+      state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
                         response: { resources: mockResources } });
     });
@@ -70,7 +88,7 @@ describe('Resource Reducer', () => {
 
   describe('RECEIVE_UPDATE_RESOURCE_SUCCESS', () => {
     beforeEach(() => {
-      state = reducer(state,
+      state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
                         response: { resources: mockResources } });
       state = reducer(state,
@@ -101,7 +119,7 @@ describe('Resource Reducer', () => {
 
   describe('ADD_CLIENT_RESOURCES', () => {
     beforeEach(() => {
-      state = reducer(state,
+      state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
                         response: { resources: mockResources } });
     });
@@ -126,7 +144,7 @@ describe('Resource Reducer', () => {
 
   describe('SWITCH_MARKER_VISIBILITY', () => {
     beforeEach(() => {
-      state = reducer(state,
+      state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
                         response: { resources: mockResources } });
     });
@@ -135,8 +153,7 @@ describe('Resource Reducer', () => {
       expect(state.resources[0].isMapInfoVisible).toBe(false);
       expect(state.resources[1].isMapInfoVisible).toBe(false);
 
-      state =
-        reducer(state, {
+      state = reducer(state, {
         type: 'SWITCH_MARKER_VISIBILITY',
         payload: { id: state.resources[0].id, visibility: true }
       });

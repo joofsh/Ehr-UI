@@ -11,8 +11,10 @@ export default class ResourceRow extends Component {
   render() {
     let { id, title, tags } = this.props;
     return (<Link className="list-group-item" to={`/resources/${id}`}>
-      <h5>{title}</h5>
-      <p>Known For: {tags.join(', ')}</p>
+      <h4>{title}</h4>
+      <div>{tags.map((tag, i) => (
+        <span key={i} className="tokenized-tag">{tag}</span>
+      ))}</div>
     </Link>);
   }
 }

@@ -25,7 +25,7 @@ export default {
       resourceListItems,
       firstResource: {
         container: firstResource,
-        title: firstResource.querySelector('h5').innerHTML
+        title: firstResource.querySelector('h4').innerHTML
       }
     };
   }

@@ -1,3 +1,5 @@
+@import "../../theme/variables.scss";
+
 .container-resources {
   height: calc(100% - 47px);
   .row {
@@ -5,5 +7,18 @@
   }
   .resource-map-wrapper {
     height: 100%;
+  }
+  .tokenized-tag {
+    background-color: $brand-success;
+    border-radius: 2px;
+    border: 1px solid darker($brand-success, 10%);
+    color: #FFF;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    padding: 7px;
+  }
+  .searchBar {
+    margin-bottom: 15px;
   }
 }
