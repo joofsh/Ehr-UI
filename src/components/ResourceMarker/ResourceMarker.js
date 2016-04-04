@@ -22,13 +22,17 @@ export default class ResourceMarker extends Component {
     this.onTitleClick = this.onTitleClick.bind(this);
   }
 
+  static contextTypes =  {
+    store: PropTypes.object
+  };
+
   linkUrl() {
     return `/resources/${this.props.id}`
   }
 
   onTitleClick(event) {
     event.preventDefault()
-    store.dispatch(pushPath(this.linkUrl()));
+    this.context.store.dispatch(pushPath(this.linkUrl()));
   }
 
   onMarkerClick() {

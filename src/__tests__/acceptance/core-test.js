@@ -12,7 +12,7 @@ import routes from 'src/routes';
 import ApiClient from 'src/utils/api';
 import { pushPath } from 'redux-simple-router';
 import { resources } from 'src/__tests__/mocks/mockData';
-import testFacade from 'src/__tests__/facade'
+import testFacade from 'src/__tests__/facade';
 
 let store, history, renderer, app, dom, facade;
 
@@ -49,13 +49,14 @@ describe('Acceptance - App', () => {
   });
 
   it('loads', () => {
-    visit('/')
+    visit('/');
     app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
     expect(app).toExist();
+    expect(dom).toExist();
   });
 
   it('renders homepage', () => {
-    visit('/')
+    visit('/');
     app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
     let banner = TestUtils.findRenderedDOMComponentWithClass(renderer, 'banner-image');
     let title = TestUtils.findRenderedDOMComponentWithClass(renderer, 'banner-title');
@@ -86,7 +87,9 @@ describe('Acceptance - App', () => {
     visit('/resources');
     facade = testFacade.resources(renderer);
     expect(facade.resourceListItems.length).toBe(resources.length);
-    expect(facade.firstResource.container.href).toMatch(new RegExp(`/resources/${resources[0].id}`));
+    expect(facade.firstResource.container.href).toMatch(
+      new RegExp(`/resources/${resources[0].id}`)
+    );
     expect(facade.firstResource.title).toBe(resources[0].title);
     expect(facade.map).toExist();
     TestUtils.Simulate.click(facade.firstResource);
