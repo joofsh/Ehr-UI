@@ -5,7 +5,7 @@ import compression from 'compression';
 import httpProxy from 'http-proxy';
 import path from 'path';
 import favicon from 'serve-favicon';
-import session from 'express-session';
+import session from 'cookie-session';
 
 import ReactDOM from 'react-dom/server';
 import React from 'react';
@@ -46,14 +46,13 @@ proxy.on('proxyReq', (proxyReq, req) => {
 
 // Session
 app.use(session({
-  name: 'session',
-  //TODO: reimplement redis in production
-  //store: new RedisStore(),
+  name: 'DCRSession',
   secret: 'my secret token',
   resave: false,
   proxy: true,
   saveUninitialized: true,
-  cookie: { maxAge: 2592000000 } // 30 days
+  httpOnly: true,
+  maxAge: 2592000000 // 30 days
 }));
 
 // Proxy to API
