@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 export class SearchBar extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    updateSearchValue: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired,
     placeholder: PropTypes.string
   };
 
@@ -53,4 +55,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(SearchBar);
-

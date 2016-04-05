@@ -7,7 +7,7 @@ import client from './client';
 import resource from './resource';
 import question from './question';
 import tag from './tag';
-import search from './search'
+import search from './search';
 
 export default {
   user,

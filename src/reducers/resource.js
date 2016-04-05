@@ -15,7 +15,7 @@ export function buildResource(resource) {
 }
 
 export default function reducer(state = initialState, action = {}) {
-  let _resources, _new_resources, _resource, index;
+  let _resources, _resource, index;
 
   switch (action.type) {
     case 'REQUEST_RESOURCES':
@@ -97,7 +97,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case 'SWITCH_MARKER_VISIBILITY':
       _resources = state.resources.slice();
-      index =_findIndex(_resources, r => r.id === action.payload.id);
+      index = _findIndex(_resources, r => r.id === action.payload.id);
       if (index >= 0) {
         _resources[index].isMapInfoVisible = action.payload.visibility;
       }

@@ -45,7 +45,7 @@ export class ResourceMap extends Component {
       activeZoom = DEFAULT_ZOOM;
       activeResources = resources;
       activeCenter = WASHINGTON_DC_COORDINATES;
-    };
+    }
 
     let resourcesWithAddress = _filter(resources, (r) => !!r.address);
 

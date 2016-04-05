@@ -2,7 +2,7 @@ import reducer, { initialState, collectionFilter } from '../search';
 import expect from 'expect';
 
 let mockData = [
-  { id: 1, first_name: 'John'},
+  { id: 1, first_name: 'John' },
   { id: 2, first_name: 'Jim' },
   { id: 3, first_name: 'Bob' }
 ];
