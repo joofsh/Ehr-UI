@@ -13,13 +13,12 @@ import ApiClient from 'src/utils/api';
 import { pushPath } from 'redux-simple-router';
 import { resources } from 'src/__tests__/mocks/mockData';
 import testFacade from 'src/__tests__/facade';
+import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
 
 let store, history, renderer, app, dom, facade;
 
-// TODO: implement superagent mocking (if needed)
-//import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
-//let request = require('superagent');
-//require('superagent-mock')(request, superAgentMockConfig);
+let request = require('superagent');
+require('superagent-mock')(request, superAgentMockConfig);
 
 function appComponent() {
   store = configureStore({}, new ApiClient());
@@ -38,14 +37,19 @@ function appComponent() {
 }
 
 function visit(path = '/') {
-  store.dispatch(pushPath(path));
+  renderer.store.dispatch(pushPath(path));
 }
 
 
 describe('Acceptance - App', () => {
-  beforeEach(() => {
+  beforeEach(function() {
     renderer = renderIntoDocument(appComponent());
     dom = ReactDOM.findDOMNode(renderer);
+  });
+
+  afterEach(function() {
+    renderer = undefined;
+    dom = undefined;
   });
 
   it('loads', () => {
@@ -79,7 +83,7 @@ describe('Acceptance - App', () => {
   });
 
   it('renders resources', () => {
-    store.dispatch({
+    renderer.store.dispatch({
       type: 'RECEIVE_RESOURCES_SUCCESS',
       response: { resources }
     });
@@ -92,12 +96,6 @@ describe('Acceptance - App', () => {
     );
     expect(facade.firstResource.title).toBe(resources[0].title);
     expect(facade.map).toExist();
-    TestUtils.Simulate.click(facade.firstResource);
-    // TODO: Fix click and routing testing
-    //setTimeout(() => {
-      //console.log('runs last acceptance test:', store.getState().routing.path);
-      //expect(store.getState().routing.path).toBe(`/resources/${resources[0].id}`);
-      //done();
-    //}, 0);
+    TestUtils.Simulate.click(facade.firstResource.container);
   });
 });

@@ -1,0 +1,14 @@
+@import "../../theme/variables.scss";
+
+.resourceForm {
+  .publishState {
+    margin: 0 0 0 10px;
+    color: $brand-danger;
+  }
+
+  .publish-toggle {
+    .publishState {
+      margin: 0 10px 0 0;
+    }
+  }
+}

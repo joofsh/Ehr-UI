@@ -3,6 +3,7 @@ export ClientQuestionChoice from './ClientQuestionChoice/ClientQuestionChoice';
 export DataTable from './DataTable/DataTable';
 export FormGroup from './FormGroup/FormGroup';
 export FormGroupTag from './FormGroupTag/FormGroupTag';
+export LoadingButton from './LoadingButton/LoadingButton';
 export LoadingSpinner from './LoadingSpinner/LoadingSpinner';
 export FontIcon from './FontIcon/FontIcon';
 export Form from './Form/Form';

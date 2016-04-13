@@ -28,5 +28,12 @@ export default {
         title: firstResource.querySelector('h4').innerHTML
       }
     };
+  },
+  newResource: (component) => {
+    return {
+      form: getClass(component, 'resourceForm'),
+      inputs: getTags(component, 'input'),
+      //submitButton: getClass('form-group')
+    };
   }
 };

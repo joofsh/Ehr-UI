@@ -4,6 +4,8 @@ export const initialState = {
   isFetching: false,
   didInvalidate: false,
   isEditing: false,
+  isTogglingPublishState: false,
+  lastUpdated: null,
   resources: []
 };
 
@@ -87,13 +89,14 @@ export default function reducer(state = initialState, action = {}) {
       index = _findIndex(_resources, r => r.id === action.response.id);
 
       if (index >= 0) {
-        _resources[index] = action.response;
+        _resources[index] = buildResource(action.response);
       }
 
       return {
         ...state,
         resources: _resources,
-        isEditing: false
+        isEditing: false,
+        isTogglingPublishState: false
       };
     case 'SWITCH_MARKER_VISIBILITY':
       _resources = state.resources.slice();
@@ -104,6 +107,11 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         resources: _resources
+      };
+    case 'IS_TOGGLING_PUBLISHED_STATE':
+      return {
+        ...state,
+        isTogglingPublishState: true
       };
     default:
       return state;

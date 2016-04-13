@@ -81,7 +81,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchResources: () => {
       dispatch((dispatch, getState) => {
-        if (getState().resource.resources.length) {
+        if (getState().resource.lastUpdated && getState().resource.resources.length) {
           return;
         }
 

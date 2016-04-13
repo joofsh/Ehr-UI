@@ -27,6 +27,8 @@ export class Resource extends Component {
     toggleEditResource: PropTypes.func.isRequired,
     updateResource: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,
+    isTogglingPublishState: PropTypes.bool.isRequired,
+    togglePublishState: PropTypes.func.isRequired,
     authedStaff: PropTypes.bool.isRequired,
     tags: PropTypes.array
   };
@@ -40,6 +42,8 @@ export class Resource extends Component {
       resource,
       toggleEditResource,
       isEditing,
+      isTogglingPublishState,
+      togglePublishState,
       updateResource,
       tags,
       authedStaff
@@ -65,6 +69,10 @@ export class Resource extends Component {
           formTitle={resource.title}
           initialValues={resource}
           isEditing={isEditing}
+          published={resource.published}
+          isTogglingPublishState={isTogglingPublishState}
+          handleTogglePublishState={togglePublishState}
+          authedStaff={authedStaff}
           onSubmit={updateResource}
           tagSearchResults={tags}
           className="col-xs-12"
@@ -72,6 +80,15 @@ export class Resource extends Component {
       </div>
     </div>);
   }
+}
+
+function togglePublishAction(resourceId, publishing) {
+  return {
+    type: 'CALL_API',
+    url: `/api/resources/${resourceId}/${publishing ? 'publish' : 'unpublish'}`,
+    method: 'put',
+    successType: 'RECEIVE_UPDATE_RESOURCE_SUCCESS'
+  };
 }
 
 function updateResourceAction(resource, resourceId) {
@@ -89,6 +106,7 @@ function mapStateToProps(state, ownProps) {
 
   return {
     isEditing: state.resource.isEditing,
+    isTogglingPublishState: state.resource.isTogglingPublishState,
     tags: state.tag.tags.map(t => t.name),
     resource,
     authedStaff: !!(state.session.user && state.session.user.staff)
@@ -97,6 +115,11 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
+    togglePublishState: (publishing = false) => {
+      let resourceId = +ownProps.params.id;
+      dispatch({ type: 'IS_TOGGLING_PUBLISHED_STATE' });
+      dispatch(togglePublishAction(resourceId, publishing));
+    },
     fetchResource: () => {
       dispatch((dispatch, getState) => {
         let id = +ownProps.params.id;

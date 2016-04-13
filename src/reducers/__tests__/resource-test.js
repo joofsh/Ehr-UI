@@ -86,6 +86,14 @@ describe('Resource Reducer', () => {
     expect(state.isEditing).toBe(false);
   });
 
+  it('IS_TOGGLING_PUBLISHED_STATE', () => {
+    state = initialState;
+    expect(state.isTogglingPublishState).toBe(false);
+
+    state = reducer(state, { type: 'IS_TOGGLING_PUBLISHED_STATE' });
+    expect(state.isTogglingPublishState).toBe(true);
+  });
+
   describe('RECEIVE_UPDATE_RESOURCE_SUCCESS', () => {
     beforeEach(() => {
       state = reducer(initialState,
@@ -104,6 +112,7 @@ describe('Resource Reducer', () => {
                         response: newResource });
 
       expect(state.resources[2].title).toBe(newResource.title);
+      expect(state.resources[2].isMapInfoVisible).toBe(false);
       expect(state.isEditing).toBe(false);
     });
 
