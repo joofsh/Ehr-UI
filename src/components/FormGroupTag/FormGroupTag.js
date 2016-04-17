@@ -44,7 +44,8 @@ export default class FormGroupTag extends Component {
 
   onTokenAdd(newValue) {
     let { onChange, value } = this.props;
-    onChange(value.concat(newValue));
+    let _value = value || []; // ensure array
+    onChange(_value.concat(newValue));
   }
 
   onTokenRemove(removedValue) {
