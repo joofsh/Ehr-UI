@@ -31,7 +31,6 @@ function appComponent() {
       <Router history={history}>
         {routes()}
       </Router>
-
     </div>
   </Provider>);
 }
@@ -52,50 +51,57 @@ describe('Acceptance - App', () => {
     dom = undefined;
   });
 
-  it('loads', () => {
+  it('loads', (done) => {
     visit('/');
-    app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
-    expect(app).toExist();
+    expect(renderer).toExist();
     expect(dom).toExist();
+    done();
   });
 
-  it('renders homepage', () => {
+  it('renders homepage', (done) => {
     visit('/');
-    app = TestUtils.findRenderedDOMComponentWithClass(renderer, 'app');
-    let banner = TestUtils.findRenderedDOMComponentWithClass(renderer, 'banner-image');
-    let title = TestUtils.findRenderedDOMComponentWithClass(renderer, 'banner-title');
-    let callToAction = TestUtils.findRenderedDOMComponentWithClass(renderer, 'btn-primary');
 
-    expect(app).toExist();
-    expect(banner).toExist();
-    expect(title).toExist();
-    expect(callToAction).toExist();
+    facade = testFacade.homepage(renderer);
+    expect(facade.currentURL).toBe('/');
+    expect(facade.app).toExist();
+    expect(facade.banner).toExist();
+    expect(facade.title).toExist();
+    expect(facade.callToAction).toExist();
+    done();
   });
 
-  it('renders login', () => {
+  it('renders login', (done) => {
     visit('/login');
-    let inputs = TestUtils.scryRenderedDOMComponentsWithTag(renderer, 'input');
-    let submit = TestUtils.findRenderedDOMComponentWithClass(renderer, 'btn');
-    expect(inputs.length).toBe(2);
-    expect(inputs[0].name).toBe('identifier');
-    expect(inputs[1].name).toBe('password');
-    expect(submit).toExist();
+
+    facade = testFacade.login(renderer);
+    expect(facade.currentURL).toBe('/login');
+    expect(facade.inputs.length).toBe(2);
+    expect(facade.inputs[0].name).toBe('identifier');
+    expect(facade.inputs[1].name).toBe('password');
+    expect(facade.submit).toExist();
+    done();
   });
 
-  it('renders resources', () => {
-    renderer.store.dispatch({
-      type: 'RECEIVE_RESOURCES_SUCCESS',
-      response: { resources }
+  it('renders resources and resource', (done) => {
+    visit('/resources');
+
+    setTimeout(() => {
+      facade = testFacade.resources(renderer);
+      expect(facade.currentURL).toBe('/resources');
+      expect(facade.resourceListItems.length).toBe(resources.length);
+      expect(facade.firstResource.container.href).toMatch(
+        new RegExp(`/resources/${resources[0].id}`)
+      );
+      expect(facade.firstResource.title).toBe(resources[0].title);
+      expect(facade.map).toExist();
+      TestUtils.Simulate.click(facade.firstResource.container, { button: 0 });
     });
 
-    visit('/resources');
-    facade = testFacade.resources(renderer);
-    expect(facade.resourceListItems.length).toBe(resources.length);
-    expect(facade.firstResource.container.href).toMatch(
-      new RegExp(`/resources/${resources[0].id}`)
-    );
-    expect(facade.firstResource.title).toBe(resources[0].title);
-    expect(facade.map).toExist();
-    TestUtils.Simulate.click(facade.firstResource.container);
+    setTimeout(() => {
+      facade = testFacade.resource(renderer);
+      expect(facade.currentURL).toBe(`/resources/${resources[0].id}`);
+      expect(facade.description).toBe(resources[0].description);
+      done();
+    });
   });
 });

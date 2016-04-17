@@ -8,6 +8,20 @@ export default [
     fixtures: () => resources,
     get: (match, data) => {
       return {
+        body: { resources: data }
+      };
+    },
+    post: (match, data) => {
+      return {
+        code: 201
+      };
+    }
+  },
+  {
+    pattern: '(.*)/resources/(.*)$',
+    fixtures: () => resources[0],
+    get: (match, data) => {
+      return {
         body: data
       };
     },

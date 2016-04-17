@@ -31,6 +31,8 @@ GoogleMapsMock = (function() {
 
   GoogleMapsMock.prototype.getMap = function() {};
 
+  GoogleMapsMock.prototype.setZoom = function() {};
+
   return GoogleMapsMock;
 
 })();
