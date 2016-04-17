@@ -5,6 +5,7 @@ import { fetchTagsAction } from 'src/actions';
 import string from 'src/utils/string';
 import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
+import { reset } from 'redux-form';
 
 function fetchResourceAction(id) {
   return {
@@ -135,7 +136,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     toggleEditResource: () => {
       dispatch((dispatch, getState) => {
-        if (!getState().tag.tags.lastUpdated) {
+        if (!getState().tag.lastUpdated) {
           dispatch(fetchTagsAction());
         }
 
@@ -144,6 +145,11 @@ function mapDispatchToProps(dispatch, ownProps) {
     },
     updateResource: (resourceId) => {
       return (resource) => {
+
+        // Clear address if no legit value
+        if (!resource.address.street || !resource.address.street.length) {
+          resource.address = null;
+        }
 
         return dispatch(updateResourceAction({ resource }, resourceId)).then(response => {
           dispatch({ type: 'RECEIVE_UPDATE_RESOURCE_SUCCESS', response });

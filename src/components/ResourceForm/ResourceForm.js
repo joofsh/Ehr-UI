@@ -52,9 +52,12 @@ export default class ResourceForm extends Component {
         phone,
         url,
         operating_hours,
+        languages,
+        note,
         tags,
         address
       },
+      authedStaff,
       published,
       isTogglingPublishState,
       formTitle,
@@ -72,6 +75,7 @@ export default class ResourceForm extends Component {
       <form
         onSubmit={handleSubmit}
         className={`${className || ''} form-horizontal resourceForm`}
+        noValidate
       >
         <div className="row">
           <fieldset className={fieldSetClassName}>
@@ -84,7 +88,7 @@ export default class ResourceForm extends Component {
             </legend>
             <div className="col-md-9 col-offset-3">
               <FormGroup {...title} isEditing={isEditing}/>
-              <FormGroup {...description} isEditing={isEditing} textArea/>
+              <FormGroup {...description} isEditing={isEditing} type="textarea"/>
               <FormGroup
                 {...category}
                 isEditing={isEditing}
@@ -92,23 +96,36 @@ export default class ResourceForm extends Component {
                 defaultValue=""
               >
                 <option disabled value="">Select A Category</option>
-                <option value="housing">Housing</option>
-                <option value="medical">Medical</option>
-                <option value="mental-health">Mental Health</option>
-                <option value="education">Education</option>
-                <option value="employment">Employment</option>
-                <option value="legal">Legal</option>
+                <option value="Housing">Housing</option>
+                <option value="Medical">Medical</option>
+                <option value="Mental Health">Mental Health</option>
+                <option value="Education">Education</option>
+                <option value="Employment">Employment</option>
+                <option value="Legal">Legal</option>
               </FormGroup>
-              <FormGroup {...operating_hours} isEditing={isEditing}/>
-              <FormGroup {...phone} isEditing={isEditing} type="phone"/>
-              <FormGroup {...email} isEditing={isEditing} type="email"/>
-              <FormGroup {...url} title="Website" isEditing={isEditing} type="url"/>
-              <FormGroupTag
+              <FormGroup {...operating_hours} isEditing={isEditing} type="textarea"/>
+              <FormGroup {...languages} isEditing={isEditing}/>
+              <FormGroup
+                {...note}
+                type="textarea"
+                isEditing={isEditing}
+                placeholder="Any Additional Comments"/>
+              {authedStaff && <FormGroupTag
                 {...tags}
                 title="Tags"
                 isEditing={isEditing}
                 searchResults={tagSearchResults}
-              />
+              />}
+            </div>
+          </fieldset>
+        </div>
+        <div className="row">
+          <fieldset className={fieldSetClassName}>
+            <legend>Contact Information</legend>
+            <div className="col-md-9 col-offset-3">
+              <FormGroup {...phone} isEditing={isEditing} type="phone"/>
+              <FormGroup {...email} isEditing={isEditing} type="email"/>
+              <FormGroup {...url} title="Website" isEditing={isEditing} type="url"/>
             </div>
           </fieldset>
         </div>

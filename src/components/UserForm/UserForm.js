@@ -34,7 +34,7 @@ export class UserForm extends Component {
     } = this.props;
 
     require('./UserForm.scss');
-    return (<form onSubmit={handleSubmit} className={`${className} form-horizontal`}>
+    return (<form onSubmit={handleSubmit} noValidate className={`${className} form-horizontal`}>
       <div className="row">
         <fieldset className="col-xs-12 col-md-8 col-md-offset-2">
           <legend>{formTitle}</legend>
