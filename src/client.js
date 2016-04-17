@@ -49,11 +49,15 @@ if (__DEVELOPMENT__) {
   }
 }
 
-if (__DEVELOPMENT__ && __DEVTOOLS__) {
-  ReactDOM.render(
-    <DevTools store={store} monitor={LogMonitor}/>,
-    devToolDest
-  );
+if (__DEVELOPMENT__) {
+  if (__DEVTOOLS__) {
+    ReactDOM.render(
+      <DevTools store={store} monitor={LogMonitor}/>,
+      devToolDest
+    );
+  } else {
+    console.log('-- DEVTOOL Disabled --');
+  }
 }
 
 console.log('Client code loaded!');

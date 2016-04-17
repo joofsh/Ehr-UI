@@ -34,7 +34,7 @@ module.exports = {
       __SERVER__: false,
       __DEVELOPMENT__: true,
       __TEST__: false,
-      __DEVTOOLS__: true
+      __DEVTOOLS__: false
     }),
     webpackIsomorphicToolsPlugin.development()
   ],
