@@ -11,7 +11,7 @@ export default [
         body: { resources: data }
       };
     },
-    post: (match, data) => {
+    post: () => {
       return {
         code: 201
       };
@@ -25,7 +25,7 @@ export default [
         body: data
       };
     },
-    post: (match, data) => {
+    post: () => {
       return {
         code: 201
       };

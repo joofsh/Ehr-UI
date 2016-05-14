@@ -109,7 +109,8 @@ export default class ResourceForm extends Component {
                 {...note}
                 type="textarea"
                 isEditing={isEditing}
-                placeholder="Any Additional Comments"/>
+                placeholder="Any Additional Comments"
+              />
               {authedStaff && <FormGroupTag
                 {...tags}
                 title="Tags"

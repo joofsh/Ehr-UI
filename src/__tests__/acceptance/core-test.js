@@ -15,7 +15,7 @@ import { resources } from 'src/__tests__/mocks/mockData';
 import testFacade from 'src/__tests__/facade';
 import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
 
-let store, history, renderer, app, dom, facade;
+let store, history, renderer, dom, facade;
 
 let request = require('superagent');
 require('superagent-mock')(request, superAgentMockConfig);
@@ -41,12 +41,12 @@ function visit(path = '/') {
 
 
 describe('Acceptance - App', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     renderer = renderIntoDocument(appComponent());
     dom = ReactDOM.findDOMNode(renderer);
   });
 
-  afterEach(function() {
+  afterEach(() => {
     renderer = undefined;
     dom = undefined;
   });

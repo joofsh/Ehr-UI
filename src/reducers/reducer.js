@@ -21,7 +21,7 @@ export default {
   // when cancelling edit mode
   form: formReducer.plugin({
     userForm: (state, action) => {
-      switch(action.type) {
+      switch (action.type) {
         case 'TOGGLE_EDIT_USER':
           return undefined;
         default:
@@ -29,7 +29,7 @@ export default {
       }
     },
     resourceForm: (state, action) => {
-      switch(action.type) {
+      switch (action.type) {
         case 'TOGGLE_EDIT_RESOURCE':
           return undefined;
         default:

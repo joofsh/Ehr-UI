@@ -55,7 +55,7 @@ export default {
 
   resource: (component) => {
     let staticValues = getClasses(component, 'form-control-static');
-    let description = _find(staticValues, (e) => e.getAttribute('name') == 'description');
+    let description = _find(staticValues, (e) => e.getAttribute('name') === 'description');
 
     return Object.assign({}, base(component), {
       title: getTag(component, 'h2'),

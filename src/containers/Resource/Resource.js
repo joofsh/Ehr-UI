@@ -5,7 +5,6 @@ import { fetchTagsAction } from 'src/actions';
 import string from 'src/utils/string';
 import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
-import { reset } from 'redux-form';
 
 function fetchResourceAction(id) {
   return {
@@ -144,7 +143,8 @@ function mapDispatchToProps(dispatch, ownProps) {
       });
     },
     updateResource: (resourceId) => {
-      return (resource) => {
+      return (_resource) => {
+        let resource = _resource;
 
         // Clear address if no legit value
         if (!resource.address.street || !resource.address.street.length) {
