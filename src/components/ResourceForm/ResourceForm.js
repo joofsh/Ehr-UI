@@ -93,12 +93,14 @@ export default class ResourceForm extends Component {
                 {...category}
                 isEditing={isEditing}
                 type="select"
-                defaultValue=""
+                defaultValue={[]}
+                multiple
               >
                 <option disabled value="">Select A Category</option>
                 <option value="Housing">Housing</option>
-                <option value="Medical">Medical</option>
+                <option value="Physical Health">Physical Health</option>
                 <option value="Mental Health">Mental Health</option>
+                <option value="Substance Abuse">Substance Abuse</option>
                 <option value="Education">Education</option>
                 <option value="Employment">Employment</option>
                 <option value="Legal">Legal</option>

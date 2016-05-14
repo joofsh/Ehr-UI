@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Input } from 'react-bootstrap';
+import { Input, FormControl } from 'react-bootstrap';
 import { FormControls } from 'react-bootstrap';
 import string from 'src/utils/string';
+import _isArray from 'lodash/isArray';
 
 export default class FormGroup extends Component {
   static propTypes = {
@@ -26,12 +27,14 @@ export default class FormGroup extends Component {
   };
 
   getStaticValue() {
-    let { value, initialValue, type } = this.props;
+    let { value, initialValue, type, multiple } = this.props;
     let _value = value || initialValue;
     let content;
 
     if (type === 'url' && _value) {
       content = <a target="_blank" href={_value}>{_value}</a>;
+    } else if (_isArray(_value)) {
+      content = <span>{_value.join(', ') || 'None'}</span>;
     } else {
       content = <span>{_value || 'None'}</span>;
     }
@@ -58,7 +61,9 @@ export default class FormGroup extends Component {
       error,
       labelClassName,
       wrapperClassName,
-      children
+      children,
+      value,
+      initialValue
     } = this.props;
     let formGroup;
 
@@ -66,6 +71,7 @@ export default class FormGroup extends Component {
       formGroup = (
         <Input
           {...this.props}
+          value={value || initialValue}
           label={this.label()}
           type={type || 'text'}
           id={name}
