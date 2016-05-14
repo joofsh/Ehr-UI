@@ -72,7 +72,7 @@ function mapStateToProps(state) {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
   return Object.assign({}, ownProps, stateProps, dispatchProps, {
-    onSubmit: dispatchProps.onSubmit(ownProps.currentUserId)
+    onSubmit: dispatchProps.onSubmit(stateProps.currentUserId)
   });
 }
 

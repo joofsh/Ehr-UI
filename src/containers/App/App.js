@@ -52,9 +52,18 @@ export class App extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav navbar pullRight>
-            {authedStaff && <LinkContainer to="/users">
-              <NavItem active>Users</NavItem>
-            </LinkContainer>}
+            {authedStaff && <NavDropdown title="Clients" id="user-dropdown">
+              <LinkContainer to="/users">
+                <MenuItem>
+                  View Clients
+                </MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/clients/new">
+                <MenuItem>
+                  Add New Client
+                </MenuItem>
+              </LinkContainer>
+            </NavDropdown>}
             <NavDropdown title="Resources" id="resources-dropdown">
               <LinkContainer to="/resources">
                 <MenuItem>
