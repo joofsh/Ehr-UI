@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Input, FormControl } from 'react-bootstrap';
-import { FormControls } from 'react-bootstrap';
+import { Input, FormControls } from 'react-bootstrap';
 import string from 'src/utils/string';
 import _isArray from 'lodash/isArray';
 
@@ -10,24 +9,41 @@ export default class FormGroup extends Component {
     placeholder: PropTypes.string,
     initialValue: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.number,
       PropTypes.array
     ]),
     value: PropTypes.oneOfType([
       PropTypes.string,
+      PropTypes.number,
       PropTypes.array
     ]),
     isEditing: PropTypes.bool,
-    title: PropTypes.string,
+    label: PropTypes.string,
     type: PropTypes.string,
     labelClassName: PropTypes.string,
     wrapperClassName: PropTypes.string,
     defaultOption: PropTypes.string,
     children: PropTypes.arrayOf(PropTypes.node),
-    error: PropTypes.string
+    error: PropTypes.string,
+    inline: PropTypes.bool,
+    className: PropTypes.string
   };
 
+  getInputValue() {
+    let { value, initialValue } = this.props;
+    let _value;
+
+    if (value === null || value === undefined) {
+      _value = initialValue;
+    } else {
+      _value = value;
+    }
+
+    return _value;
+  }
+
   getStaticValue() {
-    let { value, initialValue, type, multiple } = this.props;
+    let { value, initialValue, type } = this.props;
     let _value = value || initialValue;
     let content;
 
@@ -42,9 +58,18 @@ export default class FormGroup extends Component {
   }
 
   label() {
-    let { title, name } = this.props;
+    let { label, name } = this.props;
+    let val;
 
-    return title || string.titleize(name);
+    // Return label, even if null or false
+    // A null label effectively disables it
+    if (label !== undefined) {
+      val = label;
+    } else {
+      val = string.titleize(name);
+    }
+
+    return val;
   }
 
   isEditing() {
@@ -62,8 +87,6 @@ export default class FormGroup extends Component {
       labelClassName,
       wrapperClassName,
       children,
-      value,
-      initialValue
     } = this.props;
     let formGroup;
 
@@ -71,7 +94,7 @@ export default class FormGroup extends Component {
       formGroup = (
         <Input
           {...this.props}
-          value={value || initialValue}
+          value={this.getInputValue()}
           label={this.label()}
           type={type || 'text'}
           id={name}
@@ -87,12 +110,13 @@ export default class FormGroup extends Component {
         <FormControls.Static
           name={name}
           label={this.label()}
-          labelClassName="col-xs-3"
-          wrapperClassName="col-xs-9"
+          labelClassName={labelClassName || 'col-xs-3'}
+          wrapperClassName={wrapperClassName || 'col-xs-9'}
           value={this.getStaticValue()}
         />
       );
     }
+
 
     require('./FormGroup.scss');
     return formGroup;

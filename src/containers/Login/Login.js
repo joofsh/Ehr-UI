@@ -27,8 +27,8 @@ export class Login extends Component {
         <div className="col-md-4 col-md-offset-4">
           <h1>Login</h1>
           <form className="form-horizontal" onSubmit={handleSubmit}>
-            <FormGroup title="Username" placeholder="Enter Username or Email" {...identifier}/>
-            <FormGroup title="Password" {...password}/>
+            <FormGroup label="Username" placeholder="Enter Username or Email" {...identifier}/>
+            <FormGroup label="Password" {...password}/>
             {error && <p className="text-danger error">{error}</p>}
             <button className="btn btn-success btn-block"
               disabled={submitting}

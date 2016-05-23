@@ -64,6 +64,13 @@ export class App extends Component {
                 </MenuItem>
               </LinkContainer>
             </NavDropdown>}
+            {authedStaff && <NavDropdown title="Questions" id="question-dropdown">
+              <LinkContainer to="/questions">
+                <MenuItem>
+                  Manage Questions
+                </MenuItem>
+              </LinkContainer>
+            </NavDropdown>}
             <NavDropdown title="Resources" id="resources-dropdown">
               <LinkContainer to="/resources">
                 <MenuItem>

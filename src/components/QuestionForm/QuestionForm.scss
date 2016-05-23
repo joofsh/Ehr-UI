@@ -1,0 +1,13 @@
+@import "../../theme/variables.scss";
+
+.questionForm {
+  border-bottom: 1px dashed $medium-gray;
+
+  .order-label {
+    width: 5%;
+  }
+
+  .buttons .btn {
+    margin-left: 5px;
+  }
+}

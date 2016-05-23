@@ -15,10 +15,10 @@ export default class AddressForm extends Component {
 
     require('./AddressForm.scss');
     return (<div>
-      <FormGroup {...street} title="Street" isEditing={isEditing}/>
-      <FormGroup {...city} title="City" isEditing={isEditing}/>
-      <FormGroup {...state} title="State" isEditing={isEditing}/>
-      <FormGroup {...zipcode} title="Zipcode" isEditing={isEditing}/>
+      <FormGroup {...street} label="Street" isEditing={isEditing}/>
+      <FormGroup {...city} label="City" isEditing={isEditing}/>
+      <FormGroup {...state} label="State" isEditing={isEditing}/>
+      <FormGroup {...zipcode} label="Zipcode" isEditing={isEditing}/>
     </div>);
   }
 }

@@ -43,9 +43,14 @@ export default class FormGroupTag extends Component {
   }
 
   onTokenAdd(newValue) {
-    let { onChange, value } = this.props;
-    let _value = value || []; // ensure array
-    onChange(_value.concat(newValue));
+    let _value = this.getInputValue();
+    this.props.onChange(_value.concat(newValue));
+  }
+
+  getInputValue() {
+    let { value, initialValue } = this.props;
+
+    return value || initialValue || [];
   }
 
   onTokenRemove(removedValue) {
@@ -75,7 +80,7 @@ export default class FormGroupTag extends Component {
           options={searchResults}
           onTokenAdd={this.onTokenAdd}
           onTokenRemove={this.onTokenRemove}
-          values={this.props.value}
+          values={this.getInputValue()}
           defaultSelected={_values}
           placeholder="Add a Tag"
           inputProps={{

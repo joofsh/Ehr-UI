@@ -64,7 +64,7 @@ export class UserForm extends Component {
               <option value="Asian">Asian</option>
               <option value="other">Other</option>
             </FormGroup>
-            <FormGroup {...birthdate} title="Birthday" isEditing={isEditing} type="date"/>
+            <FormGroup {...birthdate} label="Birthday" isEditing={isEditing} type="date"/>
             <FormGroup {...language} isEditing={isEditing}/>
           </div>
         </fieldset>

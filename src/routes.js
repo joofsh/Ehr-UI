@@ -16,7 +16,8 @@ import {
   Resource,
   NewResource,
   ClientQuestions,
-  ClientResources
+  ClientResources,
+  Questions
 } from './containers';
 
 export default () => {
@@ -39,6 +40,11 @@ export default () => {
       <Route path="/resources/new" component={NewResource}/>
       <Route path="/resources" component={Resources}>
         <Route path="/resources/:id" component={Resource}/>
+      </Route>
+
+      <Route path="/questions/new" component={NewResource}/>
+      <Route path="/questions" component={Questions}>
+        <Route path="/questions/:id" component={Resource}/>
       </Route>
 
       <Route path="/shelters" component={Shelters}/>

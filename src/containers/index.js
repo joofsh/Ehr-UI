@@ -14,3 +14,4 @@ export Resource from './Resource/Resource';
 export NewResource from './NewResource/NewResource';
 export ClientQuestions from './ClientQuestions/ClientQuestions';
 export ClientResources from './ClientResources/ClientResources';
+export Questions from './Questions/Questions';
