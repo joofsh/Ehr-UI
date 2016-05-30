@@ -53,7 +53,6 @@ export class Questions extends Component {
       handleSubmit,
       addEmptyQuestion,
       deleteQuestion,
-      tags,
       toggleEditQuestion,
       questions
     } = this.props;
@@ -129,9 +128,9 @@ function createOrUpdateQuestionAction(question) {
   _remove(_question.choices, choice => !choice.stem);
 
   // map tags to tag_pks
-  _question.choices.forEach(choice => {
-    choice.tag_pks = (choice.tags || []).map(t => t.id);
-    delete choice.tags;
+  _question.choices.forEach((choice, i) => {
+    _question.choices[i].tag_pks = (choice.tags || []).map(t => t.id);
+    delete _question.choices[i].tags;
   });
 
   return {

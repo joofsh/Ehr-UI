@@ -133,5 +133,6 @@ export class QuestionForm extends Component {
 
 export default reduxForm({
   form: 'questionForm',
-  fields: ['order', 'id', 'stem', 'choices[].id', 'choices[].stem', 'choices[].next_question_id', 'choices[].tags']
+  fields: ['order', 'id', 'stem', 'choices[].id', 'choices[].stem',
+           'choices[].next_question_id', 'choices[].tags']
 })(QuestionForm);
