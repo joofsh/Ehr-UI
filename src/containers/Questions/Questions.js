@@ -197,7 +197,7 @@ function mapDispatchToProps(dispatch) {
                   payload: { questionId } });
         });
       } else {
-        val = dispatch({ type: 'RECIEVE_DELETE_QUESTION_SUCCESS',
+        val = dispatch({ type: 'RECEIVE_DELETE_QUESTION_SUCCESS',
                        payload: { questionIndex } });
       }
       return val;
