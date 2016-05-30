@@ -13,7 +13,7 @@ export default class ResourceRow extends Component {
     return (<Link className="list-group-item" to={`/resources/${id}`}>
       <h4>{title}</h4>
       <div>{tags.map((tag, i) => (
-        <span key={i} className="tokenized-tag">{tag}</span>
+        <span key={i} className="tokenized-tag">{tag.name}</span>
       ))}</div>
     </Link>);
   }

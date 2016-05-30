@@ -1,15 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import {
   FormGroup,
+  FormGroupTag,
   FontIcon,
 } from 'src/components';
 
 export default class ChoiceForm extends Component {
   static propTypes = {
+    allTags: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
     questionIndex: PropTypes.number.isRequired,
     removeChoice: PropTypes.func.isRequired,
     next_question_id: PropTypes.object.isRequired,
+    tags: PropTypes.object.isRequired,
     stem: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired
   };
@@ -27,8 +30,10 @@ export default class ChoiceForm extends Component {
 
   render() {
     let {
+      allTags,
       stem,
       next_question_id,
+      tags,
       index,
       isEditing
     } = this.props;
@@ -37,12 +42,22 @@ export default class ChoiceForm extends Component {
     return (<div className="choiceForm clearfix">
       <div className="row">
         <div className="col-xs-12">
-          <div className="col-xs-7">
+          <div className="col-xs-5">
             <FormGroup
               {...stem}
               name={`Choice ${index + 1}`}
               labelClassName="col-xs-3"
               wrapperClassName="col-xs-9"
+              isEditing={isEditing}
+            />
+          </div>
+          <div className="col-xs-3">
+            <FormGroupTag
+              {...tags}
+              label="Tags"
+              labelClassName="col-xs-2"
+              wrapperClassName="col-xs-10"
+              searchResults={allTags}
               isEditing={isEditing}
             />
           </div>

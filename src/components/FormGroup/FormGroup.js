@@ -18,7 +18,10 @@ export default class FormGroup extends Component {
       PropTypes.array
     ]),
     isEditing: PropTypes.bool,
-    label: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     type: PropTypes.string,
     labelClassName: PropTypes.string,
     wrapperClassName: PropTypes.string,

@@ -18,6 +18,10 @@ export default class FormGroupTag extends Component {
     ]),
     isEditing: PropTypes.bool,
     title: PropTypes.string,
+    label: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool
+    ]),
     labelClassName: PropTypes.string,
     wrapperClassName: PropTypes.string,
     defaultOption: PropTypes.string,
@@ -31,9 +35,18 @@ export default class FormGroupTag extends Component {
   }
 
   label() {
-    let { title, name } = this.props;
+    let { label, name } = this.props;
+    let val;
 
-    return title || string.titleize(name);
+    // Return label, even if null or false
+    // A null label effectively disables it
+    if (label !== undefined) {
+      val = label;
+    } else {
+      val = string.titleize(name);
+    }
+
+    return val;
   }
 
   isEditing() {
@@ -59,6 +72,13 @@ export default class FormGroupTag extends Component {
     onChange(value);
   }
 
+  displayOption(option) {
+    return option.name;
+  }
+  filterOption(inputValue, option) {
+    return option.name.indexOf(inputValue.toLowerCase()) >= 0;
+  }
+
   render() {
     let {
       value,
@@ -71,35 +91,37 @@ export default class FormGroupTag extends Component {
       ...rest
     } = this.props;
     let content;
-    let _values = value || initialValue;
+    let _values = value || initialValue || [];
 
     if (this.isEditing()) {
       content = (
         <div>
-        <Tokenizer
-          options={searchResults}
-          onTokenAdd={this.onTokenAdd}
-          onTokenRemove={this.onTokenRemove}
-          values={this.getInputValue()}
-          defaultSelected={_values}
-          placeholder="Add a Tag"
-          inputProps={{
-            ...rest,
-            autoComplete: 'off',
-          }}
-          customClasses={{
-            input: 'form-control',
-            results: 'typeahead-list',
-            listItem: 'typeahead-listItem',
-            hover: 'typeahead-listItem--hover'
-          }}
-        />
+          <Tokenizer
+            options={searchResults}
+            onTokenAdd={this.onTokenAdd}
+            onTokenRemove={this.onTokenRemove}
+            values={this.getInputValue()}
+            defaultSelected={_values}
+            placeholder="Add a Tag"
+            displayOption={this.displayOption}
+            filterOption={this.filterOption}
+            inputProps={{
+              ...rest,
+              autoComplete: 'off',
+            }}
+            customClasses={{
+              input: 'form-control',
+              results: 'typeahead-list',
+              listItem: 'typeahead-listItem',
+              hover: 'typeahead-listItem--hover'
+            }}
+          />
         </div>);
     } else {
       content = (
         <p className="form-control-static">
           {_values.length ? _values.map((_value, i) => (
-            <span className="tokenized-tag" key={i}>{_value}</span>
+            <span className="tokenized-tag" key={i}>{_value.name}</span>
           )) : <span>None</span>}
         </p>);
     }

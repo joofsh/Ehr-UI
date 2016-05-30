@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { fetchTagsAction } from 'src/actions';
 import {
   FontIcon,
   LoadingSpinner,
@@ -27,11 +28,13 @@ export class Questions extends Component {
   }
 
   static propTypes = {
+    fetchTags: PropTypes.func.isRequired,
     fetchQuestions: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     addEmptyQuestion: PropTypes.func.isRequired,
     toggleEditQuestion: PropTypes.func.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
+    allTags: PropTypes.array.isRequired,
     questions: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
     params: PropTypes.object,
@@ -40,14 +43,17 @@ export class Questions extends Component {
 
   componentDidMount() {
     this.props.fetchQuestions();
+    this.props.fetchTags();
   }
 
   render() {
     let {
+      allTags,
       children,
       handleSubmit,
       addEmptyQuestion,
       deleteQuestion,
+      tags,
       toggleEditQuestion,
       questions
     } = this.props;
@@ -84,6 +90,7 @@ export class Questions extends Component {
               onSubmit={handleSubmit}
               deleteQuestion={deleteQuestion}
               toggleEditQuestion={toggleEditQuestion}
+              allTags={allTags}
             />
           ))}
         </div>
@@ -121,6 +128,12 @@ function createOrUpdateQuestionAction(question) {
   // remove choices without a stem
   _remove(_question.choices, choice => !choice.stem);
 
+  // map tags to tag_pks
+  _question.choices.forEach(choice => {
+    choice.tag_pks = (choice.tags || []).map(t => t.id);
+    delete choice.tags;
+  });
+
   return {
     type: 'CALL_API',
     url,
@@ -139,6 +152,13 @@ function deleteQuestionAction(questionId) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchTags: () => {
+      dispatch((dispatch, getState) => {
+        if (!getState().tag.lastUpdated) {
+          dispatch(fetchTagsAction());
+        }
+      });
+    },
     fetchQuestions: () => {
       dispatch((dispatch, getState) => {
         if (getState().question.lastUpdated && getState().question.questions.length) {
@@ -196,8 +216,10 @@ function mapStateToProps(state) {
   let questions = collectionFilter(state.question.questions,
                                    state.search.questionFilter,
                                   ['id', 'stem']);
+
   return {
     questions,
+    allTags: state.tag.tags,
     isFetching: state.question.isFetching
   };
 }

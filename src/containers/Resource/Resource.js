@@ -92,11 +92,20 @@ function togglePublishAction(resourceId, publishing) {
 }
 
 function updateResourceAction(resource, resourceId) {
+  let _resource = Object.assign({}, resource);
+  _resource.tag_pks = (_resource.tags || []).map(t => t.id);
+  delete _resource.tags;
+
+  // Clear address if no legit value
+  if (!_resource.address.street || !_resource.address.street.length) {
+    _resource.address = null;
+  }
+
   return {
     type: 'CALL_API',
     url: `/api/resources/${resourceId}`,
     method: 'put',
-    data: resource
+    data: { resource: _resource }
   };
 }
 
@@ -107,7 +116,7 @@ function mapStateToProps(state, ownProps) {
   return {
     isEditing: state.resource.isEditing,
     isTogglingPublishState: state.resource.isTogglingPublishState,
-    tags: state.tag.tags.map(t => t.name),
+    tags: state.tag.tags,
     resource,
     authedStaff: !!(state.session.user && state.session.user.staff)
   };
@@ -143,15 +152,8 @@ function mapDispatchToProps(dispatch, ownProps) {
       });
     },
     updateResource: (resourceId) => {
-      return (_resource) => {
-        let resource = _resource;
-
-        // Clear address if no legit value
-        if (!resource.address.street || !resource.address.street.length) {
-          resource.address = null;
-        }
-
-        return dispatch(updateResourceAction({ resource }, resourceId)).then(response => {
+      return (resource) => {
+        return dispatch(updateResourceAction(resource, resourceId)).then(response => {
           dispatch({ type: 'RECEIVE_UPDATE_RESOURCE_SUCCESS', response });
           return Promise.resolve();
         }, response => {

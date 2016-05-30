@@ -9,6 +9,7 @@ import {
 
 export class QuestionForm extends Component {
   static propTypes = {
+    allTags: PropTypes.array.isRequired,
     deleteQuestion: PropTypes.func.isRequired,
     toggleEditQuestion: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -17,7 +18,7 @@ export class QuestionForm extends Component {
     isEditing: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
     id: PropTypes.number,
-    error: PropTypes.string
+    error: PropTypes.string,
   };
 
   constructor() {
@@ -46,6 +47,7 @@ export class QuestionForm extends Component {
 
   render() {
     let {
+      allTags,
       fields: {
         order,
         stem,
@@ -56,7 +58,7 @@ export class QuestionForm extends Component {
       submitting,
       handleSubmit,
       error,
-      isEditing
+      isEditing,
     } = this.props;
 
     require('./QuestionForm.scss');
@@ -119,6 +121,7 @@ export class QuestionForm extends Component {
             index={j}
             removeChoice={this.removeChoice}
             questionIndex={index}
+            allTags={allTags}
             initialValues={choice}
             isEditing={isEditing}
           />
@@ -130,5 +133,5 @@ export class QuestionForm extends Component {
 
 export default reduxForm({
   form: 'questionForm',
-  fields: ['order', 'id', 'stem', 'choices[].id', 'choices[].stem', 'choices[].next_question_id']
+  fields: ['order', 'id', 'stem', 'choices[].id', 'choices[].stem', 'choices[].next_question_id', 'choices[].tags']
 })(QuestionForm);
