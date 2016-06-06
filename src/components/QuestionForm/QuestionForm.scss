@@ -10,4 +10,19 @@
   .buttons .btn {
     margin-left: 5px;
   }
+
+  @media (min-width: $screen-lg-max) {
+    .col-id {
+      width: 6%;
+    }
+    .col-order {
+      width: 11%;
+    }
+    .col-category {
+      width: 11%;
+    }
+    .col-stem {
+      width: 47%;
+    }
+  }
 }

@@ -50,6 +50,7 @@ export class QuestionForm extends Component {
       allTags,
       fields: {
         order,
+        category,
         stem,
         choices
       },
@@ -64,29 +65,48 @@ export class QuestionForm extends Component {
     require('./QuestionForm.scss');
     return (<form className="questionForm clearfix" onSubmit={handleSubmit} noValidate>
       <div className="row">
-        <div className="col-xs-1">
+        <div className="col-lg-1 col-id col-xs-6">
           <div className="form-control-static">
             <b>ID:</b> {id || 'None'}
           </div>
         </div>
-        <div className="col-xs-1">
+        <div className="col-lg-2 col-order col-xs-6">
           <FormGroup
             {...order}
-            label={false}
-            placeholder="Order"
-            wrapperClassName="col-xs-12"
+            labelClassName="col-xs-4"
+            wrapperClassName="col-xs-8"
             isEditing={isEditing}
           />
         </div>
-        <div className="col-xs-7">
+        <div className="col-lg-1 col-category col-xs-12">
+          <FormGroup
+            {...category}
+            type="select"
+            label={false}
+            wrapperClassName="col-xs-12"
+            isEditing={isEditing}
+          >
+            <option value="General">General</option>
+            <option value="Demographic">Demographic</option>
+            <option value="Education">Education</option>
+            <option value="Employment">Employment</option>
+            <option value="Family">Family</option>
+            <option value="Health">Health</option>
+            <option value="Housing">Housing</option>
+            <option value="Legal">Legal</option>
+            <option value="Mental Health">Mental Health</option>
+            <option value="Substance Use">Substance Abuse</option>
+          </FormGroup>
+        </div>
+        <div className="col-lg-5 col-stem col-xs-12">
           <FormGroup
             {...stem}
             labelClassName="col-xs-1"
-            wrapperClassName="col-xs-10"
+            wrapperClassName="col-xs-11"
             isEditing={isEditing}
           />
         </div>
-        <div className="col-xs-3 buttons">
+        <div className="col-lg-3 col-xs-12 buttons">
           {error && <p className="text-danger error">{error}</p>}
           {isEditing && <div>
             <LoadingButton
@@ -133,6 +153,6 @@ export class QuestionForm extends Component {
 
 export default reduxForm({
   form: 'questionForm',
-  fields: ['order', 'id', 'stem', 'choices[].id', 'choices[].stem',
+  fields: ['order', 'id', 'category', 'stem', 'choices[].id', 'choices[].stem',
            'choices[].next_question_id', 'choices[].tags']
 })(QuestionForm);
