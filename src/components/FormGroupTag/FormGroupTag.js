@@ -118,12 +118,20 @@ export default class FormGroupTag extends Component {
           />
         </div>);
     } else {
-      content = (
-        <p className="form-control-static">
-          {_values.length ? _values.map((_value, i) => (
-            <span className="tokenized-tag" key={i}>{_value.name}</span>
-          )) : <span>None</span>}
-        </p>);
+      if (_values.length) {
+        content = (
+          <p className="form-control-static">
+            {_values.map((_value, i) => (
+              <span className="tokenized-tag" key={i}>{_value.name}</span>
+              ))}
+          </p>);
+      } else {
+        content = (
+          <p className="form-control-static empty">
+            <span>None</span>
+          </p>
+        );
+      }
     }
 
     require('./FormGroupTag.scss');
