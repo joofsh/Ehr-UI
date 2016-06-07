@@ -53,7 +53,7 @@ export default class FormGroup extends Component {
     if (type === 'url' && _value) {
       content = <a target="_blank" href={_value}>{_value}</a>;
     } else if (type === 'hashLink' && _value) {
-      content = <a  href={`#${_value}`}>{_value}</a>;
+      content = <a href={`#${_value}`}>{_value}</a>;
     } else if (_isArray(_value)) {
       content = <span>{_value.join(', ') || 'None'}</span>;
     } else {
@@ -87,8 +87,8 @@ export default class FormGroup extends Component {
     let { type } = this.props;
     let val;
 
-    if (type == 'hashLink' || type === undefined) {
-        val = 'text';
+    if (type === 'hashLink' || type === undefined) {
+      val = 'text';
     } else {
       val = type;
     }
@@ -98,7 +98,6 @@ export default class FormGroup extends Component {
 
   render() {
     let {
-      type,
       name,
       placeholder,
       error,
