@@ -214,7 +214,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   let questions = collectionFilter(state.question.questions,
                                    state.search.questionFilter,
-                                  ['id', 'stem']);
+                                  ['id', 'stem', 'category']);
 
   return {
     questions,

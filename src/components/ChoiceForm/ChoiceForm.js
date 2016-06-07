@@ -68,6 +68,7 @@ export default class ChoiceForm extends Component {
               label="Follow Up Question ID:"
               labelClassName="col-xs-5 label--twoLine"
               wrapperClassName="col-xs-4"
+              type="hashLink"
               isEditing={isEditing}
             />
           </div>

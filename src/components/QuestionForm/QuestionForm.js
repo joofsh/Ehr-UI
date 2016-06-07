@@ -63,7 +63,7 @@ export class QuestionForm extends Component {
     } = this.props;
 
     require('./QuestionForm.scss');
-    return (<form className="questionForm clearfix" onSubmit={handleSubmit} noValidate>
+    return (<form className="questionForm clearfix" onSubmit={handleSubmit} noValidate id={id}>
       <div className="row">
         <div className="col-lg-1 col-id col-xs-6">
           <div className="form-control-static">
