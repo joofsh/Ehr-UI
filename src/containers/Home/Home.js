@@ -21,10 +21,10 @@ export class Home extends Component {
       <div className="row">
         <div className="col-lg-12">
           <div className="banner-image">
-            <div className="col-lg-6">
+            <div className="col-md-6">
               <h2 className="banner-title">A Simpler Way To Find Help</h2>
             </div>
-            <div className="col-lg-3 col-lg-offset-2">
+            <div className="col-md-3 col-md-offset-2">
               <div className="banner-question clearfix" onClick={registerGuest}>
                   <h3>Are you looking for personalized resources?</h3>
                   <h4 className="pull-right cta-wrapper">
@@ -40,7 +40,7 @@ export class Home extends Component {
       </div>
       <h3 className="subtitle">Seeking Our Collection of Resources?</h3>
       <div className="cta-2nd">
-        <Link to="/resources" className="btn btn-primary btn-lg">
+        <Link to="/resources" className="btn btn-primary">
           View All Resources
         </Link>
       </div>

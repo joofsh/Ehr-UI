@@ -47,21 +47,20 @@
     background: $brand-primary;
     display: inline-block;
     margin-top: 50px;
+    text-align: center;
   }
   .subtitle {
     text-align: center;
   }
   .cta-2nd {
     text-align: center;
-    a {
-      width: 300px;
+    .btn {
       background: $brand-primary
     }
   }
-
   @media (max-width: $screen-sm-max) {
-    .banner-title {
-      padding-left: 0px;
+    .banner-question {
+      margin-top: 125px;
     }
   }
 }
