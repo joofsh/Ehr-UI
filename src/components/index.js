@@ -1,6 +1,5 @@
 export AddressForm from './AddressForm/AddressForm';
 export ChoiceForm from './ChoiceForm/ChoiceForm';
-export ClientQuestionChoice from './ClientQuestionChoice/ClientQuestionChoice';
 export DataTable from './DataTable/DataTable';
 export FormGroup from './FormGroup/FormGroup';
 export FormGroupTag from './FormGroupTag/FormGroupTag';
@@ -17,3 +16,4 @@ export ResourceRow from './ResourceRow/ResourceRow';
 export SearchBar from './SearchBar/SearchBar';
 export ToggleButton from './ToggleButton/ToggleButton';
 export QuestionForm from './QuestionForm/QuestionForm';
+export QuestionWizardChoice from './QuestionWizardChoice/QuestionWizardChoice';

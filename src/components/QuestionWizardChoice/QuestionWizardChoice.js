@@ -30,6 +30,7 @@ export default class ClientQuestionChoice extends Component {
       selected
     }, 'col-md-6', 'col-sx-12', 'choice');
 
+    require('./QuestionWizardChoice.scss');
     return (
       <div
         className={classes}

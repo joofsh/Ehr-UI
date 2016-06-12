@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { LoadingSpinner, ClientQuestionChoice } from 'src/components';
+import { LoadingSpinner, QuestionWizardChoice } from 'src/components';
 import { fetchQuestionsAction } from 'src/actions';
 import { pushPath } from 'redux-simple-router';
 import _find from 'lodash/find';
@@ -84,7 +84,7 @@ export class QuestionWizard extends Component {
       return <LoadingSpinner large absolute center/>;
     }
 
-    return (<div className="container-clientQuestions container">
+    return (<div className="container-QuestionWizard container">
       <div className="row">
         <div className="col-md-8 col-md-offset-2">
           <div className="answer-question-wrapper clearfix">
@@ -103,7 +103,7 @@ export class QuestionWizard extends Component {
             <div className="choices">
               {currentQuestion.choices.map(choice => {
                 return (
-                  <ClientQuestionChoice
+                  <QuestionWizardChoice
                     {...choice}
                     key={choice.id}
                     selected={selectedChoiceId === choice.id}
