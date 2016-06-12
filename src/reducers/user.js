@@ -21,13 +21,13 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         isFetching: false,
-        users: action.response.users,
+        users: action.payload.users,
         lastUpdated: Date.now()
       };
     case 'RECEIVE_USER_SUCCESS':
       return {
         ...state,
-        users: state.users.concat(action.response)
+        users: state.users.concat(action.payload)
       };
     case 'TOGGLE_EDIT_USER':
       return {
@@ -36,8 +36,8 @@ export default function reducer(state = initialState, action = {}) {
       };
     case 'RECEIVE_UPDATE_USER':
       _users = state.users.slice();
-      index = _findIndex(_users, u => u.id === action.response.id);
-      _users[index] = action.response;
+      index = _findIndex(_users, u => u.id === action.payload.id);
+      _users[index] = action.payload;
 
       return {
         ...state,

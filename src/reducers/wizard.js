@@ -1,12 +1,11 @@
 export const initialState = {
-  client: null,
-  questions: [],
   responses: [],
   resources: [],
   currentQuestionId: null,
   selectedChoiceId: null,
   submitting: false,
   hasAnsweredAllQuestions: false,
+  resourcesLastUpdated: null,
   error: null
 };
 
@@ -14,29 +13,11 @@ export default function reducer(state = initialState, action = {}) {
   let nextQuestionId;
 
   switch (action.type) {
-    case 'REQUEST_ADD_CLIENT':
+    case 'SET_CURRENT_WIZARD_QUESTION':
       return {
         ...state,
-        errors: {}
-      };
-    case 'RECEIVE_CLIENT_SUCCESS':
-      return {
-        ...state,
-        client: action.response
-      };
-    case 'RECIEVE_CLIENT_ERROR':
-      return {
-        ...state,
-        isSubmittingClient: false,
-        error: action.resposne
-      };
-
-    case 'RECEIVE_CLIENT_QUESTIONS_SUCCESS':
-      return {
-        ...state,
-        questions: action.response.questions,
-        client: action.response.client,
-        currentQuestionId: action.response.questions[0].id
+        errors: null,
+        currentQuestionId: action.payload.question.id
       };
     case 'SELECT_CHOICE':
       return {
@@ -68,11 +49,11 @@ export default function reducer(state = initialState, action = {}) {
         currentQuestionId: nextQuestionId
       };
 
-    case 'RECEIVE_CLIENT_RESOURCES_SUCCESS':
+    case 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS':
       return {
         ...state,
-        client: action.response.client,
-        resources: action.response.resources
+        resources: action.payload.resources,
+        resourcesLastUpdated: Date.now()
       };
     default:
       return state;

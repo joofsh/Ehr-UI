@@ -1,22 +1,22 @@
 import { routeReducer } from 'redux-simple-router';
 import { reducer as formReducer } from 'redux-form';
 
-import user from './user';
-import session from './session';
-import client from './client';
-import resource from './resource';
 import question from './question';
-import tag from './tag';
+import resource from './resource';
 import search from './search';
+import session from './session';
+import tag from './tag';
+import user from './user';
+import wizard from './wizard';
 
 export default {
-  user,
-  session,
-  client,
-  resource,
   question,
-  tag,
+  resource,
   search,
+  session,
+  tag,
+  user,
+  wizard,
   // Extend redux-form plugin to automatically reset form
   // when cancelling edit mode
   form: formReducer.plugin({

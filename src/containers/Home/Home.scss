@@ -11,24 +11,47 @@
     color: white;
     position: relative;
   }
-  .banner-titleWrapper {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 20px;
-    margin: auto;
-    text-align: center;
+  .banner-text {
+    padding-top: 200px;
   }
+  .banner-question {
+    background: $brand-primary;
+    cursor: pointer;
+    padding: 30px;
+    margin-top: 150px;
+    h3, h4 {
+      font-weight: 300;
+    }
+    .cta-arrow {
+      position: absolute;
+      right: 10px;
+      transition: right 0.2s;
+    }
+    &:hover {
+      .cta-arrow {
+        right: 0px;
+      }
+    }
+  }
+  .cta-wrapper {
+    position: relative;
+  }
+  .cta-text {
+    margin-right: 35px;
+  }
+
   .banner-title {
     font-size: 3.5em;
+    font-weight: 300;
     padding: 10px;
     background: $brand-primary;
     display: inline-block;
+    margin-top: 50px;
   }
   .subtitle {
     text-align: center;
   }
-  .call-to-action {
+  .cta-2nd {
     text-align: center;
     a {
       width: 300px;

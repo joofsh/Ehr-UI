@@ -154,7 +154,7 @@ function mapDispatchToProps(dispatch, ownProps) {
     updateResource: (resourceId) => {
       return (resource) => {
         return dispatch(updateResourceAction(resource, resourceId)).then(response => {
-          dispatch({ type: 'RECEIVE_UPDATE_RESOURCE_SUCCESS', response });
+          dispatch({ type: 'RECEIVE_UPDATE_RESOURCE_SUCCESS', payload: response });
           return Promise.resolve();
         }, response => {
           let error = { _error: 'We were unable to update this resource.' };

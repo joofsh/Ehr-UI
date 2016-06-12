@@ -2,15 +2,22 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { LoadingSpinner, ClientQuestionChoice } from 'src/components';
+import { fetchQuestionsAction } from 'src/actions';
 import { pushPath } from 'redux-simple-router';
 import _find from 'lodash/find';
 
-function fetchClientQuestionsAction(id) {
+function fetchInitialQuestionAction(state) {
+  let userId;
+
+  if (state.session.user.role === 'guest') {
+    userId = state.session.user.id;
+  }
+
   return {
     type: 'CALL_API',
     method: 'get',
-    url: `/api/clients/${id}/questions`,
-    successType: 'RECEIVE_CLIENT_QUESTIONS_SUCCESS'
+    url: `/api/wizard/${userId}/current_question`,
+    successType: ['RECEIVE_QUESTION_SUCCESS', 'SET_CURRENT_WIZARD_QUESTION']
   };
 }
 
@@ -18,15 +25,15 @@ function submitAnswerAction(id, data) {
   return {
     type: 'CALL_API',
     method: 'put',
-    url: `/api/clients/${id}/responses`,
+    url: `/api/wizard/${id}/responses`,
     errorType: 'RECEIVE_ANSWER_SUBMIT_ERROR',
     data
   };
 }
 
-export class ClientQuestions extends Component {
-  static fetchData({ store, params }) {
-    return store.dispatch(fetchClientQuestionsAction(+params.id));
+export class QuestionWizard extends Component {
+  static fetchData({ store }) {
+    return store.dispatch(fetchInitialQuestionAction(store.getState()));
   }
 
   constructor() {
@@ -35,19 +42,21 @@ export class ClientQuestions extends Component {
   }
 
   static propTypes = {
-    fetchClientQuestions: PropTypes.func.isRequired,
+    fetchInitialQuestion: PropTypes.func.isRequired,
+    fetchQuestions: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     submitAnswer: PropTypes.func.isRequired,
     selectChoice: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
     currentQuestion: PropTypes.object,
     selectedChoiceId: PropTypes.number,
-    client: PropTypes.object,
+    user: PropTypes.object,
     _error: PropTypes.string
   };
 
-  componentWillMount() {
-    this.props.fetchClientQuestions(+this.props.params.id);
+  componentDidMount() {
+    this.props.fetchInitialQuestion();
+    this.props.fetchQuestions();
   }
 
   submitAnswer() {
@@ -55,10 +64,10 @@ export class ClientQuestions extends Component {
       submitAnswer,
       currentQuestion,
       selectedChoiceId,
-      client
+      user
     } = this.props;
 
-    submitAnswer(currentQuestion.id, selectedChoiceId, client.id);
+    submitAnswer(currentQuestion.id, selectedChoiceId, user.id);
   }
 
   render() {
@@ -66,12 +75,11 @@ export class ClientQuestions extends Component {
       currentQuestion,
       selectChoice,
       selectedChoiceId,
-      client,
       _error,
       submitting
     } = this.props;
 
-    require('./ClientQuestions.scss');
+    require('./QuestionWizard.scss');
     if (!currentQuestion) {
       return <LoadingSpinner large absolute center/>;
     }
@@ -81,17 +89,14 @@ export class ClientQuestions extends Component {
         <div className="col-md-8 col-md-offset-2">
           <div className="answer-question-wrapper clearfix">
             <div className="clearfix">
-              <h4 className="pull-left">
-                {client.name}
-              </h4>
-              <Link className="pull-right" to={`/clients/${client.id}/resources`}>
+              <Link className="pull-right" to={`/my_resources`}>
                 Skip To Resources &gt;
               </Link>
             </div>
-            <p>
+            <small>
               Please answer the following questions to
               help identify the best resources for you:
-            </p>
+            </small>
             <div className="col-xs-12 question">
               {currentQuestion.stem}
             </div>
@@ -124,45 +129,51 @@ export class ClientQuestions extends Component {
 }
 
 function mapStateToProps(state) {
-  let currentQuestion = _find(state.client.questions, question => {
-    return question.id === state.client.currentQuestionId;
+  let currentQuestion = _find(state.question.questions, question => {
+    return question.id === state.wizard.currentQuestionId;
   });
+
 
   return {
     currentQuestion,
-    client: state.client.client,
-    selectedChoiceId: state.client.selectedChoiceId,
-    submitting: state.client.submitting,
-    error: state.client.error
+    user: state.session.user,
+    selectedChoiceId: state.wizard.selectedChoiceId,
+    submitting: state.wizard.submitting,
+    error: state.wizard.error
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
+function mapDispatchToProps(dispatch) {
   return {
-    fetchClientQuestions: () => {
-      dispatch((dispatch) => {
-        // Only fetch question if not already fetched
-        if (ownProps.currentQuestion) {
+    fetchInitialQuestion: () => {
+      dispatch((dispatch, getState) => {
+        dispatch(fetchInitialQuestionAction(getState()));
+      });
+    },
+    fetchQuestions: () => {
+      dispatch((dispatch, getState) => {
+        if (getState().question.lastUpdated && getState().question.questions.length) {
           return;
         }
 
-        dispatch(fetchClientQuestionsAction(+ownProps.params.id));
+        dispatch({ type: 'REQUEST_QUESTIONS' });
+        dispatch(fetchQuestionsAction());
       });
     },
     selectChoice: (choiceId) => {
       dispatch({ type: 'SELECT_CHOICE', choiceId });
     },
-    submitAnswer: (questionId, choiceId, clientId) => {
+    submitAnswer: (questionId, choiceId, userId) => {
       let body = {
         question_id: questionId,
         choice_id: choiceId
       };
       dispatch({ type: 'REQUEST_ANSWER_SUBMIT' });
-      return dispatch(submitAnswerAction(clientId, body)).then(response => {
+      return dispatch(submitAnswerAction(userId, body)).then(response => {
 
         dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', response });
         if (!response.next_question) {
-          dispatch(pushPath(`/clients/${clientId}/resources`));
+          dispatch(pushPath(`/my_resources`));
         }
       });
     }
@@ -172,4 +183,4 @@ function mapDispatchToProps(dispatch, ownProps) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ClientQuestions);
+)(QuestionWizard);

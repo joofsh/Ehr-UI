@@ -6,7 +6,6 @@ import {
   Healthcheck,
   Home,
   Login,
-  Shelters,
   Users,
   User,
   NewUser,
@@ -15,8 +14,8 @@ import {
   Resources,
   Resource,
   NewResource,
-  ClientQuestions,
-  ClientResources,
+  QuestionWizard,
+  PersonalizedResources,
   Questions
 } from './containers';
 
@@ -29,8 +28,8 @@ export default () => {
 
       <Route path="/clients/new" component={NewClient}/>
       <Route path="/clients/:id" component={User}/>
-      <Route path="/clients/:id/questions" component={ClientQuestions}/>
-      <Route path="/clients/:id/resources" component={ClientResources}/>
+      <Route path="/clients/:id/questions" component={QuestionWizard}/>
+      <Route path="/clients/:id/resources" component={PersonalizedResources}/>
 
       <Route path="/users" component={Users} />
       <Route path="/users/new" component={NewUser}/>
@@ -42,12 +41,11 @@ export default () => {
         <Route path="/resources/:id" component={Resource}/>
       </Route>
 
-      <Route path="/questions/new" component={NewResource}/>
-      <Route path="/questions" component={Questions}>
-        <Route path="/questions/:id" component={Resource}/>
-      </Route>
+      <Route path="/questions" component={Questions}/>
 
-      <Route path="/shelters" component={Shelters}/>
+      <Route path="/wizard" component={QuestionWizard}/>
+      <Route path="/my_resources" component={PersonalizedResources}/>
+
       <Route path="*" component={NotFound}/>
     </Route>
   );

@@ -28,7 +28,7 @@ export class Login extends Component {
           <h1>Login</h1>
           <form className="form-horizontal" onSubmit={handleSubmit}>
             <FormGroup label="Username" placeholder="Enter Username or Email" {...identifier}/>
-            <FormGroup label="Password" {...password}/>
+            <FormGroup label="Password" {...password} type="password"/>
             {error && <p className="text-danger error">{error}</p>}
             <button className="btn btn-success btn-block"
               disabled={submitting}
@@ -49,7 +49,7 @@ function mapDispatchToProps(dispatch) {
       return new Promise((resolve, reject) => {
         new ApiClient().post('/authorize', { data: login })
           .then(user => {
-            dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', response: user });
+            dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', payload: { user } });
             resolve(dispatch(pushPath('/')));
           }, () => {
             reject(

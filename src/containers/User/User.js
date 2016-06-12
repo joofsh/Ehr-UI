@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { LoadingSpinner, UserForm, ToggleButton } from 'src/components';
 import stringUtil from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
@@ -56,13 +55,6 @@ export class User extends Component {
           isEditing={isEditing}
           onSubmit={updateUser}
         />
-        {!isEditing &&
-          <Link
-            to={`/clients/${user.id}/questions`}
-            className="pull-right btn btn-success btn-lg"
-          >
-            Find Personalized Resources
-          </Link>}
       </div>
     </div>);
   }

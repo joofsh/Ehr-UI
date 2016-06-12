@@ -1,12 +1,17 @@
+import { initialState as sessionInitialState } from 'src/reducers/session';
+
 export default {
   filterSessionForClient: (session) => {
-    let _session = Object.assign({}, session);
 
-    if (session.user) {
-      // TODO: reimplement this
-      // delete _session.user.token;
+    if (session && session.user) {
+      let {
+        token,
+        ...user
+      } = session.user;
+
+      sessionInitialState.user = user;
     }
 
-    return _session;
+    return sessionInitialState;
   }
 };

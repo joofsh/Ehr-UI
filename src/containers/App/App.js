@@ -15,11 +15,12 @@ const UNRESTRICTED_PATHS = [
 
 export class App extends Component {
   static propTypes = {
+    authed: PropTypes.bool,
+    authedStaff: PropTypes.bool,
+    authedGuest: PropTypes.bool,
     children: PropTypes.object.isRequired,
     ensureAuthed: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    authed: PropTypes.bool,
-    authedStaff: PropTypes.bool,
     path: PropTypes.string
   };
 
@@ -36,14 +37,19 @@ export class App extends Component {
   }
 
   render() {
-    let { logout, authed, authedStaff } = this.props;
+    let {
+      logout,
+      authed,
+      authedGuest,
+      authedStaff
+    } = this.props;
 
     require('./App.scss');
     return (<div className="app">
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
-            <IndexLink to="/" activeStyle={{ color: '#3C58B6' }}>
+            <IndexLink to="/">
               <div className="brand-logo"></div>
               <h1 className="sr-only">DC Resources</h1>
             </IndexLink>
@@ -72,9 +78,15 @@ export class App extends Component {
               </LinkContainer>
             </NavDropdown>}
             <NavDropdown title="Resources" id="resources-dropdown">
+              {authedGuest &&
+                <LinkContainer to="/my_resources">
+                  <MenuItem>
+                    My Resources
+                  </MenuItem>
+                </LinkContainer>}
               <LinkContainer to="/resources">
                 <MenuItem>
-                  View Resources
+                  All Resources
                 </MenuItem>
               </LinkContainer>
               <LinkContainer to="/resources/new">
@@ -142,7 +154,9 @@ function mapStateToProps(state) {
   return {
     authed: !!state.session.user,
     path: state.routing.path,
-    authedStaff: state.session.user && state.session.user.staff
+    authedStaff: state.session.user && state.session.user.staff,
+    // TODO: Convert this to user class with `isGuest`-like boolean properties
+    authedGuest: state.session.user && state.session.user.role === 'guest'
   };
 }
 

@@ -12,6 +12,6 @@ export NotFound from './NotFound/NotFound';
 export Resources from './Resources/Resources';
 export Resource from './Resource/Resource';
 export NewResource from './NewResource/NewResource';
-export ClientQuestions from './ClientQuestions/ClientQuestions';
-export ClientResources from './ClientResources/ClientResources';
+export QuestionWizard from './QuestionWizard/QuestionWizard';
+export PersonalizedResources from './PersonalizedResources/PersonalizedResources';
 export Questions from './Questions/Questions';

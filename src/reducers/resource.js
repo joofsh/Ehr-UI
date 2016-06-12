@@ -25,26 +25,9 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         isFetching: true
       };
-    case 'ADD_CLIENT_RESOURCES': // Add resources pulled in from client page
-      _resources = state.resources.slice();
-      action.response.resources.forEach(resource => {
-        _resource = buildResource(resource);
-        index = _findIndex(_resources, r => r.id === _resource.id);
-        if (index >= 0) {
-          _resources[index] = _resource;
-        } else {
-          _resources.push(_resource);
-        }
-      });
-
-      return {
-        ...state,
-        isFetching: false,
-        resources: _resources
-      };
     case 'RECEIVE_RESOURCE_SUCCESS':
       _resources = state.resources.slice();
-      _resource = buildResource(action.response);
+      _resource = buildResource(action.payload);
       index = _findIndex(_resources, r => r.id === _resource.id);
 
       if (index >= 0) {
@@ -61,7 +44,7 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_RESOURCES_SUCCESS':
       _resources = state.resources.slice();
 
-      action.response.resources.forEach(resource => {
+      action.payload.resources.forEach(resource => {
         index = _findIndex(_resources, r => r.id === resource.id);
 
         _resource = buildResource(resource);
@@ -86,10 +69,10 @@ export default function reducer(state = initialState, action = {}) {
       };
     case 'RECEIVE_UPDATE_RESOURCE_SUCCESS':
       _resources = state.resources.slice();
-      index = _findIndex(_resources, r => r.id === action.response.id);
+      index = _findIndex(_resources, r => r.id === action.payload.id);
 
       if (index >= 0) {
-        _resources[index] = buildResource(action.response);
+        _resources[index] = buildResource(action.payload);
       }
 
       return {

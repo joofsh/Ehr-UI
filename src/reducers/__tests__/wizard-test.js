@@ -1,5 +1,5 @@
 import expect from 'expect';
-import reducer, { initialState } from '../client';
+import reducer, { initialState } from '../wizard';
 
 let mockQuestions = [
   { id: 1, stem: 'question stem', choices: [{ id: 10, stem: 'ha' }, { id: 11, stem: 'fa' }] },
@@ -7,52 +7,25 @@ let mockQuestions = [
   { id: 3, stem: 'question stem', choices: [{ id: 14, stem: 'ha' }, { id: 15, stem: 'fa' }] }
 ];
 
-let mockClient = {
+let mockUser = {
   id: 1,
-  first_name: 'Bob'
+  username: 'asdfklasdjfa'
 };
 
 let mockResources = [{ id: 5, title: 'fun' }];
 
 let state;
 
-describe('Client Reducer', () => {
+describe('Wizard Reducer', () => {
   beforeEach(() => {
     state = reducer(initialState);
-  });
-
-  it('RECEIVE_CLIENT_SUCCESS', () => {
-    expect(state.client).toNotExist();
-
-    state = reducer(initialState, {
-      type: 'RECEIVE_CLIENT_SUCCESS',
-      response: mockClient
-    });
-
-    expect(state.client).toExist();
-    expect(state.client.id).toBe(mockClient.id);
-  });
-
-  it('RECEIVE_CLIENT_QUESTIONS_SUCCESS', () => {
-    expect(state.client).toNotExist();
-    expect(state.questions.length).toBe(0);
-    expect(state.currentQuestionId).toNotExist();
-
-    state = reducer(initialState, {
-      type: 'RECEIVE_CLIENT_QUESTIONS_SUCCESS',
-      response: { questions: mockQuestions, client: mockClient }
-    });
-
-    expect(state.client).toExist();
-    expect(state.questions.length).toBe(mockQuestions.length);
-    expect(state.currentQuestionId).toBe(mockQuestions[0].id);
   });
 
   describe('SELECT_CHOICE', () => {
     beforeEach(() => {
       state = reducer(initialState, {
-        type: 'RECEIVE_CLIENT_QUESTIONS_SUCCESS',
-        response: { questions: mockQuestions, client: mockClient }
+        type: 'SET_CURRENT_WIZARD_QUESTION',
+        payload: { question: mockQuestions[0] }
       });
     });
 
@@ -79,8 +52,8 @@ describe('Client Reducer', () => {
   describe('Select, submit & load next question', () => {
     beforeEach(() => {
       state = reducer(initialState, {
-        type: 'RECEIVE_CLIENT_QUESTIONS_SUCCESS',
-        response: { questions: mockQuestions, client: mockClient }
+        type: 'SET_CURRENT_WIZARD_QUESTION',
+        payload: { question: mockQuestions[0] }
       });
     });
 
@@ -111,11 +84,11 @@ describe('Client Reducer', () => {
     });
   });
 
-  it('RECEIVE_CLIENT_RESOURCES_SUCCESS', () => {
+  it('RECEIVE_PERSONALIZED_RESOURCES_SUCCESS', () => {
     expect(state.resources.length).toBe(0);
     state = reducer(state, {
-      type: 'RECEIVE_CLIENT_RESOURCES_SUCCESS',
-      response: { client: mockClient, resources: mockResources }
+      type: 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS',
+      payload: { user: mockUser, resources: mockResources }
     });
     expect(state.resources.length).toBe(mockResources.length);
   });

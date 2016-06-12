@@ -26,7 +26,7 @@ export default function apiMiddleware(client) {
           _successType.forEach(type => {
             next({
               type,
-              response
+              payload: response
             });
           });
         }
@@ -43,7 +43,7 @@ export default function apiMiddleware(client) {
         } else {
           next({
             type: errorType,
-            response
+            payload: response
           });
         }
       }

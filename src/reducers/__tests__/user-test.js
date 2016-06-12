@@ -21,7 +21,7 @@ describe('User Reducer', () => {
 
   it('RECEIVE_USERS', () => {
     expect(initialState.users.length).toBe(0);
-    state = reducer(state, { type: 'RECEIVE_USERS', response: { users: mockUsers } });
+    state = reducer(state, { type: 'RECEIVE_USERS', payload: { users: mockUsers } });
     expect(state.users.length).toBe(3);
     expect(state.users[0].id).toBe(1);
   });
@@ -35,13 +35,13 @@ describe('User Reducer', () => {
   it('RECIVE_UPDATE_USER', () => {
     let newName = 'Wendy';
     state = reducer(state, {
-      type: 'RECEIVE_USERS', response: { users: mockUsers }
+      type: 'RECEIVE_USERS', payload: { users: mockUsers }
     });
     expect(state.users[0].first_name).toNotBe(newName);
 
     state = reducer(state,
                         { type: 'RECEIVE_UPDATE_USER',
-                          response: { id: 1, first_name: newName } });
+                          payload: { id: 1, first_name: newName } });
 
     expect(state.users[0].first_name).toBe(newName);
     expect(state.isEditing).toBe(false);
@@ -50,7 +50,7 @@ describe('User Reducer', () => {
   it('RECEIVE_ADD_USER', () => {
     let newUser = { id: 4, first_name: 'Billy' };
     state = reducer(state, {
-      type: 'RECEIVE_USERS', response: { users: mockUsers }
+      type: 'RECEIVE_USERS', payload: { users: mockUsers }
     });
     expect(state.users.length).toBe(3);
     state = reducer(state, { type: 'RECEIVE_ADD_USER', user: newUser });

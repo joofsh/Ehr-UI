@@ -76,6 +76,19 @@ app.post('/authorize', (req, res) => {
   });
 });
 
+app.post('/users/guests', (req, res) => {
+  const client = new ApiClient(req);
+  client.post('/api/users/guests').then(resp => {
+    req.session.user = resp;
+    let user = Server.filterSessionForClient(req.session).user;
+    res.status = resp.status;
+    res.send(user);
+  }, err => {
+    res.status(err.status);
+    res.send(err.body);
+  });
+});
+
 app.put('/logout', (req, res) => {
   req.session.user = null;
   res.status(200);
@@ -104,13 +117,10 @@ proxy.on('error', (error, req, res) => {
 function handleRender(req, res) {
   let sessionForClient = Server.filterSessionForClient(req.session);
 
-  const initialState = {
-    session: {
-      user: sessionForClient.user || null
-    }
-  };
+  console.log('REQ SESSION: ', req.session.user && req.session.user.token);
+
   const client = new ApiClient(req);
-  const store = configureStore(initialState, client);
+  const store = configureStore({ session: sessionForClient }, client);
 
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();

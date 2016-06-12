@@ -9,7 +9,7 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_TAGS_SUCCESS':
       return {
         ...state,
-        tags: action.response.tags,
+        tags: action.payload.tags,
         lastUpdated: Date.now()
       };
     case 'SET_TAG_SEARCH_VALUE':

@@ -25,7 +25,7 @@ describe('Resource Reducer', () => {
       expect(state.resources.length).toBe(0);
       state = reducer(state,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
-                        response: { resources: mockResources } });
+                        payload: { resources: mockResources } });
 
       expect(state.resources.length).toBe(3);
       expect(state.resources[0].isMapInfoVisible).toBeA('boolean');
@@ -35,12 +35,12 @@ describe('Resource Reducer', () => {
       let originalResource = { id: 10, title: 'Original Resource' };
       state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCE_SUCCESS',
-                        response: originalResource });
+                        payload: originalResource });
 
       expect(state.resources.length).toBe(1);
       state = reducer(state,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
-                        response: { resources: mockResources } });
+                        payload: { resources: mockResources } });
 
       expect(state.resources.length).toBe(4);
       expect(state.resources[0].title).toBe(originalResource.title);
@@ -52,13 +52,13 @@ describe('Resource Reducer', () => {
     beforeEach(() => {
       state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
-                        response: { resources: mockResources } });
+                        payload: { resources: mockResources } });
     });
     it('adds new resource', () => {
       expect(state.resources.length).toBe(3);
       state = reducer(state,
                       { type: 'RECEIVE_RESOURCE_SUCCESS',
-                        response: { id: 4, title: 'New Resource' } });
+                        payload: { id: 4, title: 'New Resource' } });
       expect(state.resources.length).toBe(4);
       expect(state.resources[3].id).toBe(4);
       expect(state.resources[3].isMapInfoVisible).toBeA('boolean');
@@ -69,7 +69,7 @@ describe('Resource Reducer', () => {
       state = reducer(state,
                       { type: 'RECEIVE_RESOURCE_SUCCESS',
                         // Existing resource id 3
-                        response: { id: 3, title: 'New Resource' } });
+                        payload: { id: 3, title: 'New Resource' } });
 
       expect(state.resources.length).toBe(3);
     });
@@ -98,7 +98,7 @@ describe('Resource Reducer', () => {
     beforeEach(() => {
       state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
-                        response: { resources: mockResources } });
+                        payload: { resources: mockResources } });
       state = reducer(state,
                       { type: 'TOGGLE_EDIT_RESOURCE' });
     });
@@ -109,7 +109,7 @@ describe('Resource Reducer', () => {
       expect(state.isEditing).toBe(true);
       state = reducer(state,
                       { type: 'RECEIVE_UPDATE_RESOURCE_SUCCESS',
-                        response: newResource });
+                        payload: newResource });
 
       expect(state.resources[2].title).toBe(newResource.title);
       expect(state.resources[2].isMapInfoVisible).toBe(false);
@@ -121,33 +121,8 @@ describe('Resource Reducer', () => {
       expect(state.resources.length).toBe(3);
       state = reducer(state,
                       { type: 'RECEIVE_UPDATE_RESOURCE_SUCCESS',
-                        response: newResource });
+                        payload: newResource });
       expect(state.resources.length).toBe(3);
-    });
-  });
-
-  describe('ADD_CLIENT_RESOURCES', () => {
-    beforeEach(() => {
-      state = reducer(initialState,
-                      { type: 'RECEIVE_RESOURCES_SUCCESS',
-                        response: { resources: mockResources } });
-    });
-
-    it('adds new resources, replaces existing', () => {
-      let newResources = [
-        { id: 3, title: 'new title' },
-        { id: 4, title: 'new resource' }
-      ];
-
-      expect(state.resources.length).toBe(3);
-      expect(state.resources[2].title).toNotBe(newResources[0].title);
-      state = reducer(state,
-                      { type: 'ADD_CLIENT_RESOURCES',
-                        response: { resources: newResources } });
-      expect(state.resources.length).toBe(4);
-      expect(state.resources[2].title).toBe(newResources[0].title);
-      expect(state.resources[3].title).toBe(newResources[1].title);
-      expect(state.resources[3].isMapInfoVisible).toBeA('boolean');
     });
   });
 
@@ -155,7 +130,7 @@ describe('Resource Reducer', () => {
     beforeEach(() => {
       state = reducer(initialState,
                       { type: 'RECEIVE_RESOURCES_SUCCESS',
-                        response: { resources: mockResources } });
+                        payload: { resources: mockResources } });
     });
 
     it('switches visibility of resources info map', () => {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchTagsAction } from 'src/actions';
+import { fetchTagsAction, fetchQuestionsAction } from 'src/actions';
 import {
   FontIcon,
   LoadingSpinner,
@@ -12,19 +12,10 @@ import {
 import { collectionFilter } from 'src/reducers/search';
 import _remove from 'lodash/remove';
 
-function fetchQuestions() {
-  return {
-    type: 'CALL_API',
-    method: 'get',
-    url: '/api/questions',
-    params: { length: 10000 },
-    successType: 'RECEIVE_QUESTIONS_SUCCESS'
-  };
-}
 
 export class Questions extends Component {
   static fetchData({ store }) {
-    return store.dispatch(fetchQuestions());
+    return store.dispatch(fetchQuestionsAction());
   }
 
   static propTypes = {
@@ -165,7 +156,7 @@ function mapDispatchToProps(dispatch) {
         }
 
         dispatch({ type: 'REQUEST_QUESTIONS' });
-        dispatch(fetchQuestions());
+        dispatch(fetchQuestionsAction());
       });
     },
     handleSubmit: (question, questionIndex) => {

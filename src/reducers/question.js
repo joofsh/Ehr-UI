@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_QUESTIONS_SUCCESS':
       _questions = state.questions.slice();
 
-      action.response.questions.forEach(question => {
+      action.payload.questions.forEach(question => {
         index = _findIndex(_questions, q => q.id === question.id);
 
         _question = buildQuestion(question);

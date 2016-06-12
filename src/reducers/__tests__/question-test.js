@@ -24,7 +24,7 @@ describe('Question Reducer', () => {
     it('adds initial questions', () => {
       expect(state.questions.length).toBe(0);
       state = reducer(state, {
-        type: 'RECEIVE_QUESTIONS_SUCCESS', response: { questions: mockQuestions }
+        type: 'RECEIVE_QUESTIONS_SUCCESS', payload: { questions: mockQuestions }
       });
 
       expect(state.questions.length).toBe(mockQuestions.length);
@@ -33,13 +33,13 @@ describe('Question Reducer', () => {
 
     it('adds more questions', () => {
       state = reducer(state, {
-        type: 'RECEIVE_QUESTIONS_SUCCESS', response: { questions: mockQuestions }
+        type: 'RECEIVE_QUESTIONS_SUCCESS', payload: { questions: mockQuestions }
       });
       expect(state.questions.length).toBe(3);
 
       let newQuestions = [{ id: 4, stem: 'new' }, { id: 5, stem: 'newest' }];
       state = reducer(state, {
-        type: 'RECEIVE_QUESTIONS_SUCCESS', response: { questions: newQuestions }
+        type: 'RECEIVE_QUESTIONS_SUCCESS', payload: { questions: newQuestions }
       });
 
       expect(state.questions.length).toBe(mockQuestions.length + newQuestions.length);
@@ -72,7 +72,7 @@ describe('Question Reducer', () => {
   describe('Update existing questions', () => {
     beforeEach(() => {
       state = reducer(state, {
-        type: 'RECEIVE_QUESTIONS_SUCCESS', response: { questions: mockQuestions }
+        type: 'RECEIVE_QUESTIONS_SUCCESS', payload: { questions: mockQuestions }
       });
     });
 

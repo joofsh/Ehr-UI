@@ -1,5 +1,6 @@
-const initialState = {
+export const initialState = {
   user: null,
+  isRegisteringGuest: false,
   error: null
 };
 
@@ -10,6 +11,11 @@ export default function session(state = initialState, action = {}) {
         ...state,
         user: null
       };
+    case 'REQUEST_REGISTER_GUEST':
+      return {
+        ...state,
+        isRegisteringGuest: true
+      };
     case 'INVALIDATE_CURRENT_USER':
       return {
         ...state,
@@ -18,7 +24,8 @@ export default function session(state = initialState, action = {}) {
     case 'RECEIVE_AUTHENTICATE_SUCCESS':
       return {
         ...state,
-        user: action.response
+        isRegisteringGuest: false,
+        user: action.payload.user
       };
     case 'RECEIVE_HEALTHCHECK':
       return {
