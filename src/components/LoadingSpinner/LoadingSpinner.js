@@ -5,16 +5,18 @@ export default class LoadingSpinner extends Component {
   static propTypes = {
     absolute: PropTypes.bool,
     large: PropTypes.bool,
-    center: PropTypes.bool
+    center: PropTypes.bool,
+    className: PropTypes.string
   };
 
   render() {
-    let { absolute, large, center } = this.props;
+    let { absolute, large, center, className } = this.props;
     let classes = classnames(
       ['fa',
         'fa-spinner',
         'fa-pulse',
-        'LoadingSpinner'
+        'LoadingSpinner',
+        className
       ], {
         absolute,
         large,
