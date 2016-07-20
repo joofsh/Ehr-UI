@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Input, FormControls } from 'react-bootstrap';
+import FormControls from 'react-bootstrap/lib/FormControls/Static';
+import Input from 'react-bootstrap/lib/Input';
 import string from 'src/utils/string';
 import _isArray from 'lodash/isArray';
 
@@ -124,7 +125,7 @@ export default class FormGroup extends Component {
         />);
     } else {
       formGroup = (
-        <FormControls.Static
+        <FormControls
           name={name}
           label={this.label()}
           labelClassName={labelClassName || 'col-xs-3'}

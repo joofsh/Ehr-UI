@@ -11,7 +11,7 @@ var host = (process.env.HOST || 'localhost');
 var port = parseInt(process.env.PORT) + 1 || 3002;
 
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: 'eval',
   entry: [
     'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
     'font-awesome-webpack!./src/theme/font-awesome.config.js',
@@ -42,7 +42,7 @@ module.exports = {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['react-hot', 'babel?cacheDirectory'],
         include: path.join(__dirname, 'src')
       },
       {

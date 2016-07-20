@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { FontIcon } from 'src/components';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/lib/Button';
 
 export default class ToggleButton extends Component {
   static propTypes = {

@@ -4,6 +4,7 @@ npm-debug.log
 dist
 .env
 
+stats.json
 webpack-assets.json
 
 # Elastic Beanstalk Files

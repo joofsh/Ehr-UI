@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import Navbar from 'react-bootstrap/lib/Navbar';
+import Nav from 'react-bootstrap/lib/Nav';
+import NavItem from 'react-bootstrap/lib/NavItem';
+import NavDropdown from 'react-bootstrap/lib/NavDropdown';
+import MenuItem from 'react-bootstrap/lib/MenuItem';
+
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
@@ -70,10 +75,15 @@ export class App extends Component {
                 </MenuItem>
               </LinkContainer>
             </NavDropdown>}
-            {authedStaff && <NavDropdown title="Questions" id="question-dropdown">
+            {authedStaff && <NavDropdown title="Content" id="question-dropdown">
               <LinkContainer to="/questions">
                 <MenuItem>
                   Manage Questions
+                </MenuItem>
+              </LinkContainer>
+              <LinkContainer to="/tags">
+                <MenuItem>
+                  Manage Tags
                 </MenuItem>
               </LinkContainer>
             </NavDropdown>}

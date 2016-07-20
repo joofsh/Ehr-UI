@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/lib/Button';
 import { FontIcon, LoadingSpinner } from 'src/components';
 
 export default class LoadingButton extends Component {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { Table } from 'react-bootstrap';
+import Table from 'react-bootstrap/lib/Table';
 import stringUtil from 'src/utils/string';
 
 // Columns propery is an array in the following format:
