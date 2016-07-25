@@ -74,6 +74,7 @@
     "eslint-watch": "^2.1.7",
     "expect": "^1.15.2",
     "extract-text-webpack-plugin": "^1.0.1",
+    "happypack": "^2.1.1",
     "jsdom": "^7.2.2",
     "karma": "^0.13.22",
     "karma-cli": "^0.1.2",

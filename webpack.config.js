@@ -9,8 +9,10 @@ var webpackIsomorphicToolsPlugin = new WebpackIsomorphicToolsPlugin(
 
 var host = (process.env.HOST || 'localhost');
 var port = parseInt(process.env.PORT) + 1 || 3002;
+var HappyPack = require('happypack');
 
 module.exports = {
+  cache: true,
   devtool: 'eval',
   entry: [
     'webpack-hot-middleware/client?path=http://' + host + ':' + port + '/__webpack_hmr',
@@ -36,13 +38,16 @@ module.exports = {
       __TEST__: false,
       __DEVTOOLS__: false
     }),
+    new HappyPack({
+      loaders: ['react-hot', 'babel?cacheDirectory']
+    }),
     webpackIsomorphicToolsPlugin.development()
   ],
   module: {
     loaders: [
       {
         test: /\.js$/,
-        loaders: ['react-hot', 'babel?cacheDirectory'],
+        loader: 'happypack/loader',
         include: path.join(__dirname, 'src')
       },
       {

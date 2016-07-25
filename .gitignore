@@ -6,7 +6,7 @@ dist
 
 stats.json
 webpack-assets.json
-
+.happypack
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
