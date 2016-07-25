@@ -16,7 +16,8 @@ import {
   NewResource,
   QuestionWizard,
   PersonalizedResources,
-  Questions
+  Questions,
+  Tags
 } from './containers';
 
 export default () => {
@@ -42,6 +43,8 @@ export default () => {
       </Route>
 
       <Route path="/questions" component={Questions}/>
+
+      <Route path="/tags" component={Tags}/>
 
       <Route path="/wizard" component={QuestionWizard}/>
       <Route path="/my_resources" component={PersonalizedResources}/>

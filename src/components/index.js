@@ -14,6 +14,7 @@ export ResourceMap from './ResourceMap/ResourceMap';
 export ResourceMarker from './ResourceMarker/ResourceMarker';
 export ResourceRow from './ResourceRow/ResourceRow';
 export SearchBar from './SearchBar/SearchBar';
+export TagForm from './TagForm/TagForm';
 export ToggleButton from './ToggleButton/ToggleButton';
 export QuestionForm from './QuestionForm/QuestionForm';
 export QuestionWizardChoice from './QuestionWizardChoice/QuestionWizardChoice';

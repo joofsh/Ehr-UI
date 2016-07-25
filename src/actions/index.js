@@ -1,13 +1,19 @@
 // TODO: Split actions out to separate file
 
-export function fetchTagsAction() {
+export function fetchTagsAction(withDetails = false) {
+  let params = {
+    length: 10000
+  };
+
+  if (withDetails) {
+    params.details = true;
+  }
+
   return {
     type: 'CALL_API',
     url: '/api/tags',
     method: 'get',
-    params: {
-      length: 10000
-    },
+    params,
     successType: 'RECEIVE_TAGS_SUCCESS'
   };
 }

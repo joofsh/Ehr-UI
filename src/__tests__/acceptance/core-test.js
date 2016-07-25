@@ -35,6 +35,15 @@ function appComponent() {
   </Provider>);
 }
 
+function authenticate() {
+  renderer.store.dispatch({
+    type: 'RECEIVE_AUTHENTICATE_SUCCESS',
+    payload: {
+      user: { id: 5, username: 'foo', role: 'advocate' }
+    }
+  });
+}
+
 function visit(path = '/') {
   renderer.store.dispatch(pushPath(path));
 }
@@ -80,6 +89,28 @@ describe('Acceptance - App', () => {
     expect(facade.inputs[1].name).toBe('password');
     expect(facade.submit).toExist();
     done();
+  });
+
+  it('renders questions', (done) => {
+    authenticate();
+    visit('/questions');
+
+    setTimeout(() => {
+      console.log(dom);
+      facade = testFacade.questions(renderer);
+      expect(facade.questions.length).toBe(2);
+      done();
+    });
+  });
+
+  it('renders tags', (done) => {
+    authenticate();
+    visit('/tags');
+    setTimeout(() => {
+      facade = testFacade.tags(renderer);
+      expect(facade.tags.length).toBe(5);
+      done();
+    });
   });
 
   it('renders resources and resource', (done) => {

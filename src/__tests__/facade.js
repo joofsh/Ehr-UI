@@ -53,6 +53,18 @@ export default {
     });
   },
 
+  questions: (component) => {
+    return Object.assign({}, base(component), {
+      questions: getClasses(component, 'questionForm')
+    });
+  },
+
+  tags: (component) => {
+    return Object.assign({}, base(component), {
+      tags: getClasses(component, 'tagForm')
+    });
+  },
+
   resource: (component) => {
     let staticValues = getClasses(component, 'form-control-static');
     let description = _find(staticValues, (e) => e.getAttribute('name') === 'description');

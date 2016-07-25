@@ -1,0 +1,10 @@
+@import "../../theme/variables.scss";
+
+.tagForm {
+  margin-top: 15px;
+  border-bottom: 1px dashed $medium-gray;
+
+  .buttons .btn {
+    margin-left: 5px;
+  }
+}
