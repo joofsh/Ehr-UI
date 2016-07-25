@@ -15,4 +15,4 @@ export NewResource from './NewResource/NewResource';
 export QuestionWizard from './QuestionWizard/QuestionWizard';
 export PersonalizedResources from './PersonalizedResources/PersonalizedResources';
 export Questions from './Questions/Questions';
-export Tags from './Tags/Tags';
+export Tags from './Tags2/Tags';
