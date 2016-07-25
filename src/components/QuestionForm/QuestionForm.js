@@ -96,6 +96,7 @@ export class QuestionForm extends Component {
             <option value="Legal">Legal</option>
             <option value="Mental Health">Mental Health</option>
             <option value="Substance Use">Substance Abuse</option>
+            <option value="Initial">Initial</option>
           </FormGroup>
         </div>
         <div className="col-lg-5 col-stem col-xs-12">
