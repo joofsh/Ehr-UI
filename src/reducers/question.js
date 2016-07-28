@@ -76,17 +76,15 @@ export default function reducer(state = initialState, action = {}) {
       _questions = state.questions.slice();
       index = action.payload.questionIndex;
 
-      // Set all other questions as not editing
-      _questions = _questions.map((q, i) => {
-        _question = Object.assign({}, q);
 
-        if (i !== index) {
-          _question.isEditing = false;
+      // set all other questions as not editing
+      for (let i = 0; i < _questions.length; i++) {
+        if (i === index) {
+          _questions[index].isEditing = !_questions[index].isEditing;
+        } else {
+          _questions[i].isEditing = false;
         }
-        return _question;
-      });
-
-      _questions[index].isEditing = !_questions[index].isEditing;
+      }
 
       return {
         ...state,

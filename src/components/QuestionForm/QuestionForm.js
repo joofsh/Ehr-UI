@@ -29,6 +29,20 @@ export class QuestionForm extends Component {
     this.toggleEditQuestion = this.toggleEditQuestion.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    let update = true;
+
+    // If the current or next props are not editing, then
+    // the component has not changed
+    if ((!nextProps.isEditing && !this.props.isEditing) &&
+      (nextProps.fields.choices.length === this.props.fields.choices.length)) {
+      update = false;
+    }
+
+    return update;
+  }
+
+
   addChoice() {
     this.props.fields.choices.addField({});
   }

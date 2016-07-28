@@ -1,11 +1,10 @@
 @import "../../theme/variables.scss";
 
 .container-questions {
-  height: 100%;
-  .row {
-    height: 100%;
-  }
   .question-header {
     margin: 10px 0;
+  }
+  .bottom-question-add {
+    margin-top: 20px;
   }
 }

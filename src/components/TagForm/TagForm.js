@@ -8,7 +8,7 @@ import {
 
 export class TagForm extends Component {
   static propTypes = {
-    resources: PropTypes.array.isRequired,
+    choices: PropTypes.array.isRequired,
     deleteTag: PropTypes.func.isRequired,
     error: PropTypes.string,
     fields: PropTypes.object.isRequired,
@@ -25,6 +25,18 @@ export class TagForm extends Component {
     super();
     this.deleteTag = this.deleteTag.bind(this);
     this.toggleEditTag = this.toggleEditTag.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    let update = true;
+
+    // If the current or next props are not editing, then
+    // the component has not changed
+    if (!nextProps.isEditing && !this.props.isEditing) {
+      update = false;
+    }
+
+    return update;
   }
 
   deleteTag() {

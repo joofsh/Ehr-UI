@@ -4,7 +4,6 @@ import { fetchTagsAction } from 'src/actions';
 import {
   FontIcon,
   LoadingSpinner,
-  MaxHeightContainer,
   SearchBar,
   TagForm
 } from 'src/components';
@@ -79,15 +78,18 @@ export class Tags extends Component {
             />
           ))}
         </div>
+        <button className="btn btn-primary pull-right bottom-tag-add" onClick={addEmptyTag}>
+          <FontIcon type="plus"/> Tag
+        </button>
       </div>);
     }
 
     require('./Tags.scss');
-    return (<div className="container container-tags">
+    return (<div className="container container-tags container--main">
       <div className="row">
-        <MaxHeightContainer className="col-xs-12 pull-right">
+        <div className="col-xs-12">
           { children || content }
-        </MaxHeightContainer>
+        </div>
       </div>
     </div>);
   }
@@ -189,9 +191,14 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  let tags = collectionFilter(state.tag.tags,
-                                   state.search.tagFilter,
-                                  ['id', 'name', 'weight', 'type']);
+  let tags;
+  if (state.tag.tags.length && state.tag.tags[0].resources) {
+    tags = collectionFilter(state.tag.tags,
+                            state.search.tagFilter,
+                            ['id', 'name', 'weight', 'type']);
+  } else {
+    tags = [];
+  }
 
   return {
     tags,

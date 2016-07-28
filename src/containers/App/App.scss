@@ -55,6 +55,11 @@ body, html, #root, #root > div {
     margin-bottom: 20px;
   }
 
+  .container--main {
+    padding-bottom: 25px;
+    min-height: 500px;
+  }
+
   /*TODO: Reimplement these slide animation rules*/
   /*.container {*/
     /*position: relative;*/

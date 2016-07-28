@@ -96,7 +96,6 @@ describe('Acceptance - App', () => {
     visit('/questions');
 
     setTimeout(() => {
-      console.log(dom);
       facade = testFacade.questions(renderer);
       expect(facade.questions.length).toBe(2);
       done();

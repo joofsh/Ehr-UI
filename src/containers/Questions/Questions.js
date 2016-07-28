@@ -4,7 +4,6 @@ import { fetchTagsAction, fetchQuestionsAction } from 'src/actions';
 import {
   FontIcon,
   LoadingSpinner,
-  MaxHeightContainer,
   SearchBar,
   QuestionForm
 } from 'src/components';
@@ -84,15 +83,18 @@ export class Questions extends Component {
             />
           ))}
         </div>
+        <button className="btn btn-primary pull-right bottom-question-add" onClick={addEmptyQuestion}>
+          <FontIcon type="plus"/> Question
+        </button>
       </div>);
     }
 
     require('./Questions.scss');
-    return (<div className="container container-questions">
+    return (<div className="container container-questions container--main">
       <div className="row">
-        <MaxHeightContainer className="col-xs-12 pull-right">
+        <div className="col-xs-12">
           { children || content }
-        </MaxHeightContainer>
+        </div>
       </div>
     </div>);
   }
