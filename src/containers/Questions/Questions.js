@@ -4,11 +4,9 @@ import { fetchTagsAction, fetchQuestionsAction } from 'src/actions';
 import {
   FontIcon,
   LoadingSpinner,
-  SearchBar,
   QuestionForm
 } from 'src/components';
 
-import { collectionFilter } from 'src/reducers/search';
 import _remove from 'lodash/remove';
 
 
@@ -56,17 +54,6 @@ export class Questions extends Component {
           <header className="col-xs-12 question-header">
             <h1>Manage Questions</h1>
           </header>
-          <div className="col-xs-10">
-            <SearchBar
-              name="questionFilter"
-              placeholder="Find a Question..."
-            />
-          </div>
-          <div className="col-xs-2">
-            <button className="btn btn-primary pull-right" onClick={addEmptyQuestion}>
-              <FontIcon type="plus"/> Question
-            </button>
-          </div>
         </div>
         <div className="form-horizontal">
           {questions.map((question, i) => (
@@ -83,7 +70,10 @@ export class Questions extends Component {
             />
           ))}
         </div>
-        <button className="btn btn-primary pull-right bottom-question-add" onClick={addEmptyQuestion}>
+        <button
+          className="btn btn-primary pull-right bottom-question-add"
+          onClick={addEmptyQuestion}
+        >
           <FontIcon type="plus"/> Question
         </button>
       </div>);
@@ -205,12 +195,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  let questions = collectionFilter(state.question.questions,
-                                   state.search.questionFilter,
-                                  ['id', 'stem', 'category']);
-
   return {
-    questions,
+    questions: state.question.questions,
     allTags: state.tag.tags,
     isFetching: state.question.isFetching
   };

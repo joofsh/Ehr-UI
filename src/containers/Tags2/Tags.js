@@ -4,11 +4,8 @@ import { fetchTagsAction } from 'src/actions';
 import {
   FontIcon,
   LoadingSpinner,
-  SearchBar,
   TagForm
 } from 'src/components';
-
-import { collectionFilter } from 'src/reducers/search';
 
 
 export class Tags extends Component {
@@ -52,17 +49,6 @@ export class Tags extends Component {
           <header className="col-xs-12 tag-header">
             <h1>Manage Tags</h1>
           </header>
-          <div className="col-xs-10">
-            <SearchBar
-              name="tagFilter"
-              placeholder="Find a Tag..."
-            />
-          </div>
-          <div className="col-xs-2">
-            <button className="btn btn-primary pull-right" onClick={addEmptyTag}>
-              <FontIcon type="plus"/> Tag
-            </button>
-          </div>
         </div>
         <div className="form-horizontal">
           {tags.map((tag, i) => (
@@ -193,9 +179,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   let tags;
   if (state.tag.tags.length && state.tag.tags[0].resources) {
-    tags = collectionFilter(state.tag.tags,
-                            state.search.tagFilter,
-                            ['id', 'name', 'weight', 'type']);
+    tags = state.tag.tags;
   } else {
     tags = [];
   }

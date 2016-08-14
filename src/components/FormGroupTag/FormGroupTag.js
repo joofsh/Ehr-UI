@@ -76,7 +76,7 @@ export default class FormGroupTag extends Component {
     return option.name;
   }
   filterOption(inputValue, option) {
-    return option.name.indexOf(inputValue.toLowerCase()) >= 0;
+    return option.name.toLowerCase().indexOf(inputValue.toLowerCase()) >= 0;
   }
 
   render() {
