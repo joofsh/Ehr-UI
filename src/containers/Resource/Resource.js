@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ResourceForm, LoadingSpinner, ToggleButton } from 'src/components';
 import { fetchTagsAction } from 'src/actions';
+import { reset } from 'redux-form';
 import string from 'src/utils/string';
 import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
@@ -146,6 +147,10 @@ function mapDispatchToProps(dispatch, ownProps) {
       dispatch((dispatch, getState) => {
         if (!getState().tag.lastUpdated) {
           dispatch(fetchTagsAction());
+        }
+
+        if (getState().resource.isEditing) {
+          dispatch(reset('resourceForm'));
         }
 
         dispatch({ type: 'TOGGLE_EDIT_RESOURCE' });

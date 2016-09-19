@@ -42,6 +42,7 @@ export default class ResourceForm extends Component {
   publishState() {
     return this.props.published ? 'Published' : 'Unpublished';
   }
+
   render() {
     let {
       fields: {
@@ -75,6 +76,7 @@ export default class ResourceForm extends Component {
       <form
         onSubmit={handleSubmit}
         className={`${className || ''} form-horizontal resourceForm`}
+        autoComplete="off"
         noValidate
       >
         <div className="row">
@@ -93,7 +95,6 @@ export default class ResourceForm extends Component {
                 {...category}
                 isEditing={isEditing}
                 type="select"
-                defaultValue={[]}
                 multiple
               >
                 <option disabled value="">Select A Category</option>
