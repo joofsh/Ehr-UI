@@ -47,7 +47,7 @@ proxy.on('proxyReq', (proxyReq, req) => {
 // Session
 app.use(session({
   name: 'DCRSession',
-  secret: 'my secret token',
+  secret: config.sessionSecretKey,
   resave: false,
   proxy: true,
   saveUninitialized: true,

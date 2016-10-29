@@ -12,6 +12,7 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3001,
+  sessionSecretKey: process.env.SESSION_SECRET_KEY || 'my_secret_key',
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT || 4000,
   apiVersion: process.env.APIVERSION || 'v1',
