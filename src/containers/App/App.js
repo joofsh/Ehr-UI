@@ -55,7 +55,9 @@ export class App extends Component {
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to="/">
-              <div className="brand-logo"></div>
+              <div className="brand-logo">
+                <p className="beta-tag">Beta</p>
+              </div>
               <h1 className="sr-only">DC Resources</h1>
             </IndexLink>
           </Navbar.Brand>
