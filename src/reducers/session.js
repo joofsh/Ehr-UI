@@ -4,6 +4,18 @@ export const initialState = {
   error: null
 };
 
+export function buildUser(user = {}) {
+  return {
+    ...user,
+    isGuest: function () {
+      return this.role === 'guest';
+    },
+    isStaff: function () {
+      return ['staff', 'advocate', 'admin'].indexOf(this.role) >= 0;
+    }
+  };
+}
+
 export default function session(state = initialState, action = {}) {
   switch (action.type) {
     case 'CLEAR_SESSION_USER':
@@ -25,7 +37,7 @@ export default function session(state = initialState, action = {}) {
       return {
         ...state,
         isRegisteringGuest: false,
-        user: action.payload.user
+        user: buildUser(action.payload.user)
       };
     case 'RECEIVE_HEALTHCHECK':
       return {

@@ -42,7 +42,8 @@ export class PersonalizedResources extends Component {
     let content;
     let {
       isLoaded,
-      resources
+      resources,
+      user
     } = this.props;
 
     if (isLoaded) {
@@ -53,7 +54,7 @@ export class PersonalizedResources extends Component {
             <p>Based on your responses, we recommend you check out the following resources:</p>
             <div className="list-group resource-list">
               {resources.length && resources.map((resource, i) => (
-                <ResourceRow {...resource} key={i}/>
+                <ResourceRow {...resource} key={i} displayTags={user.isStaff()}/>
               ))}
             </div>
           </div>

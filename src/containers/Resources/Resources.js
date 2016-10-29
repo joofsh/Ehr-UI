@@ -30,7 +30,8 @@ export class Resources extends Component {
     resources: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
     params: PropTypes.object,
-    children: PropTypes.node
+    children: PropTypes.node,
+    user: PropTypes.object
   };
 
   componentDidMount() {
@@ -43,9 +44,12 @@ export class Resources extends Component {
       children,
       params: {
         id: activeResourceId
-      }
+      },
+      user
     } = this.props;
     let resourceContent;
+
+    let displayTags = user && user.isStaff();
 
     if (this.props.isFetching) {
       resourceContent = <LoadingSpinner large absolute center/>;
@@ -57,7 +61,7 @@ export class Resources extends Component {
         />
         <div className="list-group resource-list">
           {resources.map((resource, i) => (
-            <ResourceRow key={i} {...resource} />
+            <ResourceRow key={i} {...resource} displayTags={displayTags}/>
           ))}
         </div>
       </div>);
@@ -98,7 +102,8 @@ function mapStateToProps(state) {
                                   ['id', 'title', 'tags.name']);
   return {
     resources,
-    isFetching: state.resource.isFetching
+    isFetching: state.resource.isFetching,
+    user: state.session.user
   };
 }
 
