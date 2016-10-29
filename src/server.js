@@ -67,7 +67,7 @@ app.post('/authorize', (req, res) => {
   const client = new ApiClient(req);
   client.post('/api/users/authorize', { data: req.body }).then(resp => {
     req.session.user = resp;
-    let user = Server.filterSessionForClient(req.session).user;
+    let user = Server.filterSessionForClient(req.session, false).user;
     res.status = resp.status;
     res.send(user);
   }, err => {
@@ -80,7 +80,7 @@ app.post('/users/guests', (req, res) => {
   const client = new ApiClient(req);
   client.post('/api/users/guests').then(resp => {
     req.session.user = resp;
-    let user = Server.filterSessionForClient(req.session).user;
+    let user = Server.filterSessionForClient(req.session, false).user;
     res.status = resp.status;
     res.send(user);
   }, err => {
