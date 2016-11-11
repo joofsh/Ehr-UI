@@ -59,6 +59,12 @@
       background: $brand-primary
     }
   }
+  .legal-disclaimer {
+    margin-top: 200px;
+    padding: 0 30px;
+    text-align: center;
+    font-size: 12px;
+  }
   @media (max-width: $screen-sm-max) {
     .banner-question {
       margin-top: 125px;
