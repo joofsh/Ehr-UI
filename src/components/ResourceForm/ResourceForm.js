@@ -7,7 +7,7 @@ import {
   FormGroupTag
 } from 'src/components';
 
-export default class ResourceForm extends Component {
+export class ResourceForm extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     fields: PropTypes.object.isRequired,

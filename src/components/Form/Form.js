@@ -5,7 +5,7 @@ import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
 import classnames from 'classnames';
 
-export default class Form extends Component {
+export class Form extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     fields: PropTypes.object.isRequired,

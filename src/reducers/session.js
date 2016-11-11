@@ -7,10 +7,10 @@ export const initialState = {
 export function buildUser(user = {}) {
   return {
     ...user,
-    isGuest: function () {
+    isGuest() {
       return this.role === 'guest';
     },
-    isStaff: function () {
+    isStaff() {
       return ['staff', 'advocate', 'admin'].indexOf(this.role) >= 0;
     }
   };
