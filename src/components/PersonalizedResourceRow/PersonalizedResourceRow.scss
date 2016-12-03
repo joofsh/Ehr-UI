@@ -1,0 +1,26 @@
+@import "../../theme/variables.scss";
+
+.PersonalizedResourceRow {
+  border-bottom: 1px dashed $medium-gray;
+
+  .resourceMap {
+    height: 250px;
+    margin-bottom: 15px;
+  }
+
+  @media (min-width: $screen-sm-max) {
+    .tipLabel {
+      width: 10%;
+    }
+    .tipValue {
+      width: 90%;
+      padding-left: 30px;
+    }
+  }
+
+  @media (max-width: $screen-md-max) {
+    .resourceMap {
+      margin: 15px;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import { ResourceRow, LoadingSpinner } from 'src/components';
+import { PersonalizedResourceRow, LoadingSpinner } from 'src/components';
 
 function fetchPersonalizedResourcesAction(state) {
   let userId;
@@ -52,9 +52,9 @@ export class PersonalizedResources extends Component {
           <div>
             <h3>Your Personalized Resources</h3>
             <p>Based on your responses, we recommend you check out the following resources:</p>
-            <div className="list-group resource-list">
+            <div className="resource-list">
               {resources.length && resources.map((resource, i) => (
-                <ResourceRow {...resource} key={i} displayTags={user.isStaff()}/>
+                <PersonalizedResourceRow resource={resource} key={i} displayTags={user.isStaff()}/>
               ))}
             </div>
           </div>
@@ -78,7 +78,7 @@ export class PersonalizedResources extends Component {
     require('./PersonalizedResources.scss');
     return (<div className="container container-personalizedResources">
       <div className="row">
-        <div className="col-md-8 col-md-offset-2 content">
+        <div className="col-lg-12 content">
           {content}
         </div>
       </div>

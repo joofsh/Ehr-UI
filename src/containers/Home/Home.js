@@ -47,8 +47,9 @@ export class Home extends Component {
       <div className="row">
         <div className="col-lg-12 legal-disclaimer">
           <p>
-            Note: DC Resources values your privacy. All information is stored securely, temporarily, and anonymously.
-            We will never ask for personally identifiable information such as name, address, or phone number.
+            Note: DC Resources values your privacy. All information is stored securely,
+            temporarily, and anonymously. We will never ask for personally identifiable
+            information such as name, address, or phone number.
           </p>
         </div>
       </div>

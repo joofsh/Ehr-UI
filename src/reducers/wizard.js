@@ -1,3 +1,5 @@
+import { buildResource } from './resource';
+
 export const initialState = {
   responses: [],
   resources: [],
@@ -10,7 +12,7 @@ export const initialState = {
 };
 
 export default function reducer(state = initialState, action = {}) {
-  let nextQuestionId;
+  let nextQuestionId, resources;
 
   switch (action.type) {
     case 'SET_CURRENT_WIZARD_QUESTION':
@@ -50,9 +52,12 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS':
+      resources = action.payload.resources.map(resource =>
+        buildResource(resource)
+      );
       return {
         ...state,
-        resources: action.payload.resources,
+        resources,
         resourcesLastUpdated: Date.now()
       };
     default:

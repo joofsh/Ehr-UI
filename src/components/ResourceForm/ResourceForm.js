@@ -110,6 +110,7 @@ export class ResourceForm extends Component {
               <FormGroup {...languages} isEditing={isEditing}/>
               <FormGroup
                 {...note}
+                label="Tips"
                 type="textarea"
                 isEditing={isEditing}
                 placeholder="Any Additional Comments"

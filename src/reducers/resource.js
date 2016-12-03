@@ -12,6 +12,27 @@ export const initialState = {
 export function buildResource(resource) {
   return {
     ...resource,
+    addressLine1() {
+      if (!this.address) {
+        return '';
+      }
+
+      let street = this.address.street || '';
+      let street2 = this.address.street_2 || '';
+
+      return `${street} ${street2},`;
+    },
+    addressLine2() {
+      if (!this.address) {
+        return '';
+      }
+
+      let city = this.address.city || '';
+      let state = this.address.state || '';
+      let zipcode = this.address.zipcode || '';
+
+      return `${city}, ${state} ${zipcode}`;
+    },
     isMapInfoVisible: false
   };
 }
