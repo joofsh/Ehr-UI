@@ -26,7 +26,7 @@ export class Home extends Component {
             </div>
             <div className="col-md-3 col-md-offset-2">
               <div className="banner-question clearfix" onClick={registerGuest}>
-                  <h3>Are you looking for personalized resources?</h3>
+                  <h3>Answer a few questions and find resources just for you</h3>
                   <h4 className="pull-right cta-wrapper">
                     <span className="cta-text">Let's Begin</span>
                     {isRegisteringGuest ?
@@ -38,9 +38,8 @@ export class Home extends Component {
           </div>
         </div>
       </div>
-      <h3 className="subtitle">Seeking Our Collection of Resources?</h3>
       <div className="cta-2nd">
-        <Link to="/resources" className="btn btn-primary">
+        <Link to="/resources" className="btn btn-primary btn-lg">
           View All Resources
         </Link>
       </div>
