@@ -46,6 +46,10 @@ body, html, #root, #root > div {
     left: 0px;
   }
 
+  .form-control-static {
+    word-wrap: break-word;
+  }
+
   @media (max-width: $screen-sm-max) {
     .profilePic {
       position: relative;
