@@ -1,19 +1,31 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router';
-import { connect } from 'react-redux';
-import { LoadingSpinner, FontIcon } from 'src/components';
+import { LoadingSpinner, FontIcon, Modal, NewsletterSignupForm } from 'src/components';
 
 export class Home extends Component {
   static propTypes = {
+    handleNewsletterSignup: PropTypes.func.isRequired,
+    hideModal: PropTypes.func.isRequired,
+    isModalActive: PropTypes.bool.isRequired,
+    isRegisteringGuest: PropTypes.bool.isRequired,
+    newsletterSignupSuccess: PropTypes.bool,
     registerGuest: PropTypes.func.isRequired,
-    isRegisteringGuest: PropTypes.bool.isRequired
+    showModal: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   render() {
     let {
+      handleNewsletterSignup,
+      hideModal,
+      isModalActive,
       isRegisteringGuest,
-      registerGuest
+      newsletterSignupSuccess,
+      registerGuest,
+      showModal,
+      submitting
     } = this.props;
 
     require('./Home.scss');
@@ -42,6 +54,9 @@ export class Home extends Component {
         <Link to="/resources" className="btn btn-primary btn-lg">
           View All Resources
         </Link>
+        <div className="newsletterModalLink">
+          <a href="#" onClick={showModal}>Sign up for our newsletter</a>
+        </div>
       </div>
       <div className="row">
         <div className="col-lg-12 legal-disclaimer">
@@ -52,8 +67,28 @@ export class Home extends Component {
           </p>
         </div>
       </div>
+
+      <Modal show={isModalActive} title="Sign up for our newsletter" onHide={hideModal}>
+        <NewsletterSignupForm
+          onSubmit={handleNewsletterSignup}
+          submitting={submitting}
+          success={newsletterSignupSuccess}
+          withError={newsletterSignupSuccess === false}
+        />
+      </Modal>
+
     </div>);
   }
+}
+
+function newsletterSignupAction(user) {
+  return {
+    type: 'CALL_API',
+    url: '/newsletter',
+    method: 'post',
+    redirectOnForbidden: false,
+    data: user
+  };
 }
 
 function registerGuestAction() {
@@ -66,19 +101,40 @@ function registerGuestAction() {
 
 function mapDispatchToProps(dispatch) {
   return {
+    handleNewsletterSignup: (user) => {
+      dispatch({ type: 'REQUEST_NEWSLETTER_SIGNUP' });
+      return dispatch(newsletterSignupAction(user)).then(() => {
+        dispatch({ type: 'RECEIVE_NEWSLETTER_SIGNUP_SUCCESS' });
+        global.setTimeout(() => {
+          dispatch({ type: 'HIDE_MODAL' });
+          // Need the 2nd nested setTimeout to give the modal sufficient
+          // time to hide before resetting the form
+          global.setTimeout(() => {
+            dispatch({ type: 'COMPLETE_NEWSLETTER_SIGNUP_SUCCESS' });
+          }, 500);
+        }, 1000);
+      }, () => {
+        dispatch({ type: 'RECEIVE_NEWSLETTER_SIGNUP_ERROR' });
+      });
+    },
     registerGuest: () => {
       dispatch({ type: 'REQUEST_REGISTER_GUEST' });
       dispatch(registerGuestAction()).then((guest) => {
         dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', payload: { user: guest } });
         dispatch(pushPath('/wizard'));
       });
-    }
+    },
+    showModal: () => dispatch({ type: 'SHOW_MODAL' }),
+    hideModal: () => dispatch({ type: 'HIDE_MODAL' })
   };
 }
 
 function mapStateToProps(state) {
   return {
-    isRegisteringGuest: state.session.isRegisteringGuest
+    isRegisteringGuest: state.session.isRegisteringGuest,
+    isModalActive: state.session.isModalActive,
+    newsletterSignupSuccess: state.session.newsletterSignupSuccess,
+    submitting: state.session.isSubmittingNewsletterSignup
   };
 }
 

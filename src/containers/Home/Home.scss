@@ -57,6 +57,9 @@
       background: $brand-primary;
     }
   }
+  .newsletterModalLink {
+    margin-top: 20px;
+  }
   .legal-disclaimer {
     margin-top: 200px;
     padding: 0 30px;
@@ -68,4 +71,11 @@
       margin-top: 125px;
     }
   }
+}
+
+// Rendered in modal, not in container-home
+.newsletterSignupSuccess {
+  color: $brand-success;
+  text-align: center;
+  margin: 40px 0;
 }
