@@ -12,12 +12,21 @@ const environment = {
 module.exports = Object.assign({
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3001,
+
+  // google analytics
+  googleAnalayticsTrackingId: process.env.GA_TRACKING_ID,
+
+  // mail chimp
   mailchimpApiKey: process.env.MAILCHIMP_API_KEY,
   newsletterListId: process.env.NEWSLETTER_LIST_ID,
+
   sessionSecretKey: process.env.SESSION_SECRET_KEY || 'my_secret_key',
+
+  // DC Resources API
   apiHost: process.env.APIHOST || 'localhost',
   apiPort: process.env.APIPORT || 4000,
   apiVersion: process.env.APIVERSION || 'v1',
+
   app: {
     title: 'DC Social Worker Services',
     description: 'Information Aggregate for available services in DC',

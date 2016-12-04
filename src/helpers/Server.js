@@ -1,4 +1,5 @@
 import { initialState as sessionInitialState, buildUser } from 'src/reducers/session';
+import config from '../../config';
 
 export default {
   filterSessionForClient: (session, asUserModel = true) => {
@@ -19,5 +20,10 @@ export default {
     }
 
     return sessionInitialState;
+  },
+  initialProps: () => {
+    return {
+      googleAnalayticsTrackingId: config.googleAnalayticsTrackingId
+    }
   }
 };

@@ -10,6 +10,7 @@ import routes from './routes';
 import ApiClient from 'src/utils/api';
 import { DevTools } from 'src/containers';
 import LogMonitor from 'redux-devtools-log-monitor';
+import ReactGA from 'react-ga';
 
 global.__CLIENT__ = true;
 
@@ -17,7 +18,7 @@ global.__CLIENT__ = true;
 //global.jQuery = require('jquery'); // load jquery
 //require('bootstrap-loader'); // load bootstrap css & js
 
-const initializeState = Object.assign({}, window.__INITIAL_STATE__);
+const initializeState = Object.assign({}, global.__INITIAL_STATE__);
 const store = configureStore(initializeState, new ApiClient());
 const history = createHistory();
 
@@ -26,10 +27,18 @@ syncReduxAndRouter(history, store);
 const dest = document.getElementById('root');
 const devToolDest = document.getElementById('devtools');
 
+const gaTrackingId = global.__INITIAL_PROPS__.googleAnalayticsTrackingId;
+
+ReactGA.initialize(gaTrackingId, { debug: __DEVELOPMENT__ });
+
+let logPageView = () => {
+  ReactGA.pageview(global.location.pathname);
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router history={history}>
+      <Router history={history} onUpdate={logPageView}>
         {routes()}
       </Router>
 

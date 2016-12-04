@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import DocumentMeta from 'react-document-meta';
 
+import Server from './Server';
+
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
  * Used in server-side code only to wrap the string output of the
@@ -67,6 +69,12 @@ export default class Html extends Component {
           <script
             dangerouslySetInnerHTML={{
               __html: `window.__INITIAL_STATE__=${serialize(store.getState())};`
+            }}
+            charSet="UTF-8"
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.__INITIAL_PROPS__=${serialize(Server.initialProps())};`
             }}
             charSet="UTF-8"
           />
