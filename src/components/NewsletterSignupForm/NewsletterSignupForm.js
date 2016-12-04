@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { LoadingSpinner, FormGroup } from 'src/components';
+import { LoadingSpinner, FontIcon, FormGroup } from 'src/components';
 import { reduxForm } from 'redux-form';
 
 export class NewsletterSignupForm extends Component {
@@ -41,7 +41,7 @@ export class NewsletterSignupForm extends Component {
       <button className="btn btn-success btn-block"
         disabled={submitting}
       >
-        {submitting ? <LoadingSpinner/> : <i className="fa fa-sign-in"/> } Submit
+        {submitting ? <LoadingSpinner/> : <FontIcon type="envelope"/> } Subscribe
       </button>
 
     </form>);

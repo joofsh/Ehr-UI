@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/lib/Modal';
 export default class _Modal extends Component {
   static propTypes = {
     title: PropTypes.string,
-    children: PropTypes.string.isRequired
+    children: PropTypes.node.isRequired
   };
 
   render() {

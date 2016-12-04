@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { pushPath } from 'redux-simple-router';
 import { LoadingSpinner, FontIcon, Modal, NewsletterSignupForm } from 'src/components';
+import ReactGA from 'react-ga';
 
 export class Home extends Component {
   static propTypes = {
@@ -72,7 +73,7 @@ export class Home extends Component {
         <NewsletterSignupForm
           onSubmit={handleNewsletterSignup}
           submitting={submitting}
-          success={newsletterSignupSuccess}
+          success={newsletterSignupSuccess === true}
           withError={newsletterSignupSuccess === false}
         />
       </Modal>
@@ -124,7 +125,15 @@ function mapDispatchToProps(dispatch) {
         dispatch(pushPath('/wizard'));
       });
     },
-    showModal: () => dispatch({ type: 'SHOW_MODAL' }),
+    showModal: (event) => {
+      event.preventDefault();
+      dispatch({ type: 'SHOW_MODAL' });
+      ReactGA.event({
+        category: 'Newsletter',
+        action: 'Open Subscribe Modal',
+        label: 'Newsletter Modal'
+      });
+    },
     hideModal: () => dispatch({ type: 'HIDE_MODAL' })
   };
 }
