@@ -6,6 +6,7 @@ import httpProxy from 'http-proxy';
 import path from 'path';
 import favicon from 'serve-favicon';
 import session from 'cookie-session';
+import superagent from 'superagent';
 
 import ReactDOM from 'react-dom/server';
 import React from 'react';
@@ -100,6 +101,32 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+app.post('/newsletter', (req, res) => {
+  let url = `https://us14.api.mailchimp.com/3.0/lists/${config.newsletterListId}/members/`;
+  superagent.
+    post(url).
+    send({
+      email_address: req.body.email,
+      status: 'subscribed',
+      merge_fields: {
+        FNAME: req.body.firstName,
+        LNAME: req.body.lastName
+      }
+    }).
+    set('Authorization', `BASIC ${config.mailchimpApiKey}`).
+    end((err, _res) => {
+      // Mailchimp returns a 400 if the email already exists
+      // on the mailing list. We want to absorb these errors
+      if (_res.status === 400 || _res.status === 200) {
+        res.status(200);
+        res.send({});
+      } else {
+        console.error('Error Mailchimp:', err.message);
+        res.status(_res.status);
+        res.send({ error: err.message });
+      }
+    });
+});
 
 proxy.on('error', (error, req, res) => {
   let json;
@@ -175,6 +202,7 @@ function handleRender(req, res) {
         // call should be able to handle this on SSR
         if (resp.status === 403) {
           req.session.user = null;
+          console.info('403 response. Redirecting to login');
           res.redirect('/login');
         }
       }).catch((_error) => {

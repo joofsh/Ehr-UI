@@ -1,6 +1,10 @@
 export const initialState = {
   user: null,
+  isModalActive: false,
   isRegisteringGuest: false,
+  // null means no response, true is success, false is error
+  newsletterSignupSuccess: null,
+  isSubmittingNewsletterSignup: false,
   error: null
 };
 
@@ -23,6 +27,12 @@ export default function session(state = initialState, action = {}) {
         ...state,
         user: null
       };
+    case 'REQUEST_NEWSLETTER_SIGNUP':
+      return {
+        ...state,
+        isSubmittingNewsletterSignup: true,
+        newsletterSignupSuccess: null
+      };
     case 'REQUEST_REGISTER_GUEST':
       return {
         ...state,
@@ -39,10 +49,41 @@ export default function session(state = initialState, action = {}) {
         isRegisteringGuest: false,
         user: buildUser(action.payload.user)
       };
+    case 'RECEIVE_NEWSLETTER_SIGNUP_SUCCESS':
+      return {
+        ...state,
+        isSubmittingNewsletterSignup: false,
+        newsletterSignupSuccess: true
+      };
+    case 'RECEIVE_NEWSLETTER_SIGNUP_ERROR':
+      return {
+        ...state,
+        isSubmittingNewsletterSignup: false,
+        newsletterSignupSuccess: false
+      };
+    // This is the 2nd stage of a successful newsletter
+    // signup submit
+    case 'COMPLETE_NEWSLETTER_SIGNUP_SUCCESS':
+      return {
+        ...state,
+        isModalActive: false,
+        isSubmittingNewsletterSignup: false,
+        newsletterSignupSuccess: null
+      };
     case 'RECEIVE_HEALTHCHECK':
       return {
         ...state,
         healthcheck: action.response
+      };
+    case 'HIDE_MODAL':
+      return {
+        ...state,
+        isModalActive: false
+      };
+    case 'SHOW_MODAL':
+      return {
+        ...state,
+        isModalActive: true
       };
     default:
       return state;

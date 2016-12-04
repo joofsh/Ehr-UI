@@ -10,6 +10,8 @@ export Form from './Form/Form';
 export FormInfo from './FormInfo/FormInfo';
 export UserForm from './UserForm/UserForm';
 export MaxHeightContainer from './MaxHeightContainer/MaxHeightContainer';
+export Modal from './Modal/Modal';
+export NewsletterSignupForm from './NewsletterSignupForm/NewsletterSignupForm';
 export PersonalizedResourceRow from './PersonalizedResourceRow/PersonalizedResourceRow';
 export ResourceForm from './ResourceForm/ResourceForm';
 export ResourceMap from './ResourceMap/ResourceMap';

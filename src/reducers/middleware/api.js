@@ -13,7 +13,15 @@ export default function apiMiddleware(client) {
       return next(action);
     }
 
-    const { method, url, successType, errorType, params, data } = action;
+    const {
+      method,
+      url,
+      successType,
+      errorType,
+      params,
+      data,
+      redirectOnForbidden = true
+    } = action;
     let deferred = RSVP.defer();
 
     client[method](url, { params, data }).then(response => {
@@ -33,7 +41,7 @@ export default function apiMiddleware(client) {
       }
       deferred.resolve(response);
     }, response => {
-      if (response.status === 403) {
+      if (response.status === 403 && redirectOnForbidden) {
         handleForbiddenRequest(store.dispatch);
       }
 
