@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import { MultilineValue } from 'src/components';
+
 export default class ResourceRow extends Component {
   static propTypes = {
     displayTags: PropTypes.bool.isRequired,
@@ -21,7 +23,7 @@ export default class ResourceRow extends Component {
 
     return (<Link className="list-group-item" to={`/resources/${id}`}>
       <h4>{title}</h4>
-      <p>{description}</p>
+      <MultilineValue value={description}/>
 
       {displayTags && <div>{tags.map((tag, i) => (
         <span key={i} className="tokenized-tag">{tag.name}</span>

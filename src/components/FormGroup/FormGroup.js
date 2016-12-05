@@ -4,6 +4,8 @@ import Input from 'react-bootstrap/lib/Input';
 import string from 'src/utils/string';
 import _isArray from 'lodash/isArray';
 
+import { MultilineValue } from 'src/components';
+
 export default class FormGroup extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
@@ -53,6 +55,8 @@ export default class FormGroup extends Component {
 
     if (type === 'url' && _value) {
       content = <a target="_blank" href={_value}>{_value}</a>;
+    } else if (type === 'textarea' && _value) {
+      content = <MultilineValue value={_value}/>;
     } else if (type === 'hashLink' && _value) {
       content = <a href={`#${_value}`}>{_value}</a>;
     } else if (_isArray(_value)) {

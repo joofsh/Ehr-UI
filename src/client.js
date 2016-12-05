@@ -33,7 +33,7 @@ ReactGA.initialize(gaTrackingId, { debug: __DEVELOPMENT__ });
 
 let logPageView = () => {
   ReactGA.pageview(global.location.pathname);
-}
+};
 
 ReactDOM.render(
   <Provider store={store}>

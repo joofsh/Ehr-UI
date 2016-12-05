@@ -24,6 +24,6 @@ export default {
   initialProps: () => {
     return {
       googleAnalayticsTrackingId: config.googleAnalayticsTrackingId
-    }
+    };
   }
 };

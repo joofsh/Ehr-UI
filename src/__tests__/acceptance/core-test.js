@@ -130,7 +130,7 @@ describe('Acceptance - App', () => {
     setTimeout(() => {
       facade = testFacade.resource(renderer);
       expect(facade.currentURL).toBe(`/resources/${resources[0].id}`);
-      expect(facade.description).toBe(resources[0].description);
+      expect(facade.description).toBe(`${resources[0].description}\n`);
       done();
     });
   });
