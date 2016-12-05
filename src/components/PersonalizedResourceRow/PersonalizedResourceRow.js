@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormInfo, ResourceMap } from 'src/components';
 
+import { TextareaValue } from 'src/components';
+
 export default class PersonalizedResourceRow extends Component {
   static propTypes = {
     resource: PropTypes.object.isRequired
@@ -37,7 +39,7 @@ export default class PersonalizedResourceRow extends Component {
     return (<div className="row form-horizontal PersonalizedResourceRow">
       <div className="col-lg-12">
         <Link to={`/resources/${id}`}><h4>{title}</h4></Link>
-        <p>{description}</p>
+        <p><TextareaValue value={description}/></p>
         <div className="col-md-4 resourceMap">
           <ResourceMap resources={[resource]} activeResourceId={resource.id}/>
         </div>

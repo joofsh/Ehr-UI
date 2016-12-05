@@ -35,7 +35,7 @@ export class Home extends Component {
         <div className="col-lg-12">
           <div className="banner-image">
             <div className="col-md-6">
-              <h2 className="banner-title">A Simpler Way To Find Help</h2>
+              <h2 className="banner-title">A Simpler Way to Find Help</h2>
             </div>
             <div className="col-md-3 col-md-offset-2">
               <div className="banner-question clearfix" onClick={registerGuest}>

@@ -71,7 +71,7 @@ export default {
 
     return Object.assign({}, base(component), {
       title: getTag(component, 'h2'),
-      description: description.querySelector('span').innerHTML,
+      description: description.querySelector('span').innerText,
       publishStatus: getTags(component, 'small')
     });
   },
