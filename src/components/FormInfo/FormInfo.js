@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import _isString from 'lodash/isString';
+
+import { MultilineValue } from 'src/components';
 
 export default class FormInfo extends Component {
   static propTypes = {
@@ -23,6 +26,8 @@ export default class FormInfo extends Component {
     if (value) {
       if (type === 'url') {
         content = <a target="_blank" href={value}>{value}</a>;
+      } else if (_isString(value)) {
+        content = <MultilineValue value={value}/>;
       } else {
         content = value;
       }
