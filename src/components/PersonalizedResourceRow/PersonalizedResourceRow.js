@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { FormInfo, ResourceMap } from 'src/components';
 
-import { TextareaValue } from 'src/components';
+import { MultilineValue } from 'src/components';
 
 export default class PersonalizedResourceRow extends Component {
   static propTypes = {
@@ -33,13 +33,13 @@ export default class PersonalizedResourceRow extends Component {
         url
       }
     } = this.props;
-    global.resource = resource;
 
     require('./PersonalizedResourceRow.scss');
     return (<div className="row form-horizontal PersonalizedResourceRow">
       <div className="col-lg-12">
         <Link to={`/resources/${id}`}><h4>{title}</h4></Link>
-        <p><TextareaValue value={description}/></p>
+        <p><MultilineValue value={description}/></p>
+
         <div className="col-md-4 resourceMap">
           <ResourceMap resources={[resource]} activeResourceId={resource.id}/>
         </div>
