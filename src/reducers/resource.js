@@ -1,4 +1,5 @@
 import _findIndex from 'lodash/findIndex';
+import _forOwn from 'lodash/forOwn';
 
 export const initialState = {
   isFetching: false,
@@ -61,6 +62,29 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         isFetching: false,
         resources: _resources
+      };
+    case 'RECEIVE_WIZARD_RESOURCES_SUCCESS':
+      _resources = state.resources.slice();
+
+      _forOwn(action.payload.resources, (resources, tag) => {
+        resources.forEach(resource => {
+          index = _findIndex(_resources, r => r.id === resource.id);
+
+          _resource = buildResource(resource);
+
+          if (index >= 0) {
+            _resources[index] = _resource;
+          } else {
+            _resources.push(_resource);
+          }
+        });
+      });
+
+      return {
+        ...state,
+        isFetching: false,
+        resources: _resources,
+        lastUpdated: Date.now()
       };
     case 'RECEIVE_RESOURCES_SUCCESS':
       _resources = state.resources.slice();

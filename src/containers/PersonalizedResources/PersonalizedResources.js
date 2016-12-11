@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { PersonalizedResourceRow, LoadingSpinner } from 'src/components';
+import _forOwn from 'lodash/forOwn';
+import _isEmpty from 'lodash/isEmpty';
 
 function fetchPersonalizedResourcesAction(state) {
   let userId;
@@ -18,7 +20,10 @@ function fetchPersonalizedResourcesAction(state) {
     // TODO: consider refactoring and only passes the actual resource objects
     // to the resource reducer, then pass only the resource_ids array to the
     // client reducer
-    successType: ['RECEIVE_RESOURCES_SUCCESS', 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS']
+    successType: [
+      'RECEIVE_WIZARD_RESOURCES_SUCCESS',
+      'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS'
+    ]
   };
 }
 
@@ -30,7 +35,7 @@ export class PersonalizedResources extends Component {
   static propTypes = {
     isLoaded: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    resources: PropTypes.arrayOf(PropTypes.object).isRequired,
+    resources: PropTypes.object.isRequired,
     fetchPersonalizedResources: PropTypes.func.isRequired
   };
 
@@ -47,15 +52,23 @@ export class PersonalizedResources extends Component {
     } = this.props;
 
     if (isLoaded) {
-      if (resources.length) {
+      if (!_isEmpty(resources)) {
+
+        let resourceContent = [];
+        _forOwn(resources, (resources, tag, i) => {
+          resourceContent.push(<fieldset key={i}>
+            <legend><h2>Resources for {tag}</h2></legend>
+            {resources.map((resource, j) => (
+              <PersonalizedResourceRow resource={resource} key={j} displayTags={user.isStaff()}/>
+            ))}
+          </fieldset>);
+        });
+
         content = (
           <div>
-            <h3>Your Personalized Resources</h3>
             <p>Based on your responses, we recommend you check out the following resources:</p>
             <div className="resource-list">
-              {resources.length && resources.map((resource, i) => (
-                <PersonalizedResourceRow resource={resource} key={i} displayTags={user.isStaff()}/>
-              ))}
+              {resourceContent}
             </div>
           </div>
         );

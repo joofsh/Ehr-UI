@@ -1,8 +1,9 @@
 import { buildResource } from './resource';
+import _forOwn from 'lodash/forOwn';
 
 export const initialState = {
   responses: [],
-  resources: [],
+  resources: {},
   currentQuestionId: null,
   selectedChoiceId: null,
   submitting: false,
@@ -52,9 +53,14 @@ export default function reducer(state = initialState, action = {}) {
       };
 
     case 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS':
-      resources = action.payload.resources.map(resource =>
-        buildResource(resource)
-      );
+      resources = {};
+
+      _forOwn(action.payload.resources, (_resources, tag) => {
+        resources[tag] = _resources.map(resource =>
+          buildResource(resource)
+        )
+      });
+
       return {
         ...state,
         resources,

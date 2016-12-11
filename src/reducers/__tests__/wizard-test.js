@@ -1,5 +1,6 @@
 import expect from 'expect';
 import reducer, { initialState } from '../wizard';
+import _isEmpty from 'lodash/isEmpty';
 
 let mockQuestions = [
   { id: 1, stem: 'question stem', choices: [{ id: 10, stem: 'ha' }, { id: 11, stem: 'fa' }] },
@@ -12,7 +13,9 @@ let mockUser = {
   username: 'asdfklasdjfa'
 };
 
-let mockResources = [{ id: 5, title: 'fun' }];
+let mockResources = {
+  shelter: [{ id: 5, title: 'fun' }]
+};
 
 let state;
 
@@ -85,12 +88,12 @@ describe('Wizard Reducer', () => {
   });
 
   it('RECEIVE_PERSONALIZED_RESOURCES_SUCCESS', () => {
-    expect(state.resources.length).toBe(0);
+    expect(_isEmpty(state.resources)).toBe(true);
     state = reducer(state, {
       type: 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS',
       payload: { user: mockUser, resources: mockResources }
     });
-    expect(state.resources.length).toBe(mockResources.length);
+    expect(state.resources.shelter.length).toBe(mockResources.shelter.length);
   });
 
 });
