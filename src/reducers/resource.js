@@ -66,7 +66,7 @@ export default function reducer(state = initialState, action = {}) {
     case 'RECEIVE_WIZARD_RESOURCES_SUCCESS':
       _resources = state.resources.slice();
 
-      _forOwn(action.payload.resources, (resources, tag) => {
+      _forOwn(action.payload.resources, (resources) => {
         resources.forEach(resource => {
           index = _findIndex(_resources, r => r.id === resource.id);
 

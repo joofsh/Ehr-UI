@@ -96,6 +96,12 @@ export class App extends Component {
                     My Resources
                   </MenuItem>
                 </LinkContainer>}
+              {authedStaff &&
+                <LinkContainer to="/demo/my_resources">
+                  <MenuItem>
+                    Demo My Resources
+                  </MenuItem>
+                </LinkContainer>}
               <LinkContainer to="/resources">
                 <MenuItem>
                   All Resources

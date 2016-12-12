@@ -6,16 +6,19 @@ import _forOwn from 'lodash/forOwn';
 import _isEmpty from 'lodash/isEmpty';
 
 function fetchPersonalizedResourcesAction(state) {
-  let userId;
+  let path, userId;
 
-  if (state.session.user.role === 'guest') {
+  if (state.session.user.isStaff()) {
+    path = `/api/demo/wizard/resources`;
+  } else {
     userId = state.session.user.id;
+    path = `/api/wizard/${userId}/resources`;
   }
 
   return {
     type: 'CALL_API',
     method: 'get',
-    url: `/api/wizard/${userId}/resources`,
+    url: path,
     // Right now we add the resources to both reducers
     // TODO: consider refactoring and only passes the actual resource objects
     // to the resource reducer, then pass only the resource_ids array to the
@@ -55,11 +58,11 @@ export class PersonalizedResources extends Component {
       if (!_isEmpty(resources)) {
 
         let resourceContent = [];
-        _forOwn(resources, (resources, tag, i) => {
-          resourceContent.push(<fieldset key={i}>
+        _forOwn(resources, (_resources, tag) => {
+          resourceContent.push(<fieldset key={tag} className="resourceGroup">
             <legend><h2>Resources for {tag}</h2></legend>
-            {resources.map((resource, j) => (
-              <PersonalizedResourceRow resource={resource} key={j} displayTags={user.isStaff()}/>
+            {_resources.slice(0, 3).map((resource, i) => (
+              <PersonalizedResourceRow resource={resource} key={i} displayTags={user.isStaff()}/>
             ))}
           </fieldset>);
         });

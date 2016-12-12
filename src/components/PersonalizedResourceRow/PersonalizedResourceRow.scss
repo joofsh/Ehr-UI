@@ -1,7 +1,10 @@
 @import "../../theme/variables.scss";
 
 .PersonalizedResourceRow {
-  border-bottom: 1px dashed $medium-gray;
+  margin-bottom: 15px;
+  &:not(:last-child) {
+    border-bottom: 1px dashed $medium-gray;
+  }
 
   .resourceMap {
     height: 250px;

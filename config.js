@@ -16,6 +16,9 @@ module.exports = Object.assign({
   // google analytics
   googleAnalayticsTrackingId: process.env.GA_TRACKING_ID,
 
+  // google maps
+  googleMapsAPIKey: process.env.GOOGLE_MAPS_KEY,
+
   // mail chimp
   mailchimpApiKey: process.env.MAILCHIMP_API_KEY,
   newsletterListId: process.env.NEWSLETTER_LIST_ID,

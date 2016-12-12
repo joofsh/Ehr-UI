@@ -58,7 +58,7 @@ export default function reducer(state = initialState, action = {}) {
       _forOwn(action.payload.resources, (_resources, tag) => {
         resources[tag] = _resources.map(resource =>
           buildResource(resource)
-        )
+        );
       });
 
       return {

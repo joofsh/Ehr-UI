@@ -4,6 +4,7 @@ import serialize from 'serialize-javascript';
 import DocumentMeta from 'react-document-meta';
 
 import Server from './Server';
+import config from '../../config';
 
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
@@ -78,7 +79,10 @@ export default class Html extends Component {
             }}
             charSet="UTF-8"
           />
-          <script src={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places`}></script>
+          <script
+            src={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${config.googleMapsAPIKey}`}
+          >
+      </script>
           { clientJS }
         </body>
       </html>
