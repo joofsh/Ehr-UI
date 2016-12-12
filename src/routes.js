@@ -32,6 +32,8 @@ export default () => {
       <Route path="/clients/:id/questions" component={QuestionWizard}/>
       <Route path="/clients/:id/resources" component={PersonalizedResources}/>
 
+      <Route path="/demo/my_resources" component={PersonalizedResources}/>
+
       <Route path="/users" component={Users} />
       <Route path="/users/new" component={NewUser}/>
       <Route path="/users/:id" component={User}/>

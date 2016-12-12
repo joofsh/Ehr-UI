@@ -115,7 +115,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchPersonalizedResources: () => {
       dispatch((dispatch, getState) => {
-        if (getState().wizard.resources.length) {
+        if (!_isEmpty(getState().wizard.resources)) {
           return;
         }
 
