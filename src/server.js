@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+require('newrelic');
 
 import express from 'express';
 import compression from 'compression';
