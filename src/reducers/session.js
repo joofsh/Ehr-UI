@@ -73,7 +73,7 @@ export default function session(state = initialState, action = {}) {
     case 'RECEIVE_HEALTHCHECK':
       return {
         ...state,
-        healthcheck: action.response
+        healthcheck: action.payload
       };
     case 'HIDE_MODAL':
       return {

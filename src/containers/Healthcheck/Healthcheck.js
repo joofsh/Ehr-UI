@@ -5,7 +5,7 @@ function fetchHealthcheckAction() {
   return {
     type: 'CALL_API',
     method: 'get',
-    url: '/api/healthcheck',
+    url: '/api/config/healthcheck',
     successType: 'RECEIVE_HEALTHCHECK'
   };
 }
