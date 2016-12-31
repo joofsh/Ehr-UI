@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-require('newrelic');
+const newrelic = require('newrelic');
 
 import express from 'express';
 import compression from 'compression';
@@ -168,6 +168,7 @@ function handleRender(req, res) {
   const routes = _routes();
   match({ routes, location }, (error, redirectLocation, renderProps) => {
     console.info('--- Handling request: ', req.url);
+    newrelic.setTransactionName(req.url.substring(1));
 
     function getReduxPromise() {
       let comp = renderProps.components[renderProps.components.length - 1];
