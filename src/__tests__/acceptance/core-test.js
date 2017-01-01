@@ -2,7 +2,6 @@ require('src/__tests__/mocks/mockGoogleAPI');
 
 import expect from 'expect';
 import TestUtils, { renderIntoDocument } from 'react-addons-test-utils';
-import ReactDOM from 'react-dom';
 import React from 'react';
 import { mount } from 'enzyme';
 import { Router } from 'react-router';
@@ -17,8 +16,7 @@ import { resources } from 'src/__tests__/mocks/mockData';
 import testFacade from 'src/__tests__/facade';
 import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
 
-let store, history, renderer, facade;
-let wrapper;
+let store, history, renderer, facade, wrapper;
 
 let request = require('superagent');
 require('superagent-mock')(request, superAgentMockConfig);
