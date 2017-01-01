@@ -5,7 +5,6 @@ import { pushPath } from 'redux-simple-router';
 import string from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import Helmet from 'react-helmet';
-<Helmet title=""/>
 
 export class NewClient extends Component {
   static propTypes = {
