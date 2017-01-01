@@ -1,8 +1,10 @@
 require('src/__tests__/mocks/mockGoogleAPI');
+
 import expect from 'expect';
 import TestUtils, { renderIntoDocument } from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 import React from 'react';
+import { mount } from 'enzyme';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
 import { createHistory } from 'history';
@@ -15,7 +17,8 @@ import { resources } from 'src/__tests__/mocks/mockData';
 import testFacade from 'src/__tests__/facade';
 import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
 
-let store, history, renderer, dom, facade;
+let store, history, renderer, facade;
+let wrapper;
 
 let request = require('superagent');
 require('superagent-mock')(request, superAgentMockConfig);
@@ -45,26 +48,44 @@ function authenticate() {
 }
 
 function visit(path = '/') {
+  wrapper.props().store.dispatch(pushPath(path));
+
+  // TODO(jd): remove this later when old renderer version is removed
   renderer.store.dispatch(pushPath(path));
 }
 
 
+function currentURL() {
+  return wrapper.props().store.getState().routing.path;
+}
+
 describe('Acceptance - App', () => {
   beforeEach(() => {
+    wrapper = mount(appComponent());
     renderer = renderIntoDocument(appComponent());
-    dom = ReactDOM.findDOMNode(renderer);
   });
 
   afterEach(() => {
+    wrapper = undefined;
     renderer = undefined;
-    dom = undefined;
   });
 
   it('loads', (done) => {
+    // Homepage
     visit('/');
-    expect(renderer).toExist();
-    expect(dom).toExist();
-    done();
+    expect(wrapper.exists()).toBe(true);
+    expect(wrapper.find('.banner-title').text()).toEqual('A Simpler Way to Find Help');
+
+    // Resources
+    wrapper.find('a.btn-primary').simulate('click');
+    visit('/resources');
+
+    setTimeout(() => {
+      expect(currentURL()).toEqual('/resources');
+      expect(wrapper.find('.resource-map-wrapper').length).toEqual(1);
+      expect(wrapper.find('.list-group-item').length).toEqual(resources.length);
+      done();
+    });
   });
 
   it('renders homepage', (done) => {
