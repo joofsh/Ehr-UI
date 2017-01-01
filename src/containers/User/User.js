@@ -4,6 +4,7 @@ import { LoadingSpinner, UserForm, ToggleButton } from 'src/components';
 import stringUtil from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import _find from 'lodash/find';
+import Helmet from 'react-helmet';
 
 function fetchUserAction(id) {
   return {
@@ -41,6 +42,7 @@ export class User extends Component {
     }
 
     return (<div className="container-user container">
+      <Helmet title={user.name}/>
       <div className="row">
         <ToggleButton
           className="pull-right"

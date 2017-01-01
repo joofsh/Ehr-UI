@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { PersonalizedResourceRow, LoadingSpinner } from 'src/components';
 import _forOwn from 'lodash/forOwn';
 import _isEmpty from 'lodash/isEmpty';
+import Helmet from 'react-helmet';
 
 function fetchPersonalizedResourcesAction(state) {
   let path, userId;
@@ -93,6 +94,7 @@ export class PersonalizedResources extends Component {
 
     require('./PersonalizedResources.scss');
     return (<div className="container container-personalizedResources">
+      <Helmet title="My Resources"/>
       <div className="row">
         <div className="col-lg-12 content">
           {content}

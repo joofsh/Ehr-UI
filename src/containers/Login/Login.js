@@ -3,6 +3,7 @@ import { LoadingSpinner, FormGroup } from 'src/components';
 import { reduxForm } from 'redux-form';
 import ApiClient from 'src/utils/api';
 import { pushPath } from 'redux-simple-router';
+import Helmet from 'react-helmet';
 
 export class Login extends Component {
   static propTypes = {
@@ -23,6 +24,7 @@ export class Login extends Component {
 
     require('./Login.scss');
     return (<div className="container-login container">
+      <Helmet title="Login"/>
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <h1>Login</h1>

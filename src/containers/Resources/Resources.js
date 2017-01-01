@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
+
 import {
   LoadingSpinner,
   ResourceRow,
@@ -7,7 +9,6 @@ import {
   MaxHeightContainer,
   SearchBar
 } from 'src/components';
-
 import { collectionFilter } from 'src/reducers/search';
 
 function fetchResources() {
@@ -69,6 +70,7 @@ export class Resources extends Component {
 
     require('./Resources.scss');
     return (<div className="container-fluid container-resources">
+      <Helmet title="Resources"/>
       <div className="row">
         <MaxHeightContainer className="col-md-6 col-xs-12 pull-right">
           { children || resourceContent }

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { DataTable, LoadingSpinner } from 'src/components';
 import moment from 'moment';
+import Helmet from 'react-helmet';
 
 global.moment = moment;
 
@@ -61,6 +62,7 @@ export class Users extends Component {
     }
 
     return (<div className="container-users container">
+      <Helmet title="Clients"/>
       { this.renderNewUserLink() &&
         <Link to="/users/new" className="btn btn-primary">
           Add User

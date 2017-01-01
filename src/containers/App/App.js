@@ -4,11 +4,14 @@ import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import NavDropdown from 'react-bootstrap/lib/NavDropdown';
 import MenuItem from 'react-bootstrap/lib/MenuItem';
+import Helmet from 'react-helmet';
 
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
+
+import config from '../../../config';
 
 // Paths that do not require authentication
 const UNRESTRICTED_PATHS = [
@@ -51,6 +54,7 @@ export class App extends Component {
 
     require('./App.scss');
     return (<div className="app">
+      <Helmet {...config.appMeta}/>
       <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
