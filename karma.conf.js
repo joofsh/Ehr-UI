@@ -31,6 +31,15 @@ module.exports = function (config) {
 
     webpack: {
       devtool: 'inline-source-map',
+      externals: {
+        "jsdom": "window",
+        "cheerio": "window",
+
+        // These 2 are hacks to get around bugs
+        // in older versions of enzyme
+        "react/lib/ExecutionEnvironment": true,
+        "react/lib/ReactContext": true
+      },
       module: {
         loaders: [
           { test: /\.(jpe?g|png|gif|svg)$/, loader: 'url', query: {limit: 10240} },
