@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { fetchTagsAction } from 'src/actions';
 import {
   FontIcon,
@@ -72,6 +73,7 @@ export class Tags extends Component {
 
     require('./Tags.scss');
     return (<div className="container container-tags container--main">
+      <Helmet title="Tags"/>
       <div className="row">
         <div className="col-xs-12">
           { children || content }

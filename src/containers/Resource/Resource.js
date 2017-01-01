@@ -6,6 +6,7 @@ import { reset } from 'redux-form';
 import string from 'src/utils/string';
 import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
+import Helmet from 'react-helmet';
 
 function fetchResourceAction(id) {
   return {
@@ -56,6 +57,7 @@ export class Resource extends Component {
 
     require('./Resource.scss');
     return (<div className="container container-resource col-xs-12">
+      <Helmet title={resource.title} />
       <div className="row">
         <div className="clearfix">
           {authedStaff && <ToggleButton

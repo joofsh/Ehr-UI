@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 import string from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
+import Helmet from 'react-helmet';
 
 export class NewClient extends Component {
   static propTypes = {
@@ -14,6 +15,7 @@ export class NewClient extends Component {
     const { onSubmit } = this.props;
 
     return (<div className="newClient-container container">
+      <Helmet title="New Client"/>
       <div className="row">
         <UserForm
           formTitle="Create Client Profile"

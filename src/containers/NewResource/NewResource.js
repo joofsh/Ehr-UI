@@ -5,6 +5,7 @@ import { fetchTagsAction } from 'src/actions';
 import { pushPath } from 'redux-simple-router';
 import string from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
+import Helmet from 'react-helmet';
 
 export class NewResource extends Component {
   static propTypes = {
@@ -24,6 +25,7 @@ export class NewResource extends Component {
 
     require('./NewResource.scss');
     return (<div className="container container-newResource">
+      <Helmet title="New Resource"/>
       <div className="row">
         <ResourceForm
           formTitle="Submit a Resource"

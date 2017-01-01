@@ -30,18 +30,19 @@ module.exports = Object.assign({
   apiPort: process.env.APIPORT || 4000,
   apiVersion: process.env.APIVERSION || 'v1',
 
-  app: {
-    title: 'DC Social Worker Services',
-    description: 'Information Aggregate for available services in DC',
-    meta: {
-      charSet: 'utf-8',
-      property: {
-        'og:site_name': 'DC Social Worker Services',
-        'og:image': 'http://theprincetontory.com/main/wp-content/uploads/2014/09/washington-dc.jpg',
-        'og:locale': 'en_US',
-        'og:title': 'DC Social Worker Services',
-        'og:description': 'Services available in Washington DC',
-      }
-    }
+  appMeta: {
+    defaultTitle: 'DC Resources',
+    titleTemplate: '%s | DC Resources',
+    description: 'Find personalized resources in DC',
+    meta: [
+      { name: 'keywords', content: 'Personalized Resources, Community, Resources, DC' },
+
+      // Facebook
+      { name: 'og:site_name', content: 'DC Resources' },
+      { name: 'og:image', content: 'http://theprincetontory.com/main/wp-content/uploads/2014/09/washington-dc.jpg' },
+      { name: 'og:locale', content: 'en_US' },
+      { name: 'og:title', content:  'DC Resources' },
+      { name: 'og:description', content: 'Resources available in Washington DC' }
+    ]
   }
 }, environment);

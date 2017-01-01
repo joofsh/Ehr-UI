@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
-import DocumentMeta from 'react-document-meta';
+import Helmet from 'react-helmet';
 
 import Server from './Server';
 import config from '../../config';
@@ -38,10 +38,11 @@ export default class Html extends Component {
         rel="stylesheet" type="text/css" charSet="UTF-8"
       />);
 
+    const head = Helmet.rewind();
     return (
       <html lang="en-us">
         <head>
-          {DocumentMeta.renderAsReact()}
+          <Helmet {...config.appMeta}/>
 
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />

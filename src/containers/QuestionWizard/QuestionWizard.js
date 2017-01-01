@@ -5,6 +5,7 @@ import { LoadingSpinner, QuestionWizardChoice } from 'src/components';
 import { fetchQuestionsAction } from 'src/actions';
 import { pushPath } from 'redux-simple-router';
 import _find from 'lodash/find';
+import Helmet from 'react-helmet';
 
 function fetchInitialQuestionAction(state) {
   let userId;
@@ -85,6 +86,7 @@ export class QuestionWizard extends Component {
     }
 
     return (<div className="container-QuestionWizard container">
+      <Helmet title="Question Wizard"/>
       <div className="row">
         <div className="col-md-8 col-md-offset-2">
           <div className="answer-question-wrapper clearfix">
