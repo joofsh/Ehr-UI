@@ -42,7 +42,11 @@ export default class Html extends Component {
     return (
       <html lang="en-us">
         <head>
-          <Helmet {...config.appMeta}/>
+          {head.base.toComponent()}
+          {head.title.toComponent()}
+          {head.meta.toComponent()}
+          {head.link.toComponent()}
+          {head.script.toComponent()}
 
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
