@@ -33,9 +33,9 @@ module.exports = Object.assign({
   appMeta: {
     defaultTitle: 'DC Resources',
     titleTemplate: '%s | DC Resources',
-    description: 'Find personalized resources in DC',
     meta: [
       { name: 'keywords', content: 'Personalized Resources, Community, Resources, DC' },
+      { name: 'description', contnet:  'Find personalized resources in DC' },
 
       // Facebook
       { name: 'og:site_name', content: 'DC Resources' },
