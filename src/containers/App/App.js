@@ -70,24 +70,24 @@ export class App extends Component {
         <Navbar.Collapse>
           <Nav navbar pullRight>
             {authedStaff && <NavDropdown title="Clients" id="user-dropdown">
-              <LinkContainer to="/users">
+              <LinkContainer to={{ pathname: '/users' }}>
                 <MenuItem>
                   View Clients
                 </MenuItem>
               </LinkContainer>
-              <LinkContainer to="/clients/new">
+              <LinkContainer to={{ pathname: 'clients/new' }}>
                 <MenuItem>
                   Add New Client
                 </MenuItem>
               </LinkContainer>
             </NavDropdown>}
             {authedStaff && <NavDropdown title="Content" id="question-dropdown">
-              <LinkContainer to="/questions">
+              <LinkContainer to={{ pathname: '/questions'}}>
                 <MenuItem>
                   Manage Questions
                 </MenuItem>
               </LinkContainer>
-              <LinkContainer to="/tags">
+              <LinkContainer to={{ pathname: '/tags' }}>
                 <MenuItem>
                   Manage Tags
                 </MenuItem>
@@ -95,7 +95,7 @@ export class App extends Component {
             </NavDropdown>}
             <NavDropdown title="Resources" id="resources-dropdown">
               {authedGuest &&
-                <LinkContainer to="/my_resources">
+                <LinkContainer to={{ pathname: '/my_resources' }}>
                   <MenuItem>
                     My Resources
                   </MenuItem>
@@ -106,12 +106,12 @@ export class App extends Component {
                     Demo My Resources
                   </MenuItem>
                 </LinkContainer>}
-              <LinkContainer to="/resources">
+              <LinkContainer to={{ pathname: '/resources' }}>
                 <MenuItem>
                   All Resources
                 </MenuItem>
               </LinkContainer>
-              <LinkContainer to="/resources/new">
+              <LinkContainer to={{ pathname: '/resources/new' }}>
                 <MenuItem>
                   Submit A Resources
                 </MenuItem>
@@ -119,7 +119,7 @@ export class App extends Component {
             </NavDropdown>
             {authed ?
               <NavItem onClick={logout}>Logout</NavItem> :
-              <LinkContainer to="/login">
+              <LinkContainer to={{ pathname: '/login' }}>
                 <NavItem active>Sign In</NavItem>
               </LinkContainer>}
           </Nav>

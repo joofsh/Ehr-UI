@@ -69,8 +69,13 @@ module.exports = {
       components: 'src/components',
       reducers: 'src/reducers',
       styles: 'src/styles',
-      containers: 'src/containers'
-    }
+      containers: 'src/containers',
+
+      // TODO(jd): remove this when upgrading packages:
+      // - react-hot-loader
+      'react/lib/ReactMount': 'react-dom/lib/ReactMount'
+    },
+    extensions: ['', '.json', '.js', '.jsx']
   },
   stats: {
     colors: true

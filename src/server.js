@@ -11,7 +11,7 @@ import superagent from 'superagent';
 
 import ReactDOM from 'react-dom/server';
 import React from 'react';
-import { match, RoutingContext } from 'react-router';
+import { match, RouterContext } from 'react-router';
 import { createLocation } from 'history';
 import { Provider } from 'react-redux';
 
@@ -187,7 +187,7 @@ function handleRender(req, res) {
         const component = (
           <Provider store={store}>
             <div>
-              <RoutingContext {...renderProps} />
+              <RouterContext {...renderProps} />
             </div>
           </Provider>
         );
