@@ -34,6 +34,7 @@ module.exports = function (config) {
       externals: {
         "jsdom": "window",
         "cheerio": "window",
+        'react/addons': true,
 
         // These 2 are hacks to get around bugs
         // in older versions of enzyme
