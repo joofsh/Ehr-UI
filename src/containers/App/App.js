@@ -82,7 +82,7 @@ export class App extends Component {
               </LinkContainer>
             </NavDropdown>}
             {authedStaff && <NavDropdown title="Content" id="question-dropdown">
-              <LinkContainer to={{ pathname: '/questions'}}>
+              <LinkContainer to={{ pathname: '/questions' }}>
                 <MenuItem>
                   Manage Questions
                 </MenuItem>

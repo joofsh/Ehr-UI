@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-import FormControls from 'react-bootstrap/lib/FormControls/Static';
-import Input from 'react-bootstrap/lib/Input';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import FormControlStatic from 'react-bootstrap/lib/FormControlStatic';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import string from 'src/utils/string';
 import _isArray from 'lodash/isArray';
 
 import { MultilineValue } from 'src/components';
 
-export default class FormGroup extends Component {
+export default class _FormGroup extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -110,12 +112,11 @@ export default class FormGroup extends Component {
       wrapperClassName,
       children,
     } = this.props;
-    let formGroup;
+    let content;
 
     if (this.isEditing()) {
-      formGroup = (
-        <Input
-          {...this.props}
+      content = (
+        <FormControl
           value={this.getInputValue()}
           label={this.label()}
           type={this.type()}
@@ -124,12 +125,11 @@ export default class FormGroup extends Component {
           bsStyle={error ? 'error' : null}
           help={error}
           children={children}
-          labelClassName={labelClassName || 'col-xs-3'}
-          wrapperClassName={wrapperClassName || 'col-xs-9'}
+          className={wrapperClassName || 'col-xs-9'}
         />);
     } else {
-      formGroup = (
-        <FormControls
+      content = (
+        <FormControlStatic
           name={name}
           label={this.label()}
           labelClassName={labelClassName || 'col-xs-3'}
@@ -141,6 +141,13 @@ export default class FormGroup extends Component {
 
 
     require('./FormGroup.scss');
-    return formGroup;
+    return (<FormGroup>
+      <ControlLabel className={labelClassName || 'col-xs-3'}>
+        {this.label()}
+      </ControlLabel>
+      <div className={wrapperClassName || 'col-xs-9'}>
+        {content}
+      </div>
+    </FormGroup>);
   }
 }
