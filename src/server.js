@@ -11,8 +11,9 @@ import superagent from 'superagent';
 
 import ReactDOM from 'react-dom/server';
 import React from 'react';
-import { match, RoutingContext } from 'react-router';
-import { createLocation } from 'history';
+import { match, RouterContext } from 'react-router';
+import createHistory from 'react-router/lib/createMemoryHistory';
+import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 
 import ApiClient from './utils/api';
@@ -148,7 +149,10 @@ function handleRender(req, res) {
   console.log('REQ SESSION: ', req.session.user && req.session.user.token);
 
   const client = new ApiClient(req);
+  const memoryHistory = createHistory(req.originalUrl);
   const store = configureStore({ session: sessionForClient }, client);
+  const routes = _routes();
+  const history = syncHistoryWithStore(memoryHistory, store);
 
   if (__DEVELOPMENT__) {
     webpackIsomorphicTools.refresh();
@@ -164,9 +168,7 @@ function handleRender(req, res) {
     return;
   }
 
-  const location = createLocation(req.originalUrl);
-  const routes = _routes();
-  match({ routes, location }, (error, redirectLocation, renderProps) => {
+  match({ history, routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {
     console.info('--- Handling request: ', req.url);
     newrelic.setTransactionName(req.url.substring(1));
 
@@ -187,7 +189,7 @@ function handleRender(req, res) {
         const component = (
           <Provider store={store}>
             <div>
-              <RoutingContext {...renderProps} />
+              <RouterContext {...renderProps} />
             </div>
           </Provider>
         );
@@ -204,7 +206,7 @@ function handleRender(req, res) {
         // call should be able to handle this on SSR
         if (resp.status === 403) {
           req.session.user = null;
-          console.info('403 response. Redirecting to login');
+          console.info('Server 403 response. Redirecting to login');
           res.redirect('/login');
         }
       }).catch((_error) => {

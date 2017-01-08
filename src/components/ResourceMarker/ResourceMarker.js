@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Marker, InfoWindow } from 'react-google-maps';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'redux-simple-router';
 
 export default class ResourceMarker extends Component {
   static propTypes = {
@@ -31,7 +31,7 @@ export default class ResourceMarker extends Component {
 
   onTitleClick(event) {
     event.preventDefault();
-    this.context.store.dispatch(pushPath(this.linkUrl()));
+    this.context.store.dispatch(push(this.linkUrl()));
   }
 
   onMarkerClick() {

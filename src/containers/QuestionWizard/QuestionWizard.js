@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { LoadingSpinner, QuestionWizardChoice } from 'src/components';
 import { fetchQuestionsAction } from 'src/actions';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import _find from 'lodash/find';
 import Helmet from 'react-helmet';
 
@@ -175,7 +175,7 @@ function mapDispatchToProps(dispatch) {
 
         dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', response });
         if (!response.next_question) {
-          dispatch(pushPath(`/my_resources`));
+          dispatch(push(`/my_resources`));
         }
       });
     }

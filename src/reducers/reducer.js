@@ -1,4 +1,4 @@
-import { routeReducer } from 'redux-simple-router';
+import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 
 import question from './question';
@@ -18,5 +18,5 @@ export default {
   user,
   wizard,
   form: formReducer,
-  routing: routeReducer
+  routing: routerReducer
 };

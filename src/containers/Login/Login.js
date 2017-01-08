@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { LoadingSpinner, FormGroup } from 'src/components';
 import { reduxForm } from 'redux-form';
 import ApiClient from 'src/utils/api';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import Helmet from 'react-helmet';
 
 export class Login extends Component {
@@ -52,7 +52,7 @@ function mapDispatchToProps(dispatch) {
         new ApiClient().post('/authorize', { data: login })
           .then(user => {
             dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', payload: { user } });
-            resolve(dispatch(pushPath('/')));
+            resolve(dispatch(push('/')));
           }, () => {
             reject(
               { _error: 'Login Failed. Please verify your username and password are correct' }
