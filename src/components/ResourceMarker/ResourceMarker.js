@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Marker, InfoWindow } from 'react-google-maps';
-import { push } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 
 export default class ResourceMarker extends Component {
   static propTypes = {
