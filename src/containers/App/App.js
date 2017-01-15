@@ -28,7 +28,8 @@ export class App extends Component {
     authedGuest: PropTypes.bool,
     children: PropTypes.object.isRequired,
     ensureAuthed: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
+    path: PropTypes.string
   };
 
   static contextTypes = {
@@ -160,7 +161,6 @@ function mapDispatchToProps(dispatch) {
         });
 
         if (requireAuth && !getState().session.user) {
-          console.info('redirecting to login!');
           dispatch(push('/login'));
         }
       });
@@ -171,12 +171,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     authed: !!state.session.user,
     authedStaff: state.session.user && state.session.user.staff,
     // TODO: Convert this to user class with `isGuest`-like boolean properties
-    authedGuest: state.session.user && state.session.user.role === 'guest'
+    authedGuest: state.session.user && state.session.user.role === 'guest',
+    path: ownProps.location.pathname,
   };
 }
 

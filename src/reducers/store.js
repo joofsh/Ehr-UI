@@ -4,6 +4,7 @@ import { DevTools } from 'src/containers';
 import thunk from 'redux-thunk';
 import { persistState } from 'redux-devtools';
 import apiMiddleware from './middleware/api';
+import testLoggerMiddleware from './middleware/testLogger';
 import { routerMiddleware } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import createLogger from 'redux-logger';
@@ -19,6 +20,10 @@ export default function configureStore(initialState = {}, client) {
 
   if (__CLIENT__ && (__DEVELOPMENT__ || global.localStorage.getItem('logReduxActions'))) {
     middleware.push(createLogger());
+  }
+
+  if (__TEST__) {
+    middleware.push(testLoggerMiddleware());
   }
 
   let finalCreateStore;

@@ -17,9 +17,8 @@ function getTag(component, tag) {
   return TestUtils.findRenderedDOMComponentWithTag(component, tag);
 }
 
-function base(component) {
+function base(wrapper) {
   return {
-    currentURL: component.props.store.getState().routing.path
   };
 }
 
@@ -33,22 +32,26 @@ export default {
     });
   },
 
-  login: (component) => {
-    return Object.assign({}, base(component), {
-      inputs: getTags(component, 'input'),
-      submit: getClass(component, 'btn')
+  login: (wrapper) => {
+    return Object.assign({}, base(wrapper), {
+      inputs: {
+        identifier: wrapper.find('#identifier'),
+        password: wrapper.find('#password')
+      },
+      form: wrapper.find('form'),
+      submit: wrapper.find('.btn-success')
     });
   },
 
-  resources: (component) => {
-    let resourceListItems = getClasses(component, 'list-group-item');
-    let firstResource = resourceListItems[0];
-    return Object.assign({}, base(component), {
-      map: getClass(component, 'resource-map'),
+  resources: (wrapper) => {
+    let resourceListItems = wrapper.find('.list-group-item');
+    let firstResource = resourceListItems.first();
+    return Object.assign({}, base(wrapper), {
+      map: wrapper.find('.resource-map'),
       resourceListItems,
       firstResource: {
         container: firstResource,
-        title: firstResource.querySelector('h4').innerHTML
+        title: firstResource.find('h4').text()
       }
     });
   },
@@ -59,20 +62,20 @@ export default {
     });
   },
 
-  tags: (component) => {
-    return Object.assign({}, base(component), {
-      tags: getClasses(component, 'tagForm')
+  tags: (wrapper) => {
+    return Object.assign({}, base(wrapper), {
+      tags: wrapper.find('.tagForm')
     });
   },
 
-  resource: (component) => {
-    let staticValues = getClasses(component, 'form-control-static');
-    let description = _find(staticValues, (e) => e.getAttribute('name') === 'description');
+  resource: (wrapper) => {
+    let staticValues = wrapper.find('.form-control-static');
+    let description = _find(staticValues.nodes, (e) => e.getAttribute('name') === 'description');
 
-    return Object.assign({}, base(component), {
-      title: getTag(component, 'h2'),
+    return Object.assign({}, base(wrapper), {
+      title: wrapper.find('h2'),
       description: description.querySelector('span').innerText,
-      publishStatus: getTags(component, 'small')
+      publishStatus: wrapper.find('small')
     });
   },
 

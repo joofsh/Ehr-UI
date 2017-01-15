@@ -6,6 +6,16 @@ import {
 
 export default [
   {
+    pattern: '(.*)/authorize',
+    fixtures: () => {},
+    post: (match, data) => {
+      return {
+        body: { id: 5, username: 'foo', role: 'admin' },
+        code: 200
+      };
+    }
+  },
+  {
     pattern: '(.*)/questions$',
     fixtures: () => questions,
     get: (match, data) => {
