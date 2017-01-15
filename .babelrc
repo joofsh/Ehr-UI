@@ -1,5 +1,5 @@
 {
   "presets": ["es2015", "stage-0", "react"],
-  "plugins": ["lodash"]
+  "plugins": ["lodash", "syntax-async-functions","transform-regenerator"]
 }
 

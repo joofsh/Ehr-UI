@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { UserForm } from 'src/components';
 import { connect } from 'react-redux';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import string from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import Helmet from 'react-helmet';
@@ -51,7 +51,7 @@ function mapDispatchToProps(dispatch) {
 
         return dispatch(submitClientAction(data)).then(user => {
           dispatch({ type: 'RECEIVE_ADD_USER', user });
-          dispatch(pushPath(`/users/${user.id}`));
+          dispatch(push(`/users/${user.id}`));
           return Promise.resolve();
         }, response => {
           let error = { _error: 'We were unable to create this client.' };

@@ -1,10 +1,10 @@
 import RSVP from 'rsvp';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import _castArray from 'lodash/castArray';
 
 function handleForbiddenRequest(dispatch) {
   dispatch({ type: 'INVALIDATE_CURRENT_USER' });
-  dispatch(pushPath('/login'));
+  dispatch(push('/login'));
 }
 
 export default function apiMiddleware(client) {

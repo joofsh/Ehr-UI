@@ -9,7 +9,7 @@ import Helmet from 'react-helmet';
 import { LinkContainer } from 'react-router-bootstrap';
 import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 
 import config from '../../../config';
 
@@ -140,7 +140,7 @@ function logoutAction() {
     url: '/logout',
     successType: (dispatch) => {
       dispatch({ type: 'INVALIDATE_CURRENT_USER' });
-      dispatch(pushPath('/'));
+      dispatch(push('/'));
     }
   };
 }
@@ -149,7 +149,7 @@ function mapDispatchToProps(dispatch) {
   return {
     ensureAuthed: () => {
       dispatch((dispatch, getState) => {
-        let path = getState().routing.path;
+        let path = getState().routing.locationBeforeTransitions.pathname;
         let requireAuth = true;
 
         UNRESTRICTED_PATHS.forEach(unrestricted_path => {
@@ -161,8 +161,7 @@ function mapDispatchToProps(dispatch) {
         });
 
         if (requireAuth && !getState().session.user) {
-          console.info('redirecting to login!');
-          dispatch(pushPath('/login'));
+          dispatch(push('/login'));
         }
       });
     },
@@ -172,13 +171,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     authed: !!state.session.user,
-    path: state.routing.path,
     authedStaff: state.session.user && state.session.user.staff,
     // TODO: Convert this to user class with `isGuest`-like boolean properties
-    authedGuest: state.session.user && state.session.user.role === 'guest'
+    authedGuest: state.session.user && state.session.user.role === 'guest',
+    path: ownProps.location.pathname,
   };
 }
 

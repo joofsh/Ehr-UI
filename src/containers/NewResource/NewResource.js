@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { ResourceForm } from 'src/components';
 import { fetchTagsAction } from 'src/actions';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import string from 'src/utils/string';
 import _forOwn from 'lodash/forOwn';
 import Helmet from 'react-helmet';
@@ -60,7 +60,7 @@ function mapDispatchToProps(dispatch) {
     submitResource: (resource) => {
       return dispatch(submitResourceAction({ resource })).then(response => {
         dispatch({ type: 'RECEIVE_RESOURCE_SUCCESS', response });
-        dispatch(pushPath(`/resources/${response.id}`));
+        dispatch(push(`/resources/${response.id}`));
         return Promise.resolve();
       }, response => {
         let error = { _error: 'We were unable to submit this resource.' };

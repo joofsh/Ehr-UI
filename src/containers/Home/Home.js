@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import { LoadingSpinner, FontIcon, Modal, NewsletterSignupForm } from 'src/components';
 import ReactGA from 'react-ga';
 
@@ -122,7 +122,7 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'REQUEST_REGISTER_GUEST' });
       dispatch(registerGuestAction()).then((guest) => {
         dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', payload: { user: guest } });
-        dispatch(pushPath('/wizard'));
+        dispatch(push('/wizard'));
       });
     },
     showModal: (event) => {

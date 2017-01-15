@@ -1,10 +1,9 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router';
+import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
-import { createHistory } from 'history';
-import { syncReduxAndRouter } from 'redux-simple-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'reducers/store';
 import routes from './routes';
 import ApiClient from 'src/utils/api';
@@ -20,9 +19,8 @@ global.__CLIENT__ = true;
 
 const initializeState = Object.assign({}, global.__INITIAL_STATE__);
 const store = configureStore(initializeState, new ApiClient());
-const history = createHistory();
 
-syncReduxAndRouter(history, store);
+syncHistoryWithStore(browserHistory, store);
 
 const dest = document.getElementById('root');
 const devToolDest = document.getElementById('devtools');
@@ -38,7 +36,7 @@ let logPageView = () => {
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <Router history={history} onUpdate={logPageView}>
+      <Router history={browserHistory} onUpdate={logPageView}>
         {routes()}
       </Router>
 

@@ -1,32 +1,27 @@
+import 'babel-polyfill';
 require('src/__tests__/mocks/mockGoogleAPI');
 
 import expect from 'expect';
-import TestUtils, { renderIntoDocument } from 'react-addons-test-utils';
 import React from 'react';
 import { mount } from 'enzyme';
-import { Router } from 'react-router';
+import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
-import { createHistory } from 'history';
-import { syncReduxAndRouter } from 'redux-simple-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'reducers/store';
 import routes from 'src/routes';
 import ApiClient from 'src/utils/api';
-import { pushPath } from 'redux-simple-router';
+import { push } from 'react-router-redux';
 import { resources } from 'src/__tests__/mocks/mockData';
 import testFacade from 'src/__tests__/facade';
 import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
+import { type, pause, click } from 'src/__tests__/testHelper';
 
-let store, history, renderer, facade, wrapper;
+let store, history, facade, wrapper;
 
 let request = require('superagent');
 require('superagent-mock')(request, superAgentMockConfig);
 
 function appComponent() {
-  store = configureStore({}, new ApiClient());
-  history = createHistory();
-
-  syncReduxAndRouter(history, store);
-
   return (<Provider store={store}>
     <div>
       <Router history={history}>
@@ -36,39 +31,48 @@ function appComponent() {
   </Provider>);
 }
 
+// TODO(jd): Fix authentication
 function authenticate() {
-  renderer.store.dispatch({
+  let user = { id: 5, username: 'foo', role: 'advocate' };
+
+  store.dispatch({
     type: 'RECEIVE_AUTHENTICATE_SUCCESS',
-    payload: {
-      user: { id: 5, username: 'foo', role: 'advocate' }
-    }
+    payload: { user }
   });
 }
 
 function visit(path = '/') {
-  wrapper.props().store.dispatch(pushPath(path));
-
-  // TODO(jd): remove this later when old renderer version is removed
-  renderer.store.dispatch(pushPath(path));
+  store.dispatch(push(path));
 }
 
 
 function currentURL() {
-  return wrapper.props().store.getState().routing.path;
+  return global.location.pathname;
+}
+
+function setupApp(authed = false) {
+  store = configureStore({}, new ApiClient());
+  visit('/');
+  history = { ...browserHistory };
+  syncHistoryWithStore(history, store);
+
+  wrapper = mount(appComponent());
+  if (authed) {
+    authenticate();
+  }
 }
 
 describe('Acceptance - App', () => {
   beforeEach(() => {
-    wrapper = mount(appComponent());
-    renderer = renderIntoDocument(appComponent());
+    setupApp(true);
   });
 
   afterEach(() => {
+    store = undefined;
     wrapper = undefined;
-    renderer = undefined;
   });
 
-  it('loads', (done) => {
+  it('loads homepage & resources', async (done) => {
     // Homepage
     visit('/');
     expect(wrapper.exists()).toBe(true);
@@ -77,80 +81,71 @@ describe('Acceptance - App', () => {
     // Resources
     wrapper.find('a.btn-primary').simulate('click');
     visit('/resources');
+    await pause();
 
-    setTimeout(() => {
-      expect(currentURL()).toEqual('/resources');
-      expect(wrapper.find('.resource-map-wrapper').length).toEqual(1);
-      expect(wrapper.find('.list-group-item').length).toEqual(resources.length);
-      done();
-    });
-  });
-
-  it('renders homepage', (done) => {
-    visit('/');
-
-    facade = testFacade.homepage(renderer);
-    expect(facade.currentURL).toBe('/');
-    expect(facade.app).toExist();
-    expect(facade.banner).toExist();
-    expect(facade.title).toExist();
-    expect(facade.callToAction).toExist();
+    expect(currentURL()).toEqual('/resources');
+    expect(wrapper.find('.resource-map-wrapper').length).toEqual(1);
+    expect(wrapper.find('.list-group-item').length).toEqual(resources.length);
     done();
   });
 
-  it('renders login', (done) => {
+
+  it('renders login', async (done) => {
     visit('/login');
+    await pause();
 
-    facade = testFacade.login(renderer);
-    expect(facade.currentURL).toBe('/login');
-    expect(facade.inputs.length).toBe(2);
-    expect(facade.inputs[0].name).toBe('identifier');
-    expect(facade.inputs[1].name).toBe('password');
-    expect(facade.submit).toExist();
+    facade = testFacade.login(wrapper);
+    expect(currentURL()).toBe('/login');
+    expect(facade.inputs.identifier.length).toExist();
+    expect(facade.inputs.password.length).toExist();
+    type('joofsh', facade.inputs.identifier);
+    type('test', facade.inputs.password);
+    expect(facade.submit.length).toExist();
+    facade.form.simulate('submit');
+    await pause();
+
+    expect(currentURL()).toBe('/');
+    expect(store.getState().session.user.id).toExist();
     done();
   });
 
-  it('renders questions', (done) => {
-    authenticate();
+  it('renders questions', async (done) => {
     visit('/questions');
+    await pause();
 
-    setTimeout(() => {
-      facade = testFacade.questions(renderer);
-      expect(facade.questions.length).toBe(2);
-      done();
-    });
+    expect(currentURL()).toBe('/questions');
+    expect(wrapper.find('.questionForm').length).toBe(2);
+    done();
   });
 
-  it('renders tags', (done) => {
-    authenticate();
+  it('renders tags', async (done) => {
     visit('/tags');
-    setTimeout(() => {
-      facade = testFacade.tags(renderer);
-      expect(facade.tags.length).toBe(5);
-      done();
-    });
+    await pause();
+
+    facade = testFacade.tags(wrapper);
+    expect(facade.tags.length).toBe(5);
+    done();
   });
 
-  it('renders resources and resource', (done) => {
+  it('renders resources and resource', async (done) => {
     visit('/resources');
+    await pause();
 
-    setTimeout(() => {
-      facade = testFacade.resources(renderer);
-      expect(facade.currentURL).toBe('/resources');
-      expect(facade.resourceListItems.length).toBe(resources.length);
-      expect(facade.firstResource.container.href).toMatch(
-        new RegExp(`/resources/${resources[0].id}`)
-      );
-      expect(facade.firstResource.title).toBe(resources[0].title);
-      expect(facade.map).toExist();
-      TestUtils.Simulate.click(facade.firstResource.container, { button: 0 });
-    });
+    facade = testFacade.resources(wrapper);
+    expect(currentURL()).toBe('/resources');
+    expect(facade.resourceListItems.length).toBe(resources.length);
+    expect(facade.firstResource.container.node.href).toMatch(
+      new RegExp(`/resources/${resources[0].id}`)
+    );
+    expect(facade.firstResource.title).toBe(resources[0].title);
+    expect(facade.map.length).toExist();
+    click(facade.firstResource.container);
+    visit(facade.firstResource.container.node.href);
+    await pause();
 
-    setTimeout(() => {
-      facade = testFacade.resource(renderer);
-      expect(facade.currentURL).toBe(`/resources/${resources[0].id}`);
-      expect(facade.description).toBe(`${resources[0].description}\n`);
-      done();
-    });
+    facade = testFacade.resource(wrapper);
+    expect(currentURL()).toBe(`/resources/${resources[0].id}`);
+    expect(facade.description).toBe(`${resources[0].description}\n`);
+    done();
   });
 });
