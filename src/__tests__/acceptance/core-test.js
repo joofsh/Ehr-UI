@@ -110,7 +110,6 @@ describe('Acceptance - App', () => {
   });
 
   it('renders questions', async (done) => {
-    authenticate();
     visit('/questions');
     await pause();
 
