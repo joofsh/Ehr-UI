@@ -12,7 +12,7 @@ import superagent from 'superagent';
 import ReactDOM from 'react-dom/server';
 import React from 'react';
 import { match, RouterContext } from 'react-router';
-import createHistory from 'react-router/lib/createMemoryHistory';
+import { createMemoryHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { Provider } from 'react-redux';
 
@@ -149,7 +149,7 @@ function handleRender(req, res) {
   console.log('REQ SESSION: ', req.session.user && req.session.user.token);
 
   const client = new ApiClient(req);
-  const memoryHistory = createHistory(req.originalUrl);
+  const memoryHistory = createMemoryHistory(req.originalUrl);
   const store = configureStore({ session: sessionForClient }, client);
   const routes = _routes();
   const history = syncHistoryWithStore(memoryHistory, store);
