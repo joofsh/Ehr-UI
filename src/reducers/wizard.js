@@ -20,7 +20,16 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         errors: null,
-        currentQuestionId: action.payload.question.id
+        currentQuestionId: action.payload.question && action.payload.question.id
+      };
+    case 'RESET_WIZARD':
+      return {
+        ...state,
+        responses: [],
+        currentQuestionId: null,
+        selectedChoiceId: null,
+        submitting: false,
+        hasAnsweredAllQuestions: false
       };
     case 'SELECT_CHOICE':
       return {
@@ -32,6 +41,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         error: null,
+        responses: state.responses.concat(action.payload.response),
         submitting: true,
       };
     case 'RECEIVE_ANSWER_SUBMIT_ERROR':
@@ -47,7 +57,6 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         submitting: false,
         selectedChoiceId: null,
-        responses: state.responses.concat(action.response.response),
         hasAnsweredAllQuestions: !nextQuestionId,
         currentQuestionId: nextQuestionId
       };

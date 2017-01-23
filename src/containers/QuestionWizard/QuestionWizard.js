@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import { LoadingSpinner, QuestionWizardChoice } from 'src/components';
 import { fetchQuestionsAction } from 'src/actions';
 import { push } from 'react-router-redux';
@@ -18,7 +19,7 @@ function fetchInitialQuestionAction(state) {
     type: 'CALL_API',
     method: 'get',
     url: `/api/wizard/${userId}/current_question`,
-    successType: ['RECEIVE_QUESTION_SUCCESS', 'SET_CURRENT_WIZARD_QUESTION']
+    successType: ['RECEIVE_QUESTION_SUCCESS', 'RESET_WIZARD', 'SET_CURRENT_WIZARD_QUESTION']
   };
 }
 
@@ -71,6 +72,10 @@ export class QuestionWizard extends Component {
     submitAnswer(currentQuestion.id, selectedChoiceId, user.id);
   }
 
+  progressBarValue() {
+    return (this.props.totalResponses / this.props.totalQuestions) * 100;
+  }
+
   render() {
     let {
       currentQuestion,
@@ -90,15 +95,16 @@ export class QuestionWizard extends Component {
       <div className="row">
         <div className="col-md-8 col-md-offset-2">
           <div className="answer-question-wrapper clearfix">
+            <ProgressBar now={this.progressBarValue()} bsStyle="success" striped active/>
             <div className="clearfix">
               <Link className="pull-right" to={`/my_resources`}>
                 Skip To Resources &gt;
               </Link>
+              <small>
+                Please answer the following questions to
+                help identify the best resources for you:
+              </small>
             </div>
-            <small>
-              Please answer the following questions to
-              help identify the best resources for you:
-            </small>
             <div className="col-xs-12 question">
               {currentQuestion.stem}
             </div>
@@ -141,7 +147,9 @@ function mapStateToProps(state) {
     user: state.session.user,
     selectedChoiceId: state.wizard.selectedChoiceId,
     submitting: state.wizard.submitting,
-    error: state.wizard.error
+    error: state.wizard.error,
+    totalResponses: state.wizard.responses.length,
+    totalQuestions: state.question.questions.length
   };
 }
 
@@ -170,12 +178,16 @@ function mapDispatchToProps(dispatch) {
         question_id: questionId,
         choice_id: choiceId
       };
-      dispatch({ type: 'REQUEST_ANSWER_SUBMIT' });
+      dispatch({ type: 'REQUEST_ANSWER_SUBMIT', payload: { response: body } });
       return dispatch(submitAnswerAction(userId, body)).then(response => {
 
-        dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', response });
         if (!response.next_question) {
-          dispatch(push(`/my_resources`));
+          setTimeout(() => {
+            dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', response });
+            dispatch(push(`/my_resources`));
+          }, 500);
+        } else {
+          dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', response });
         }
       });
     }
