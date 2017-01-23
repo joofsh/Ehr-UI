@@ -72,6 +72,9 @@ export class QuestionWizard extends Component {
     submitAnswer(currentQuestion.id, selectedChoiceId, user.id);
   }
 
+  // TODO(jd): Make this more sophisticated. Certain questions are eliminated
+  // based on there being no path to that question since you've passed
+  // that "tree branch"
   progressBarValue() {
     return (this.props.totalResponses / this.props.totalQuestions) * 100;
   }
