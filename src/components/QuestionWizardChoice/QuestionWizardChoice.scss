@@ -1,0 +1,16 @@
+@import "../../theme/variables.scss";
+
+.QuestionWizardChoice {
+  cursor: pointer;
+  padding: 15px 15px;
+  border: 2px solid $light-gray;
+  &:hover {
+    border: 2px solid $brand-info;
+    }
+    &.selected {
+      background-color: $brand-success;
+      border: 2px solid $brand-success;
+      color: #FFF;
+    }
+}
+

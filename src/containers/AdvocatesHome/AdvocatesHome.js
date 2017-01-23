@@ -2,16 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
-import {
-  LoadingSpinner,
-  FontIcon,
-  Modal,
-  NewsletterSignupForm,
-  QuestionWizardChoice
-} from 'src/components';
+import { LoadingSpinner, FontIcon, Modal, NewsletterSignupForm } from 'src/components';
 import ReactGA from 'react-ga';
 
-export class Home extends Component {
+export class AdvocatesHome extends Component {
   static propTypes = {
     handleNewsletterSignup: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
@@ -35,37 +29,23 @@ export class Home extends Component {
       submitting
     } = this.props;
 
-    let homepageLogoImage = require('../App/dcr_resources_inverted.png');
-
-    require('./Home.scss');
+    require('./AdvocatesHome.scss');
     return (<div className="container-home container-fluid">
-      <div className="banner-image">
-        <div className="col-lg-12 banner-section">
-          <div className="row">
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="banner-image">
             <div className="col-md-6">
-              <img src={homepageLogoImage} className="logo-main"/>
+              <h2 className="banner-title">Find help for your friends and family</h2>
             </div>
-            <div className="col-md-6">
-              <Link to="/advocates" className="btn btn-primary  btn-brand btn-lg pull-right cta-advocate">
-                Social Workers
-              </Link>
-            </div>
-          </div>
-          <div className="row row-mainContent">
-            <div className="col-md-4">
-            </div>
-            <div className="col-md-8">
-              <div className="banner-question clearfix">
-                <h3 className="question-prompt">Are you ready to find resources in under 5 minutes?</h3>
-                <Link className="questionChoice" to="/resources">
-                  No, show me all resources
-                </Link>
-                <a className="questionChoice pull-right" onClick={registerGuest} href="#">
-                  Yes, let's begin
-                  {isRegisteringGuest ?
-                    <LoadingSpinner className="cta-arrow"/> :
-                    <FontIcon className="cta-arrow" type="long-arrow-right"/>}
-                </a>
+            <div className="col-md-3 col-md-offset-2">
+              <div className="banner-question clearfix" onClick={registerGuest}>
+                  <h3>Answer a few questions and find resources just for you</h3>
+                  <h4 className="pull-right cta-wrapper">
+                    <span className="cta-text">Let's Begin</span>
+                    {isRegisteringGuest ?
+                      <LoadingSpinner className="cta-arrow"/> :
+                      <FontIcon className="cta-arrow" type="long-arrow-right"/>}
+                  </h4>
               </div>
             </div>
           </div>
@@ -138,8 +118,7 @@ function mapDispatchToProps(dispatch) {
         dispatch({ type: 'RECEIVE_NEWSLETTER_SIGNUP_ERROR' });
       });
     },
-    registerGuest: (e) => {
-      e.preventDefault();
+    registerGuest: () => {
       dispatch({ type: 'REQUEST_REGISTER_GUEST' });
       dispatch(registerGuestAction()).then((guest) => {
         dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', payload: { user: guest } });
@@ -171,4 +150,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home);
+)(AdvocatesHome);
