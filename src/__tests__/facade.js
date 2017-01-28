@@ -13,11 +13,7 @@ function getTags(component, tag) {
   return TestUtils.scryRenderedDOMComponentsWithTag(component, tag);
 }
 
-function getTag(component, tag) {
-  return TestUtils.findRenderedDOMComponentWithTag(component, tag);
-}
-
-function base(wrapper) {
+function base() {
   return {
   };
 }

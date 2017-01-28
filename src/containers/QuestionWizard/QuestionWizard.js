@@ -1,11 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import { LoadingSpinner, QuestionWizardChoice } from 'src/components';
 import { fetchQuestionsAction } from 'src/actions';
 import { push } from 'react-router-redux';
 import _find from 'lodash/find';
+import _includes from 'lodash/includes';
 import Helmet from 'react-helmet';
+
+const KEYBOARD_CHOICES = ['1', '2', '3', '4'];
+const KEYBOARD_SUBMIT = ['Enter'];
 
 function fetchInitialQuestionAction(state) {
   let userId;
@@ -18,7 +23,7 @@ function fetchInitialQuestionAction(state) {
     type: 'CALL_API',
     method: 'get',
     url: `/api/wizard/${userId}/current_question`,
-    successType: ['RECEIVE_QUESTION_SUCCESS', 'SET_CURRENT_WIZARD_QUESTION']
+    successType: ['RECEIVE_QUESTION_SUCCESS', 'RESET_WIZARD', 'SET_CURRENT_WIZARD_QUESTION']
   };
 }
 
@@ -45,7 +50,9 @@ export class QuestionWizard extends Component {
   static propTypes = {
     fetchInitialQuestion: PropTypes.func.isRequired,
     fetchQuestions: PropTypes.func.isRequired,
+    isShowingProgressText: PropTypes.bool.isRequired,
     params: PropTypes.object.isRequired,
+    progressBarValue: PropTypes.number.isRequired,
     submitAnswer: PropTypes.func.isRequired,
     selectChoice: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired,
@@ -58,12 +65,51 @@ export class QuestionWizard extends Component {
   componentDidMount() {
     this.props.fetchInitialQuestion();
     this.props.fetchQuestions();
+
+    this.setupKeyBindings();
+  }
+
+  componentWillUnmount() {
+    this.removeKeyBindings();
+  }
+
+  keyUpHandler = (event) => {
+    if (_includes(KEYBOARD_CHOICES, event.key)) {
+      event.preventDefault();
+      let selectedChoice = this.props.currentQuestion.choices[+event.key - 1];
+      if (selectedChoice) {
+        this.props.selectChoice(selectedChoice.id);
+      }
+    }
+
+    if (_includes(KEYBOARD_SUBMIT, event.key)) {
+      event.preventDefault();
+      this.submitAnswer();
+    }
+  }
+
+  progressTextClasses() {
+    let className = ['progress-text'];
+
+    if (this.props.isShowingProgressText) {
+      className.push('visible');
+    }
+
+    return className.join(' ');
+  }
+
+  removeKeyBindings() {
+    global.document.removeEventListener('keyup', this.keyUpHandler, false);
+  }
+
+  setupKeyBindings() {
+    global.document.addEventListener('keyup', this.keyUpHandler, false);
   }
 
   submitAnswer() {
     let {
-      submitAnswer,
       currentQuestion,
+      submitAnswer,
       selectedChoiceId,
       user
     } = this.props;
@@ -74,6 +120,7 @@ export class QuestionWizard extends Component {
   render() {
     let {
       currentQuestion,
+      progressBarValue,
       selectChoice,
       selectedChoiceId,
       _error,
@@ -90,15 +137,21 @@ export class QuestionWizard extends Component {
       <div className="row">
         <div className="col-md-8 col-md-offset-2">
           <div className="answer-question-wrapper clearfix">
+            <div className="progress-text-wrapper">
+              <span className={this.progressTextClasses()}>
+                Doing great! Keep answering questions to find better results
+              </span>
+            </div>
+            <ProgressBar now={progressBarValue} bsStyle="success" striped active/>
             <div className="clearfix">
               <Link className="pull-right" to={`/my_resources`}>
                 Skip To Resources &gt;
               </Link>
+              <small>
+                Please answer the following questions to
+                help identify the best resources for you:
+              </small>
             </div>
-            <small>
-              Please answer the following questions to
-              help identify the best resources for you:
-            </small>
             <div className="col-xs-12 question">
               {currentQuestion.stem}
             </div>
@@ -138,10 +191,14 @@ function mapStateToProps(state) {
 
   return {
     currentQuestion,
+    isShowingProgressText: state.wizard.isShowingProgressText,
+    progressBarValue: state.wizard.progressBarValue,
     user: state.session.user,
     selectedChoiceId: state.wizard.selectedChoiceId,
     submitting: state.wizard.submitting,
-    error: state.wizard.error
+    error: state.wizard.error,
+    totalResponses: state.wizard.responses.length,
+    totalQuestions: state.question.questions.length
   };
 }
 
@@ -166,17 +223,24 @@ function mapDispatchToProps(dispatch) {
       dispatch({ type: 'SELECT_CHOICE', choiceId });
     },
     submitAnswer: (questionId, choiceId, userId) => {
-      let body = {
-        question_id: questionId,
-        choice_id: choiceId
-      };
-      dispatch({ type: 'REQUEST_ANSWER_SUBMIT' });
-      return dispatch(submitAnswerAction(userId, body)).then(response => {
+      dispatch((dispatch, getState) => {
+        let body = {
+          question_id: questionId,
+          choice_id: choiceId
+        };
 
-        dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', response });
-        if (!response.next_question) {
-          dispatch(push(`/my_resources`));
-        }
+        dispatch({ type: 'REQUEST_ANSWER_SUBMIT' });
+        return dispatch(submitAnswerAction(userId, body)).then(response => {
+          dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', payload: { response } });
+
+          setTimeout(() => {
+            if (!response.next_question) {
+              dispatch(push(`/my_resources`));
+            } else if (getState().wizard.progressBarValue === 100) {
+              dispatch({ type: 'RESET_PROGRESS_BAR' });
+            }
+          }, 1000);
+        });
       });
     }
   };

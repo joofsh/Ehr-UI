@@ -1,7 +1,7 @@
 import TestUtils from 'react-addons-test-utils';
 
 export function pause(ms = 0) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       return resolve();
     }, ms);
@@ -17,9 +17,7 @@ export function type(value, input) {
 }
 
 export function backspace(input) {
-  let value = wrapper.state().testDate;
-
   input.simulate('change', {
-    target: { value: value.substr(0, value.length - 1) }
+    // target: { value: value.substr(0, value.length - 1) }
   });
 }

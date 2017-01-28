@@ -20,6 +20,7 @@
     "prefer-const": 0,
     "comma-dangle": 0,
     "padded-blocks": 0,
+    "no-multiple-empty-lines": [2, { "max": 1, "maxEOF": 1 }],
     "block-scoped-var": 0,
     "indent": [2, 2, {"SwitchCase": 1}],
     "camelcase": 0,
@@ -61,6 +62,7 @@
     "__DISABLE_SSR__": true,
     "__DISABLE_CSR__": true,
     "__DEVTOOLS__": true,
+    "__TEST__": true,
     "webpackIsomorphicTools": true
   }
 }

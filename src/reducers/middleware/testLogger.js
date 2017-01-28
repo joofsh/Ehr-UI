@@ -1,5 +1,5 @@
 export default function testLoggerMiddleware() {
-  return store => next => action => {
+  return () => next => action => {
     console.log('Dispatching action:', action.type);
     return next(action);
   };
