@@ -27,6 +27,20 @@
       }
     }
   }
+  .progress-text-wrapper {
+    margin-bottom: 10px;
+    text-align: center;
+    color: darken($brand-success, 10%);
+    font-weight: bold;
+  }
+  .progress-text {
+    opacity: 0.0;
+    transition: opacity 0.2s;
+    &.visible {
+      opacity: 1.0;
+    }
+  }
+
   .submit-box {
     margin-top: 10px;
   }
