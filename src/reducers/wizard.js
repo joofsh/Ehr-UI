@@ -17,8 +17,8 @@ export const initialState = {
 const PROGRESS_BAR_RESET_COUNT = 6;
 
 export default function reducer(state = initialState, action = {}) {
-  let nextQuestionId, modulo, progressBarValue, response, responses, resources;
-  let isFinishedFirstQuestionBlock;
+  let nextQuestionId, modulo, progressBarValue, response, responses, resources,
+    isFinishedFirstQuestionBlock;
 
   switch (action.type) {
     case 'SET_CURRENT_WIZARD_QUESTION':
@@ -63,9 +63,10 @@ export default function reducer(state = initialState, action = {}) {
         error: 'We were unable to update this user. Please try again later.'
       };
     case 'RECEIVE_ANSWER_SUBMIT_SUCCESS':
-      modulo = (state.responses.length + 1) % PROGRESS_BAR_RESET_COUNT;
-      responses = state.responses.concat(action.payload.response);
       response = action.payload.response;
+      responses = state.responses.concat(response);
+
+      modulo = (responses.length) % PROGRESS_BAR_RESET_COUNT;
 
       isFinishedFirstQuestionBlock = modulo === 0 && state.responses.length;
 
@@ -80,11 +81,11 @@ export default function reducer(state = initialState, action = {}) {
 
       return {
         ...state,
-        isShowingProgressText: !!isFinishedFirstQuestionBlock,
-        progressBarValue,
         currentQuestionId: nextQuestionId,
         hasAnsweredAllQuestions: !nextQuestionId,
-        responses: state.responses.concat(action.payload.response),
+        isShowingProgressText: !!isFinishedFirstQuestionBlock,
+        progressBarValue,
+        responses,
         selectedChoiceId: null,
         submitting: false
       };

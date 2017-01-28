@@ -21,7 +21,7 @@ let mockResources = {
   shelter: [{ id: 5, title: 'fun' }]
 };
 
-let state;
+let state, i;
 
 describe('Wizard Reducer', () => {
   beforeEach(() => {
@@ -86,12 +86,15 @@ describe('Wizard Reducer', () => {
       expect(state.hasAnsweredAllQuestions).toBe(false);
 
       // submit 5 more answers
-      for (var i = 0; i < 5; i++) {
-        state = reducer(state, { type: 'SELECT_CHOICE', choiceId: mockQuestions[i+1].choices[0].id });
+      for (i = 0; i < 5; i++) {
+        state = reducer(state, {
+          type: 'SELECT_CHOICE',
+          choiceId: mockQuestions[i + 1].choices[0].id
+        });
         state = reducer(state, { type: 'REQUEST_ANSWER_SUBMIT' });
         state = reducer(state, {
           type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS',
-          payload: { response: { next_question: mockQuestions[i+2] } }});
+          payload: { response: { next_question: mockQuestions[i + 2] } } });
       }
 
       expect(state.progressBarValue).toBe(100);
@@ -100,7 +103,7 @@ describe('Wizard Reducer', () => {
       // Submit final question
       state = reducer(state, { type: 'SELECT_CHOICE', choiceId: 12 });
       state = reducer(state, { type: 'REQUEST_ANSWER_SUBMIT' });
-      state = reducer(state, { type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', payload: { response: {} }});
+      state = reducer(state, { type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', payload: { response: {} } });
       expect(state.selectedChoiceId).toNotExist();
       expect(state.hasAnsweredAllQuestions).toBe(true);
       expect(state.isShowingProgressText).toBe(false);

@@ -70,12 +70,9 @@ export class QuestionWizard extends Component {
     this.setupKeyBindings();
   }
 
-  setupKeyBindings() {
-    global.document.addEventListener('keyup', this.keyUpHandler, false);
-  }
 
-  removeKeyBindings() {
-    global.document.removeEventListener('keyup', this.keyUpHandler, false);
+  componentWillUnmount() {
+    this.removeKeyBindings();
   }
 
   keyUpHandler = (event) => {
@@ -93,10 +90,6 @@ export class QuestionWizard extends Component {
     }
   }
 
-  componentWillUnmount() {
-    this.removeKeyBindings();
-  }
-
   progressTextClasses() {
     let className = ['progress-text'];
 
@@ -105,6 +98,15 @@ export class QuestionWizard extends Component {
     }
 
     return className.join(' ');
+  }
+
+  removeKeyBindings() {
+    global.document.removeEventListener('keyup', this.keyUpHandler, false);
+  }
+
+
+  setupKeyBindings() {
+    global.document.addEventListener('keyup', this.keyUpHandler, false);
   }
 
   submitAnswer() {
@@ -121,7 +123,6 @@ export class QuestionWizard extends Component {
   render() {
     let {
       currentQuestion,
-      isShowingProgressText,
       progressBarValue,
       selectChoice,
       selectedChoiceId,
@@ -224,7 +225,7 @@ function mapDispatchToProps(dispatch) {
     selectChoice: (choiceId) => {
       dispatch({ type: 'SELECT_CHOICE', choiceId });
     },
-    submitAnswer: (questionId, choiceId, userId, options = {}) => {
+    submitAnswer: (questionId, choiceId, userId) => {
       dispatch((dispatch, getState) => {
         let body = {
           question_id: questionId,
@@ -233,7 +234,7 @@ function mapDispatchToProps(dispatch) {
 
         dispatch({ type: 'REQUEST_ANSWER_SUBMIT' });
         return dispatch(submitAnswerAction(userId, body)).then(response => {
-          dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', payload: {response }});
+          dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', payload: { response } });
 
           setTimeout(() => {
             if (!response.next_question) {
