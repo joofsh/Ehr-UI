@@ -37,7 +37,6 @@ function submitAnswerAction(id, data) {
   };
 }
 
-
 export class QuestionWizard extends Component {
   static fetchData({ store }) {
     return store.dispatch(fetchInitialQuestionAction(store.getState()));
@@ -69,7 +68,6 @@ export class QuestionWizard extends Component {
 
     this.setupKeyBindings();
   }
-
 
   componentWillUnmount() {
     this.removeKeyBindings();
@@ -103,7 +101,6 @@ export class QuestionWizard extends Component {
   removeKeyBindings() {
     global.document.removeEventListener('keyup', this.keyUpHandler, false);
   }
-
 
   setupKeyBindings() {
     global.document.addEventListener('keyup', this.keyUpHandler, false);
@@ -251,5 +248,5 @@ function mapDispatchToProps(dispatch) {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(QuestionWizard);
