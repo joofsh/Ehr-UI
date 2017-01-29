@@ -27,7 +27,7 @@ function compareValues(value, input) {
 }
 
 export function collectionFilter(collection, input = '', fields = []) {
-  let inputs = input.split(/\s|-|\+/g);
+  let inputs = input.trim().split(/\-|\+/g);
 
   return _filter(collection, object => (
     _some(fields, field => {
