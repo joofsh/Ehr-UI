@@ -27,7 +27,6 @@ describe('Search Reducer', () => {
   });
 });
 
-
 describe('Collection Filter', () => {
   it('returns all if no search passed', () => {
     let result = collectionFilter(mockData, '', ['first_name']);

@@ -84,7 +84,6 @@ export class Users extends Component {
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return {
     fetchUsers: () => {

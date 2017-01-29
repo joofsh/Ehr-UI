@@ -68,7 +68,6 @@ describe('Question Reducer', () => {
     });
   });
 
-
   describe('Update existing questions', () => {
     beforeEach(() => {
       state = reducer(state, {

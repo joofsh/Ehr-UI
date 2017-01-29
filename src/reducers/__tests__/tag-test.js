@@ -67,7 +67,6 @@ describe('Tag Reducer', () => {
     });
   });
 
-
   describe('Update existing tags', () => {
     beforeEach(() => {
       state = reducer(state, {

@@ -188,7 +188,6 @@ function mapStateToProps(state) {
     return question.id === state.wizard.currentQuestionId;
   });
 
-
   return {
     currentQuestion,
     isShowingProgressText: state.wizard.isShowingProgressText,

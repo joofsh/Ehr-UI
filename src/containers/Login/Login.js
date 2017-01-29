@@ -67,7 +67,6 @@ function mapStateToProps() {
   return {};
 }
 
-
 export default reduxForm({
   form: 'login',
   fields: ['identifier', 'password']

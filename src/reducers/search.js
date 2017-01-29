@@ -21,7 +21,6 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-
 function compareValues(value, input) {
   return String(value).toLowerCase().indexOf(input.toLowerCase()) >= 0;
 }
