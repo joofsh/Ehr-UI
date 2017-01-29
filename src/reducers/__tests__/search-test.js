@@ -2,9 +2,12 @@ import reducer, { initialState, collectionFilter } from '../search';
 import expect from 'expect';
 
 let mockData = [
-  { id: 1, first_name: 'John', tags: [{ name: 'hiv' }, { name: 'housing' }] },
-  { id: 2, first_name: 'Jim', tags: [{ name: 'lgbt' }, { name: 'housing' }] },
-  { id: 3, first_name: 'Bob', tags: [{ name: 'lgbt' }, { name: 'housing' }] }
+  { id: 1, first_name: 'John', tags: [{ name: 'hiv' }, { name: 'housing' }],
+    address: { street: '1234 Main street' } },
+  { id: 2, first_name: 'Jim', tags: [{ name: 'lgbt' }, { name: 'housing' }],
+    address: { street: '999 First st' } },
+  { id: 3, first_name: 'Bob', tags: [{ name: 'lgbt' }, { name: 'housing' }],
+    address: null }
 ];
 
 let state;
@@ -56,7 +59,7 @@ describe('Collection Filter', () => {
     expect(result[0].id).toBe(1);
   });
 
-  it('matches against subObject fields', () => {
+  it('matches against nested array fields', () => {
     let result = collectionFilter(mockData, 'hiv', ['tags.name']);
     expect(result.length).toBe(1);
 
@@ -65,6 +68,17 @@ describe('Collection Filter', () => {
 
     result = collectionFilter(mockData, 'housing', ['tags.name']);
     expect(result.length).toBe(3);
+  });
+
+  it('matches against nested object fields', () => {
+    let result = collectionFilter(mockData, '1234', ['address.street']);
+    expect(result.length).toBe(1);
+
+    result = collectionFilter(mockData, 'Foo', ['address.street']);
+    expect(result.length).toBe(0);
+
+    result = collectionFilter(mockData, 'st', ['address.street']);
+    expect(result.length).toBe(2);
   });
 
   it('matches against subobject and main object', () => {

@@ -101,7 +101,10 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   let resources = collectionFilter(state.resource.resources,
                                    state.search.resourceFilter,
-                                  ['id', 'title', 'tags.name']);
+                                  ['id', 'title', 'description', 'category',
+                                    'operating_hours', 'email', 'phone', 'url',
+                                    'address.street', 'address.city', 'address.state',
+                                    'address.zipcode', 'note', 'languages', 'tags.name']);
   return {
     resources,
     isFetching: state.resource.isFetching,

@@ -1,6 +1,7 @@
 import _filter from 'lodash/filter';
 import _some from 'lodash/some';
 import _isArray from 'lodash/isArray';
+import _isPlainObject from 'lodash/isPlainObject';
 
 export const initialState = {
   resourceFilter: ''
@@ -40,6 +41,12 @@ export function collectionFilter(collection, input = '', fields = []) {
           return _some(object[fieldParts[0]], subObject => {
             return compareValues(subObject[fieldParts[1]], _input);
           });
+        });
+      // if a key is an object, we want to check the suboject for the key
+      } else if (_isPlainObject(object[fieldParts[0]])) {
+        result = _some(inputs, _input => {
+          let subObject = object[fieldParts[0]];
+          return compareValues(subObject[fieldParts[1]], _input);
         });
       } else {
         result = _some(inputs, _input => {
