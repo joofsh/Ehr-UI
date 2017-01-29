@@ -42,7 +42,7 @@ export function collectionFilter(collection, input = '', fields = []) {
             return compareValues(subObject[fieldParts[1]], _input);
           });
         });
-      // if a key is an object, we want to check the suboject for the key
+      // if a key is an object, we want to check the subObject for the key
       } else if (_isPlainObject(object[fieldParts[0]])) {
         result = _some(inputs, _input => {
           let subObject = object[fieldParts[0]];
