@@ -8,7 +8,6 @@ import {
   TagForm
 } from 'src/components';
 
-
 export class Tags extends Component {
   static fetchData({ store }) {
     return store.dispatch(fetchTagsAction(true));

@@ -60,12 +60,14 @@ export class PersonalizedResources extends Component {
 
         let resourceContent = [];
         _forOwn(resources, (_resources, tag) => {
-          resourceContent.push(<fieldset key={tag} className="resourceGroup">
-            <legend><h2>Resources for {tag}</h2></legend>
-            {_resources.slice(0, 3).map((resource, i) => (
-              <PersonalizedResourceRow resource={resource} key={i} displayTags={user.isStaff()}/>
-            ))}
-          </fieldset>);
+          if (_resources.length) {
+            resourceContent.push(<fieldset key={tag} className="resourceGroup">
+              <legend><h2>Resources for {tag}</h2></legend>
+              {_resources.slice(0, 3).map((resource, i) => (
+                <PersonalizedResourceRow resource={resource} key={i} displayTags={user.isStaff()}/>
+              ))}
+            </fieldset>);
+          }
         });
 
         content = (

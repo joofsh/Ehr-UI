@@ -45,7 +45,6 @@ function visit(path = '/') {
   store.dispatch(push(path));
 }
 
-
 function currentURL() {
   return global.location.pathname;
 }
@@ -88,7 +87,6 @@ describe('Acceptance - App', () => {
     expect(wrapper.find('.list-group-item').length).toEqual(resources.length);
     done();
   });
-
 
   it('renders login', async (done) => {
     visit('/login');

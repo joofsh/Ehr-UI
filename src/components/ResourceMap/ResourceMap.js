@@ -19,7 +19,6 @@ export class ResourceMap extends Component {
     activeResourceId: PropTypes.number
   };
 
-
   render() {
     let {
       resources,

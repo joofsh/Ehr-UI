@@ -42,7 +42,6 @@ export class QuestionForm extends Component {
     return update;
   }
 
-
   addChoice() {
     this.props.fields.choices.addField({});
   }

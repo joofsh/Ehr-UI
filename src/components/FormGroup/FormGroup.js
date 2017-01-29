@@ -139,7 +139,6 @@ export default class FormGroup extends Component {
       );
     }
 
-
     require('./FormGroup.scss');
     return formGroup;
   }

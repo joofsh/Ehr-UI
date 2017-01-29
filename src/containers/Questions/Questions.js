@@ -10,7 +10,6 @@ import {
 
 import _remove from 'lodash/remove';
 
-
 export class Questions extends Component {
   static fetchData({ store }) {
     return store.dispatch(fetchQuestionsAction());

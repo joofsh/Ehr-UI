@@ -17,7 +17,6 @@ function getDebugSessionKey() {
 export default function configureStore(initialState = {}, client) {
   const middleware = [routerMiddleware(browserHistory), apiMiddleware(client), thunk];
 
-
   if (__CLIENT__ && (__DEVELOPMENT__ || global.localStorage.getItem('logReduxActions'))) {
     middleware.push(createLogger());
   }
@@ -36,7 +35,6 @@ export default function configureStore(initialState = {}, client) {
   } else {
     finalCreateStore = applyMiddleware(...middleware)(createStore);
   }
-
 
   const store = finalCreateStore(combineReducers(rootReducer), initialState);
 

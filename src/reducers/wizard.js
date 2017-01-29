@@ -2,8 +2,10 @@ import { buildResource } from './resource';
 import _forOwn from 'lodash/forOwn';
 
 export const initialState = {
+  isShowingProgressText: false,
   responses: [],
   resources: {},
+  progressBarValue: 0, // percentage 0 to 100
   currentQuestionId: null,
   selectedChoiceId: null,
   submitting: false,
@@ -12,15 +14,35 @@ export const initialState = {
   error: null
 };
 
+const PROGRESS_BAR_RESET_COUNT = 6;
+
 export default function reducer(state = initialState, action = {}) {
-  let nextQuestionId, resources;
+  let nextQuestionId, modulo, progressBarValue, response, responses, resources,
+    isFinishedFirstQuestionBlock;
 
   switch (action.type) {
     case 'SET_CURRENT_WIZARD_QUESTION':
       return {
         ...state,
         errors: null,
-        currentQuestionId: action.payload.question.id
+        currentQuestionId: action.payload.question && action.payload.question.id
+      };
+    case 'RESET_WIZARD':
+      return {
+        ...state,
+        isShowingProgressText: false,
+        currentQuestionId: null,
+        hasAnsweredAllQuestions: false,
+        progressBarValue: 0,
+        responses: [],
+        resources: [],
+        selectedChoiceId: null,
+        submitting: false,
+      };
+    case 'RESET_PROGRESS_BAR':
+      return {
+        ...state,
+        progressBarValue: 0
       };
     case 'SELECT_CHOICE':
       return {
@@ -41,15 +63,31 @@ export default function reducer(state = initialState, action = {}) {
         error: 'We were unable to update this user. Please try again later.'
       };
     case 'RECEIVE_ANSWER_SUBMIT_SUCCESS':
-      nextQuestionId = action.response.next_question && action.response.next_question.id;
+      response = action.payload.response;
+      responses = state.responses.concat(response);
+
+      modulo = (responses.length) % PROGRESS_BAR_RESET_COUNT;
+
+      isFinishedFirstQuestionBlock = modulo === 0 && state.responses.length;
+
+      // Set bar to 100 initially, reset it on next question load
+      if (isFinishedFirstQuestionBlock) {
+        progressBarValue = 100;
+      } else {
+        progressBarValue = modulo / PROGRESS_BAR_RESET_COUNT * 100;
+      }
+
+      nextQuestionId = response.next_question && response.next_question.id;
 
       return {
         ...state,
-        submitting: false,
-        selectedChoiceId: null,
-        responses: state.responses.concat(action.response.response),
+        currentQuestionId: nextQuestionId,
         hasAnsweredAllQuestions: !nextQuestionId,
-        currentQuestionId: nextQuestionId
+        isShowingProgressText: !!isFinishedFirstQuestionBlock,
+        progressBarValue,
+        responses,
+        selectedChoiceId: null,
+        submitting: false
       };
 
     case 'RECEIVE_PERSONALIZED_RESOURCES_SUCCESS':

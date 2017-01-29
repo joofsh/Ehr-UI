@@ -11,7 +11,6 @@ import {
 import { resources } from '../../__tests__/mocks/mockData';
 import _filter from 'lodash/filter';
 
-
 describe('Component - ResourceMap', () => {
   let renderer;
   let modeledResources = resources.map(r => buildResource(r));
