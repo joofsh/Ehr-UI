@@ -21,11 +21,12 @@ export default class ResourceRow extends Component {
       title
     } = this.props;
 
+    require('./ResourceRow.scss');
     return (<Link className="list-group-item" to={`/resources/${id}`}>
       <h4>{title}</h4>
       <MultilineValue value={description}/>
 
-      {displayTags && <div>{tags.map((tag, i) => (
+      {displayTags && <div className="tag-group">{tags.map((tag, i) => (
         <span key={i} className="tokenized-tag">{tag.name}</span>
       ))}</div>}
     </Link>);
