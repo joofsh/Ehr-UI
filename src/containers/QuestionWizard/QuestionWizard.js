@@ -2,15 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
-import { LoadingSpinner, QuestionWizardChoice } from 'src/components';
+import { LoadingSpinner, Question } from 'src/components';
 import { fetchQuestionsAction } from 'src/actions';
 import { push } from 'react-router-redux';
 import _find from 'lodash/find';
-import _includes from 'lodash/includes';
 import Helmet from 'react-helmet';
-
-const KEYBOARD_CHOICES = ['1', '2', '3', '4'];
-const KEYBOARD_SUBMIT = ['Enter'];
 
 function fetchInitialQuestionAction(state) {
   let userId;
@@ -65,27 +61,6 @@ export class QuestionWizard extends Component {
   componentDidMount() {
     this.props.fetchInitialQuestion();
     this.props.fetchQuestions();
-
-    this.setupKeyBindings();
-  }
-
-  componentWillUnmount() {
-    this.removeKeyBindings();
-  }
-
-  keyUpHandler = (event) => {
-    if (_includes(KEYBOARD_CHOICES, event.key)) {
-      event.preventDefault();
-      let selectedChoice = this.props.currentQuestion.choices[+event.key - 1];
-      if (selectedChoice) {
-        this.props.selectChoice(selectedChoice.id);
-      }
-    }
-
-    if (_includes(KEYBOARD_SUBMIT, event.key)) {
-      event.preventDefault();
-      this.submitAnswer();
-    }
   }
 
   progressTextClasses() {
@@ -96,14 +71,6 @@ export class QuestionWizard extends Component {
     }
 
     return className.join(' ');
-  }
-
-  removeKeyBindings() {
-    global.document.removeEventListener('keyup', this.keyUpHandler, false);
-  }
-
-  setupKeyBindings() {
-    global.document.addEventListener('keyup', this.keyUpHandler, false);
   }
 
   submitAnswer() {
@@ -152,30 +119,14 @@ export class QuestionWizard extends Component {
                 help identify the best resources for you:
               </small>
             </div>
-            <div className="col-xs-12 question">
-              {currentQuestion.stem}
-            </div>
-            <div className="choices">
-              {currentQuestion.choices.map(choice => {
-                return (
-                  <QuestionWizardChoice
-                    {...choice}
-                    key={choice.id}
-                    selected={selectedChoiceId === choice.id}
-                    selectChoice={selectChoice}
-                  />);
-              })}
-            </div>
-          </div>
-          <div className="pull-right submit-box">
-            {_error && <p className="text-danger">{_error}</p>}
-            {selectedChoiceId &&
-              <button className="btn btn-success btn-lg pull-right"
-                type="submit" disabled={submitting}
-                onClick={this.submitAnswer}
-              >
-              {submitting ? <LoadingSpinner/> : <i className="fa fa-paper-plane"/> } Submit
-            </button>}
+            <Question
+              {...currentQuestion}
+              error={_error}
+              selectedChoiceId={selectedChoiceId}
+              selectChoice={selectChoice}
+              submitting={submitting}
+              submitAnswer={this.submitAnswer}
+            />
           </div>
         </div>
       </div>
