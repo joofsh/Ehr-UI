@@ -2,37 +2,18 @@
 
 .container-QuestionWizard {
   margin-bottom: 25px;
+
   .answer-question-wrapper {
     margin-top: 50px;
-    .question {
-      margin-bottom: 20px;
-      padding: 50px 25px;
-      border-bottom: 1px dashed $light-gray;
-      font-size: 24px;
-    }
-    .choices {
-      clear: both;
-    }
-    .choice {
-      cursor: pointer;
-      padding: 15px 15px;
-      border: 2px solid $light-gray;
-      &:hover {
-        border: 2px solid $brand-info;
-      }
-      &.selected {
-        background-color: $brand-success;
-        border: 2px solid $brand-success;
-        color: #FFF;
-      }
-    }
   }
+
   .progress-text-wrapper {
     margin-bottom: 10px;
     text-align: center;
     color: darken($brand-success, 10%);
     font-weight: bold;
   }
+
   .progress-text {
     opacity: 0.0;
     transition: opacity 0.2s;
@@ -41,7 +22,7 @@
     }
   }
 
-  .submit-box {
+  .submit-wrapper {
     margin-top: 10px;
   }
 }
