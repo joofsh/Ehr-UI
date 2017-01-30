@@ -35,7 +35,7 @@ export class Home extends Component {
       submitting
     } = this.props;
 
-    let homepageLogoImage = require('../App/dcr_resources_inverted.png');
+    let homepageLogoImage = require('../App/dcr_resources_1.png');
 
     require('./Home.scss');
     return (<div className="container-home container-fluid">
@@ -46,15 +46,16 @@ export class Home extends Component {
               <img src={homepageLogoImage} className="logo-main"/>
             </div>
             <div className="col-md-6">
-              <Link to="/advocates" className="btn btn-primary  btn-brand btn-lg pull-right cta-advocate">
+              {/* <Link to="/advocates" className="btn btn-primary  btn-brand btn-lg pull-right cta-advocate">
                 Social Workers
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="row row-mainContent">
-            <div className="col-md-4">
-            </div>
-            <div className="col-md-8">
+            <div className="col-md-offset-2 col-md-8">
+              <h2 className="banner-title">
+                Resources for you in under 5 minutes
+              </h2>
               <div className="banner-question clearfix">
                 <h3 className="question-prompt">Are you ready to find resources in under 5 minutes?</h3>
                 <Link className="questionChoice" to="/resources">
