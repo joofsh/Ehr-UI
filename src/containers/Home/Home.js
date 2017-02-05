@@ -7,30 +7,59 @@ import {
   FontIcon,
   Modal,
   NewsletterSignupForm,
-  QuestionWizardChoice
+  Question
 } from 'src/components';
+import { submitAnswerAction } from 'src/actions';
 import ReactGA from 'react-ga';
 
+export function fetchFirstQuestionAction() {
+  return {
+    type: 'CALL_API',
+    method: 'get',
+    url: '/api/questions',
+    params: { length: 1, order: 'wizard' },
+    successType: 'RECEIVE_FIRST_QUESTION_SUCCESS'
+  };
+}
+
 export class Home extends Component {
+  static fetchData({ store }) {
+    return store.dispatch(fetchFirstQuestionAction());
+  }
+
   static propTypes = {
     handleNewsletterSignup: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     isModalActive: PropTypes.bool.isRequired,
     isRegisteringGuest: PropTypes.bool.isRequired,
     newsletterSignupSuccess: PropTypes.bool,
-    registerGuest: PropTypes.func.isRequired,
+    selectChoice: PropTypes.func.isRequired,
+    selectedChoiceId: PropTypes.number,
     showModal: PropTypes.func.isRequired,
+    submitAnswer: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
   };
 
+  submitAnswer = () => {
+    let {
+      firstQuestion,
+      submitAnswer,
+      selectedChoiceId
+    } = this.props;
+
+    submitAnswer(firstQuestion.id, selectedChoiceId);
+  }
+
   render() {
     let {
+      firstQuestion,
       handleNewsletterSignup,
       hideModal,
       isModalActive,
       isRegisteringGuest,
       newsletterSignupSuccess,
-      registerGuest,
+      selectChoice,
+      selectedChoiceId,
       showModal,
       submitting
     } = this.props;
@@ -53,10 +82,20 @@ export class Home extends Component {
           </div>
           <div className="row row-mainContent">
             <div className="col-md-offset-2 col-md-8">
-              <h2 className="banner-title">
-                Resources for you in under 5 minutes
-              </h2>
-              <div className="banner-question clearfix">
+              <div className="banner-title-wrapper">
+                <h2 className="banner-title">
+                  Resources for you in under 5 minutes
+                </h2>
+              </div>
+              {firstQuestion && <Question
+                {...firstQuestion}
+                className="first-question"
+                selectChoice={selectChoice}
+                selectedChoiceId={selectedChoiceId}
+                submitAnswer={this.submitAnswer}
+                submitting={submitting}
+               />}
+                {/*<div className="banner-question clearfix">
                 <h3 className="question-prompt">Are you ready to find resources in under 5 minutes?</h3>
                 <Link className="questionChoice" to="/resources">
                   No, show me all resources
@@ -67,7 +106,7 @@ export class Home extends Component {
                     <LoadingSpinner className="cta-arrow"/> :
                     <FontIcon className="cta-arrow" type="long-arrow-right"/>}
                 </a>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
@@ -139,11 +178,23 @@ function mapDispatchToProps(dispatch) {
         dispatch({ type: 'RECEIVE_NEWSLETTER_SIGNUP_ERROR' });
       });
     },
-    registerGuest: (e) => {
-      e.preventDefault();
+    selectChoice: (choiceId) => {
+      dispatch({ type: 'SELECT_CHOICE', choiceId });
+    },
+    submitAnswer: (questionId, choiceId) => {
       dispatch({ type: 'REQUEST_REGISTER_GUEST' });
-      dispatch(registerGuestAction()).then((guest) => {
+      return dispatch(registerGuestAction()).then((guest) => {
         dispatch({ type: 'RECEIVE_AUTHENTICATE_SUCCESS', payload: { user: guest } });
+        dispatch({ type: 'REQUEST_ANSWER_SUBMIT' });
+
+        let body = {
+          question_id: questionId,
+          choice_id: choiceId
+        };
+
+        return dispatch(submitAnswerAction(guest.id, body));
+      }).then((response) => {
+        dispatch({ type: 'RECEIVE_ANSWER_SUBMIT_SUCCESS', payload: { response } });
         dispatch(push('/wizard'));
       });
     },
@@ -162,10 +213,12 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
+    firstQuestion: state.session.firstQuestion,
     isRegisteringGuest: state.session.isRegisteringGuest,
     isModalActive: state.session.isModalActive,
     newsletterSignupSuccess: state.session.newsletterSignupSuccess,
-    submitting: state.session.isSubmittingNewsletterSignup
+    selectedChoiceId: state.wizard.selectedChoiceId,
+    submitting: state.session.isSubmittingNewsletterSignup || state.wizard.submitting,
   };
 }
 

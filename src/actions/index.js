@@ -18,12 +18,22 @@ export function fetchTagsAction(withDetails = false) {
   };
 }
 
-export function fetchQuestionsAction() {
+export function fetchQuestionsAction(length = 1000, order = null) {
   return {
     type: 'CALL_API',
     method: 'get',
     url: '/api/questions',
-    params: { length: 10000 },
+    params: { length, order },
     successType: 'RECEIVE_QUESTIONS_SUCCESS'
+  };
+}
+
+export function submitAnswerAction(id, data) {
+  return {
+    type: 'CALL_API',
+    method: 'put',
+    url: `/api/wizard/${id}/responses`,
+    errorType: 'RECEIVE_ANSWER_SUBMIT_ERROR',
+    data
   };
 }

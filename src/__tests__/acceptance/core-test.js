@@ -11,10 +11,10 @@ import configureStore from 'reducers/store';
 import routes from 'src/routes';
 import ApiClient from 'src/utils/api';
 import { push } from 'react-router-redux';
-import { resources } from 'src/__tests__/mocks/mockData';
+import { resources, questions } from 'src/__tests__/mocks/mockData';
 import testFacade from 'src/__tests__/facade';
 import superAgentMockConfig from 'src/__tests__/superagent-mock-config';
-import { type, pause, click } from 'src/__tests__/testHelper';
+import { asyncTest, type, pause, click } from 'src/__tests__/testHelper';
 
 let store, history, facade, wrapper;
 
@@ -55,6 +55,11 @@ function setupApp(authed = false) {
   history = { ...browserHistory };
   syncHistoryWithStore(history, store);
 
+  store.dispatch({
+    type: 'RECEIVE_FIRST_QUESTION_SUCCESS',
+    payload: { questions: [questions[0]] }
+  });
+
   wrapper = mount(appComponent());
   if (authed) {
     authenticate();
@@ -71,11 +76,13 @@ describe('Acceptance - App', () => {
     wrapper = undefined;
   });
 
-  it('loads homepage & resources', async (done) => {
+  it('loads homepage & resources', asyncTest(async () => {
     // Homepage
     visit('/');
     expect(wrapper.exists()).toBe(true);
-    expect(wrapper.find('.banner-title').text()).toEqual('A Simpler Way to Find Help');
+    expect(wrapper.find('.banner-title').text()).toEqual('Resources for you in under 5 minutes');
+    expect(wrapper.find('.question').text()).toInclude(questions[0].stem);
+    expect(wrapper.find('.question').text()).toInclude(questions[0].choices[0].stem);
 
     // Resources
     wrapper.find('a.btn-primary').simulate('click');
@@ -85,10 +92,30 @@ describe('Acceptance - App', () => {
     expect(currentURL()).toEqual('/resources');
     expect(wrapper.find('.resource-map-wrapper').length).toEqual(1);
     expect(wrapper.find('.list-group-item').length).toEqual(resources.length);
-    done();
-  });
+  }));
 
-  it('renders login', async (done) => {
+  it.only('loads hompage & question wizard', asyncTest(async () => {
+    visit('/');
+    let button = wrapper.find('.btn-success').first();
+    expect(button.node.attributes.disabled).toExist();
+    wrapper.find('.QuestionWizardChoice').first().simulate('click');
+    await pause();
+
+    button = wrapper.find('.btn-success').first();
+    expect(button.node.attributes.disabled).toNotExist();
+    wrapper.find('.btn-success').simulate('click');
+
+    await pause();
+    console.log(currentURL());
+    expect(currentURL()).toEqual('/wizard');
+    expect(wrapper.find('.question-stem').exists()).toBe(true);
+    wrapper.find('.QuestionWizardChoice').first().simulate('click');
+
+    await pause();
+    wrapper.find('.btn-success').simulate('click');
+  }));
+
+  it('renders login', asyncTest(async () => {
     visit('/login');
     await pause();
 
@@ -104,28 +131,25 @@ describe('Acceptance - App', () => {
 
     expect(currentURL()).toBe('/');
     expect(store.getState().session.user.id).toExist();
-    done();
-  });
+  }));
 
-  it('renders questions', async (done) => {
+  it('renders questions', asyncTest(async () => {
     visit('/questions');
     await pause();
 
     expect(currentURL()).toBe('/questions');
     expect(wrapper.find('.questionForm').length).toBe(2);
-    done();
-  });
+  }));
 
-  it('renders tags', async (done) => {
+  it('renders tags', asyncTest(async () => {
     visit('/tags');
     await pause();
 
     facade = testFacade.tags(wrapper);
     expect(facade.tags.length).toBe(5);
-    done();
-  });
+  }));
 
-  it('renders resources and resource', async (done) => {
+  it('renders resources and resource', asyncTest(async () => {
     visit('/resources');
     await pause();
 
@@ -144,6 +168,5 @@ describe('Acceptance - App', () => {
     facade = testFacade.resource(wrapper);
     expect(currentURL()).toBe(`/resources/${resources[0].id}`);
     expect(facade.description).toBe(`${resources[0].description}\n`);
-    done();
-  });
+  }));
 });
