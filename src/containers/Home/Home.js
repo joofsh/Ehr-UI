@@ -28,6 +28,7 @@ export class Home extends Component {
   }
 
   static propTypes = {
+    fetchFirstQuestion: PropTypes.func.isRequired,
     handleNewsletterSignup: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     isModalActive: PropTypes.bool.isRequired,
@@ -39,6 +40,10 @@ export class Home extends Component {
     submitAnswer: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
   };
+
+  componentDidMount() {
+    this.props.fetchFirstQuestion();
+  }
 
   submitAnswer = () => {
     let {
@@ -162,6 +167,13 @@ function registerGuestAction() {
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchFirstQuestion() {
+      dispatch((dispatch, getState) => {
+        if (!getState().session.firstQuestion) {
+          dispatch(fetchFirstQuestionAction());
+        }
+      });
+    },
     handleNewsletterSignup: (user) => {
       dispatch({ type: 'REQUEST_NEWSLETTER_SIGNUP' });
       return dispatch(newsletterSignupAction(user)).then(() => {
