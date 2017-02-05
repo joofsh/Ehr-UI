@@ -69,7 +69,7 @@ export class Home extends Component {
       submitting
     } = this.props;
 
-    let homepageLogoImage = require('../App/dcr_resources_1.png');
+    let homepageLogoImage = require('../App/dcr_resources_inverted.png');
 
     require('./Home.scss');
     return (<div className="container-home container-fluid">
@@ -124,14 +124,12 @@ export class Home extends Component {
           <a href="#" onClick={showModal}>Sign up for our newsletter</a>
         </div>
       </div>
-      <div className="row">
-        <div className="col-lg-12 legal-disclaimer">
-          <p>
-            Note: DC Resources values your privacy. All information is stored securely,
-            temporarily, and anonymously. We will never ask for personally identifiable
-            information such as name, address, or phone number.
-          </p>
-        </div>
+      <div className="col-lg-12 legal-disclaimer">
+        <p>
+          Note: DC Resources values your privacy. All information is stored securely,
+          temporarily, and anonymously. We will never ask for personally identifiable
+          information such as name, address, or phone number.
+        </p>
       </div>
 
       <Modal show={isModalActive} title="Sign up for our newsletter" onHide={hideModal}>
