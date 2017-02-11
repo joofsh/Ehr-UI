@@ -69,7 +69,7 @@ export class Home extends Component {
       submitting
     } = this.props;
 
-    let homepageLogoImage = require('../App/dcr_resources_inverted.png');
+    let homepageLogoImage = require('../App/dcr_resources_1.png');
 
     require('./Home.scss');
     return (<div className="container-home container-fluid">

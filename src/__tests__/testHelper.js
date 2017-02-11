@@ -9,7 +9,7 @@ export function asyncTest(fn) {
       done(err);
     }
   };
-};
+}
 
 export function pause(ms = 0) {
   return new Promise((resolve) => {
