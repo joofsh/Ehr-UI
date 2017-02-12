@@ -55,7 +55,6 @@ export class App extends Component {
     return !_some(PATHS_WITHOUT_TOPNAV, (path) => path.test(this.props.path));
   }
 
-
   render() {
     let {
       logout,

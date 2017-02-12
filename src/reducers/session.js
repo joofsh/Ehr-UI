@@ -2,7 +2,6 @@ export const initialState = {
   firstQuestion: null,
   user: null,
   isModalActive: false,
-  isRegisteringGuest: false,
   // null means no response, true is success, false is error
   newsletterSignupSuccess: null,
   isSubmittingNewsletterSignup: false,

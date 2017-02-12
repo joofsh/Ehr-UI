@@ -7,6 +7,6 @@ export default class FontIcon extends Component {
   };
 
   render() {
-    return <i className={`fa fa-${this.props.type} ${this.props.className}`} />;
+    return <i className={`fa fa-${this.props.type} ${this.props.className || ''}`} />;
   }
 }

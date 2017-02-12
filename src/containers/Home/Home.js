@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { push } from 'react-router-redux';
 import {
-  LoadingSpinner,
   FontIcon,
   Modal,
   NewsletterSignupForm,
@@ -29,10 +28,10 @@ export class Home extends Component {
 
   static propTypes = {
     fetchFirstQuestion: PropTypes.func.isRequired,
+    firstQuestion: PropTypes.object.isRequired,
     handleNewsletterSignup: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     isModalActive: PropTypes.bool.isRequired,
-    isRegisteringGuest: PropTypes.bool.isRequired,
     newsletterSignupSuccess: PropTypes.bool,
     selectChoice: PropTypes.func.isRequired,
     selectedChoiceId: PropTypes.number,
@@ -61,7 +60,6 @@ export class Home extends Component {
       handleNewsletterSignup,
       hideModal,
       isModalActive,
-      isRegisteringGuest,
       newsletterSignupSuccess,
       selectChoice,
       selectedChoiceId,
@@ -69,29 +67,37 @@ export class Home extends Component {
       submitting
     } = this.props;
 
-    let homepageLogoImage = require('../App/dcr_resources_1.png');
-
     require('./Home.scss');
     return (<div className="container-home container-fluid">
-      <div className="banner-image">
+      <div className="navbar">
+        <div className="container">
+          <div className="navbar-brand">
+            <div className="brand-logo">
+              <p className="beta-tag">Beta</p>
+            </div>
+            <h1 className="sr-only">DC Resources</h1>
+          </div>
+        </div>
+      </div>
+      <div className="container">
         <div className="col-lg-12 banner-section">
           <div className="row">
             <div className="col-md-6">
-              <img src={homepageLogoImage} className="logo-main"/>
-            </div>
-            <div className="col-md-6">
-              {/* <Link to="/advocates" className="btn btn-primary  btn-brand btn-lg pull-right cta-advocate">
+              {/* <Link
+                    to="/advocates"
+                    className="btn btn-primary  btn-brand btn-lg pull-right cta-advocate"
+                  >
                 Social Workers
               </Link> */}
             </div>
           </div>
           <div className="row row-mainContent">
-            <div className="col-md-offset-2 col-md-8">
-              <div className="banner-title-wrapper">
-                <h2 className="banner-title">
-                  Resources for you in under 5 minutes
-                </h2>
-              </div>
+            <div className="col-md-6">
+              <h2 className="banner-title">
+                Find resources in 5 minutes or less
+              </h2>
+            </div>
+            <div className="col-md-6">
               {firstQuestion && <Question
                 {...firstQuestion}
                 className="first-question"
@@ -99,37 +105,54 @@ export class Home extends Component {
                 selectedChoiceId={selectedChoiceId}
                 submitAnswer={this.submitAnswer}
                 submitting={submitting}
-               />}
-                {/*<div className="banner-question clearfix">
-                <h3 className="question-prompt">Are you ready to find resources in under 5 minutes?</h3>
-                <Link className="questionChoice" to="/resources">
-                  No, show me all resources
-                </Link>
-                <a className="questionChoice pull-right" onClick={registerGuest} href="#">
-                  Yes, let's begin
-                  {isRegisteringGuest ?
-                    <LoadingSpinner className="cta-arrow"/> :
-                    <FontIcon className="cta-arrow" type="long-arrow-right"/>}
-                </a>
-              </div>*/}
+              />}
             </div>
           </div>
         </div>
       </div>
-      <div className="cta-2nd">
-        <Link to="/resources" className="btn btn-primary btn-lg">
-          View All Resources
-        </Link>
+      <div className="resource-row clearfix">
+        <div className="container">
+          <div className="col-md-6">
+            <h3 className="resource-text">
+              Want to see resources directly?
+            </h3>
+          </div>
+          <div className="col-md-6 resource-buttons">
+            <Link
+              to={{ pathname: '/resources', query: { query: 'health' } }}
+              className="btn health"
+            >
+              <FontIcon type="ambulance"/>
+            </Link>
+            <Link
+              to={{ pathname: '/resources', query: { query: 'employment' } }}
+              className="btn employment"
+            >
+              <FontIcon type="briefcase"/>
+            </Link>
+            <Link
+              to={{ pathname: '/resources', query: { query: 'housing' } }}
+              className="btn housing"
+            >
+              <FontIcon type="home"/>
+            </Link>
+            <Link to="/resources" className="btn all">
+              <FontIcon type="plus"/>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="col-lg-12 footer">
         <div className="newsletterModalLink">
           <a href="#" onClick={showModal}>Sign up for our newsletter</a>
         </div>
-      </div>
-      <div className="col-lg-12 legal-disclaimer">
-        <p>
-          Note: DC Resources values your privacy. All information is stored securely,
-          temporarily, and anonymously. We will never ask for personally identifiable
-          information such as name, address, or phone number.
-        </p>
+        <div className="legal-disclaimer">
+          <p>
+            Note: DC Resources values your privacy. All information is stored securely,
+            temporarily, and anonymously. We will never ask for personally identifiable
+            information such as name, address, or phone number.
+          </p>
+        </div>
       </div>
 
       <Modal show={isModalActive} title="Sign up for our newsletter" onHide={hideModal}>
@@ -224,7 +247,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     firstQuestion: state.session.firstQuestion,
-    isRegisteringGuest: state.session.isRegisteringGuest,
     isModalActive: state.session.isModalActive,
     newsletterSignupSuccess: state.session.newsletterSignupSuccess,
     selectedChoiceId: state.wizard.selectedChoiceId,
