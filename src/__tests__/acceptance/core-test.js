@@ -80,12 +80,12 @@ describe('Acceptance - App', () => {
     // Homepage
     visit('/');
     expect(wrapper.exists()).toBe(true);
-    expect(wrapper.find('.banner-title').text()).toEqual('Resources for you in under 5 minutes');
+    expect(wrapper.find('.banner-title').text()).toInclude('Find resources');
     expect(wrapper.find('.question').text()).toInclude(questions[0].stem);
     expect(wrapper.find('.question').text()).toInclude(questions[0].choices[0].stem);
 
     // Resources
-    wrapper.find('a.btn-primary').simulate('click');
+    wrapper.find('a.all').simulate('click');
     visit('/resources');
     await pause();
 
@@ -94,7 +94,7 @@ describe('Acceptance - App', () => {
     expect(wrapper.find('.list-group-item').length).toEqual(resources.length);
   }));
 
-  it.only('loads hompage & question wizard', asyncTest(async () => {
+  it('loads hompage & question wizard', asyncTest(async () => {
     visit('/');
     let button = wrapper.find('.btn-success').first();
     expect(button.node.attributes.disabled).toExist();

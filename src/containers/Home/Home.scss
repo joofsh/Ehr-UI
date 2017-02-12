@@ -122,6 +122,12 @@
       margin-top: 125px;
     }
   }
+  @media (max-width: $screen-md-max) {
+    .resource-buttons {
+      margin-top: 0;
+      padding-bottom: 25px;
+    }
+  }
 
   .first-question {
     padding: 40px;

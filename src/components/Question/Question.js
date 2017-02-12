@@ -17,6 +17,10 @@ export default class Question extends Component {
     submitting: PropTypes.bool.isRequired
   };
 
+  static defaultProps = {
+    className: ''
+  }
+
   componentDidMount() {
     this.setupKeyBindings();
   }
