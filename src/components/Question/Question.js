@@ -68,7 +68,7 @@ export default class Question extends Component {
       submitting
     } = this.props;
 
-    require('./question.scss');
+    require('./Question.scss');
     return (<div className={`question ${className}`}>
       <div className="question-stem">
         {stem}
