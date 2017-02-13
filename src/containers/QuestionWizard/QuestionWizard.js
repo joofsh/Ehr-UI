@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import ProgressBar from 'react-bootstrap/lib/ProgressBar';
 import { LoadingSpinner, Question } from 'src/components';
-import { fetchQuestionsAction } from 'src/actions';
+import { fetchQuestionsAction, submitAnswerAction } from 'src/actions';
 import { push } from 'react-router-redux';
 import _find from 'lodash/find';
 import Helmet from 'react-helmet';
@@ -20,16 +20,6 @@ function fetchInitialQuestionAction(state) {
     method: 'get',
     url: `/api/wizard/${userId}/current_question`,
     successType: ['RECEIVE_QUESTION_SUCCESS', 'RESET_WIZARD', 'SET_CURRENT_WIZARD_QUESTION']
-  };
-}
-
-function submitAnswerAction(id, data) {
-  return {
-    type: 'CALL_API',
-    method: 'put',
-    url: `/api/wizard/${id}/responses`,
-    errorType: 'RECEIVE_ANSWER_SUBMIT_ERROR',
-    data
   };
 }
 

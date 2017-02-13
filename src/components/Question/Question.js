@@ -7,6 +7,7 @@ const KEYBOARD_SUBMIT = ['Enter'];
 
 export default class Question extends Component {
   static propTypes = {
+    className: PropTypes.string,
     choices: PropTypes.array.isRequired,
     error: PropTypes.string,
     stem: PropTypes.string.isRequired,
@@ -15,6 +16,10 @@ export default class Question extends Component {
     submitAnswer: PropTypes.func.isRequired,
     submitting: PropTypes.bool.isRequired
   };
+
+  static defaultProps = {
+    className: ''
+  }
 
   componentDidMount() {
     this.setupKeyBindings();
@@ -53,6 +58,7 @@ export default class Question extends Component {
 
   render() {
     let {
+      className,
       choices,
       error,
       stem,
@@ -63,7 +69,7 @@ export default class Question extends Component {
     } = this.props;
 
     require('./question.scss');
-    return (<div className="question">
+    return (<div className={`question ${className}`}>
       <div className="question-stem">
         {stem}
       </div>

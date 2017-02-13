@@ -32,10 +32,13 @@ export class Resources extends Component {
     isFetching: PropTypes.bool.isRequired,
     params: PropTypes.object,
     children: PropTypes.node,
+    searchValue: PropTypes.string.isRequired,
+    setInitialSearch: PropTypes.func.isRequired,
     user: PropTypes.object
   };
 
   componentDidMount() {
+    this.props.setInitialSearch();
     this.props.fetchResources();
   }
 
@@ -46,6 +49,7 @@ export class Resources extends Component {
       params: {
         id: activeResourceId
       },
+      searchValue,
       user
     } = this.props;
     let resourceContent;
@@ -59,6 +63,7 @@ export class Resources extends Component {
         <SearchBar
           name="resourceFilter"
           placeholder="Find a Resource..."
+          value={searchValue}
         />
         <div className="list-group resource-list">
           {resources.map((resource, i) => (
@@ -83,7 +88,7 @@ export class Resources extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchResources: () => {
       dispatch((dispatch, getState) => {
@@ -94,6 +99,18 @@ function mapDispatchToProps(dispatch) {
         dispatch({ type: 'REQUEST_RESOURCES' });
         dispatch(fetchResources());
       });
+    },
+    setInitialSearch: () => {
+      let searchQuery = ownProps.location.query.query;
+      if (searchQuery) {
+        dispatch({
+          type: 'UPDATE_SEARCH_VALUE',
+          payload: {
+            name: 'resourceFilter',
+            value: searchQuery
+          }
+        });
+      }
     }
   };
 }
@@ -107,6 +124,7 @@ function mapStateToProps(state) {
                                     'address.zipcode', 'note', 'languages', 'tags.name']);
   return {
     resources,
+    searchValue: state.search.resourceFilter,
     isFetching: state.resource.isFetching,
     user: state.session.user
   };

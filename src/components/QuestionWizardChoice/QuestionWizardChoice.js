@@ -28,7 +28,7 @@ export default class ClientQuestionChoice extends Component {
 
     let classes = classnames({
       selected
-    }, 'col-md-6', 'col-sx-12', 'choice');
+    }, 'col-md-6', 'col-sx-12', 'QuestionWizardChoice');
 
     require('./QuestionWizardChoice.scss');
     return (

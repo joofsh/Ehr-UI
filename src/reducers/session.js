@@ -1,7 +1,7 @@
 export const initialState = {
+  firstQuestion: null,
   user: null,
   isModalActive: false,
-  isRegisteringGuest: false,
   // null means no response, true is success, false is error
   newsletterSignupSuccess: null,
   isSubmittingNewsletterSignup: false,
@@ -27,6 +27,12 @@ export default function session(state = initialState, action = {}) {
         ...state,
         user: null
       };
+    case 'RECEIVE_FIRST_QUESTION_SUCCESS':
+      return {
+        ...state,
+        firstQuestion: action.payload.questions[0]
+      };
+
     case 'REQUEST_NEWSLETTER_SIGNUP':
       return {
         ...state,

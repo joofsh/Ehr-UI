@@ -6,7 +6,8 @@ export class SearchBar extends Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     updateSearchValue: PropTypes.func.isRequired,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    value: PropTypes.string.isRequired
   };
 
   constructor() {
@@ -19,7 +20,11 @@ export class SearchBar extends Component {
   }
 
   render() {
-    let { name, placeholder } = this.props;
+    let {
+      name,
+      placeholder,
+      value
+    } = this.props;
 
     require('./SearchBar.scss');
     return (<div className="searchBar">
@@ -29,6 +34,7 @@ export class SearchBar extends Component {
         name={name}
         placeholder={placeholder || ''}
         className="form-control"
+        value={value}
         onChange={this.handleChange}
       />
     </div>);

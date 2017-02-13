@@ -2,6 +2,7 @@
 
 .question {
   background: #FFF;
+  border-radius: 2px;
 
   .question-stem {
     margin-bottom: 20px;
@@ -24,5 +25,9 @@
       border: 2px solid $brand-success;
       color: #FFF;
     }
+  }
+
+  .submit-wrapper {
+    margin-top: 10px;
   }
 }

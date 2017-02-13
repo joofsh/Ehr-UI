@@ -11,6 +11,8 @@ import { IndexLink } from 'react-router';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
+import _some from 'lodash/some';
+
 import config from '../../../config';
 
 // Paths that do not require authentication
@@ -19,6 +21,11 @@ const UNRESTRICTED_PATHS = [
   /^\/login$/, // login
   /^\/resources(.*)?/, // resources & subroutes
   /^\/(debug|context).html/ // testing pages
+];
+
+const PATHS_WITHOUT_TOPNAV = [
+  /^\/$/, // homepage
+  /^\/advocates$/ // homepage
 ];
 
 export class App extends Component {
@@ -44,6 +51,10 @@ export class App extends Component {
     this.props.ensureAuthed();
   }
 
+  isShowingTopNav() {
+    return !_some(PATHS_WITHOUT_TOPNAV, (path) => path.test(this.props.path));
+  }
+
   render() {
     let {
       logout,
@@ -55,7 +66,7 @@ export class App extends Component {
     require('./App.scss');
     return (<div className="app">
       <Helmet {...config.appMeta}/>
-      <Navbar>
+      {this.isShowingTopNav() && <Navbar>
         <Navbar.Header>
           <Navbar.Brand>
             <IndexLink to="/">
@@ -124,7 +135,7 @@ export class App extends Component {
               </LinkContainer>}
           </Nav>
         </Navbar.Collapse>
-      </Navbar>
+      </Navbar>}
 
         {this.props.children}
 
