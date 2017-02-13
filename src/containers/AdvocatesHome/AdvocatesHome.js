@@ -30,7 +30,7 @@ export class AdvocatesHome extends Component {
     } = this.props;
 
     require('./AdvocatesHome.scss');
-    return (<div className="container-home container-fluid">
+    return (<div className="container-AdvocateHome container-fluid">
       <div className="row">
         <div className="col-lg-12">
           <div className="banner-image">

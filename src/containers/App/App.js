@@ -25,7 +25,7 @@ const UNRESTRICTED_PATHS = [
 
 const PATHS_WITHOUT_TOPNAV = [
   /^\/$/, // homepage
-  /^\/advocates$/ // homepage
+  // /^\/advocates$/ // homepage
 ];
 
 export class App extends Component {
