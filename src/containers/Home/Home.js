@@ -120,23 +120,30 @@ export class Home extends Component {
           <div className="col-md-6 resource-buttons">
             <Link
               to={{ pathname: '/resources', query: { query: 'health' } }}
+              title="Health Resources"
               className="btn health"
             >
               <FontIcon type="ambulance"/>
             </Link>
             <Link
               to={{ pathname: '/resources', query: { query: 'employment' } }}
+              title="Employment Resources"
               className="btn employment"
             >
               <FontIcon type="briefcase"/>
             </Link>
             <Link
               to={{ pathname: '/resources', query: { query: 'housing' } }}
+              title="Housing Resources"
               className="btn housing"
             >
               <FontIcon type="home"/>
             </Link>
-            <Link to="/resources" className="btn all">
+            <Link
+              to="/resources"
+              title="All Resources"
+              className="btn all"
+            >
               <FontIcon type="plus"/>
             </Link>
           </div>
