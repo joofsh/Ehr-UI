@@ -16,38 +16,12 @@
     }
   }
 
-  .banner-image {
-    width: 100%;
-    height: 650px;
-    position: relative;
-    padding-top: 25px;
-  }
   .banner-section {
     margin: 0 auto;
     float: none;
   }
 
-  .banner-question {
-    background-color: $brand-primary;
-    padding: 20px;
-  }
 
-  .questionChoice {
-    padding: 15px;
-    background: $brand-success;
-    border: 2px solid $light-gray;
-    &:hover {
-      border: 2px solid $brand-info;
-    }
-  }
-
-  .question-prompt {
-    margin-bottom: 25px;
-  }
-
-  .banner-text {
-    padding-top: 200px;
-  }
   .row-mainContent {
     margin-top: 20px;
   }
@@ -117,15 +91,17 @@
     text-align: center;
     font-size: 12px;
   }
-  @media (max-width: $screen-sm-max) {
-    .banner-question {
-      margin-top: 125px;
-    }
-  }
   @media (max-width: $screen-md-max) {
+    .row-mainContent {
+      margin-top: 0;
+    }
     .resource-buttons {
       margin-top: 0;
       padding-bottom: 25px;
+    }
+    .banner-title {
+      margin-top: 0;
+      padding-top: 0;
     }
   }
 
