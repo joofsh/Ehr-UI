@@ -101,16 +101,14 @@ function mapDispatchToProps(dispatch, ownProps) {
       });
     },
     setInitialSearch: () => {
-      let searchQuery = ownProps.location.query.query;
-      if (searchQuery) {
-        dispatch({
-          type: 'UPDATE_SEARCH_VALUE',
-          payload: {
-            name: 'resourceFilter',
-            value: searchQuery
-          }
-        });
-      }
+      let searchQuery = ownProps.location.query.query || '';
+      dispatch({
+        type: 'UPDATE_SEARCH_VALUE',
+        payload: {
+          name: 'resourceFilter',
+          value: searchQuery
+        }
+      });
     }
   };
 }
