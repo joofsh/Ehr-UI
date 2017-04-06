@@ -28,16 +28,17 @@ export class Home extends Component {
 
   static propTypes = {
     fetchFirstQuestion: PropTypes.func.isRequired,
-    firstQuestion: PropTypes.object.isRequired,
+    firstQuestion: PropTypes.object,
     handleNewsletterSignup: PropTypes.func.isRequired,
     hideModal: PropTypes.func.isRequired,
     isModalActive: PropTypes.bool.isRequired,
+    isSubmittingModal: PropTypes.bool.isRequired,
+    isSubmittingQuestion: PropTypes.bool.isRequired,
     newsletterSignupSuccess: PropTypes.bool,
     selectChoice: PropTypes.func.isRequired,
     selectedChoiceId: PropTypes.number,
     showModal: PropTypes.func.isRequired,
     submitAnswer: PropTypes.func.isRequired,
-    submitting: PropTypes.bool.isRequired
   };
 
   componentDidMount() {
@@ -60,36 +61,37 @@ export class Home extends Component {
       handleNewsletterSignup,
       hideModal,
       isModalActive,
+      isSubmittingModal,
+      isSubmittingQuestion,
       newsletterSignupSuccess,
       selectChoice,
       selectedChoiceId,
       showModal,
-      submitting
     } = this.props;
 
     require('./Home.scss');
     return (<div className="container-home container-fluid">
       <div className="navbar">
         <div className="container">
-          <div className="navbar-brand">
-            <div className="brand-logo">
-              <p className="beta-tag">Beta</p>
+          <div className="col-sm-12">
+            <div className="navbar-brand">
+              <div className="brand-logo">
+                <p className="beta-tag">Beta</p>
+              </div>
+              <h1 className="sr-only">DC Resources</h1>
             </div>
-            <h1 className="sr-only">DC Resources</h1>
-          </div>
+              <Link
+                to="/resources/new"
+                className="btn btn-primary btn-brand pull-right cta-add-resource"
+              >
+                Add a Resource
+              </Link>
+            </div>
         </div>
       </div>
       <div className="container">
         <div className="col-lg-12 banner-section">
           <div className="row">
-            <div className="col-md-6">
-              {/* <Link
-                    to="/advocates"
-                    className="btn btn-primary  btn-brand btn-lg pull-right cta-advocate"
-                  >
-                Social Workers
-              </Link> */}
-            </div>
           </div>
           <div className="row row-mainContent">
             <div className="col-md-6">
@@ -104,7 +106,8 @@ export class Home extends Component {
                 selectChoice={selectChoice}
                 selectedChoiceId={selectedChoiceId}
                 submitAnswer={this.submitAnswer}
-                submitting={submitting}
+                submitting={isSubmittingQuestion}
+                enableKeybindings={!isModalActive}
               />}
             </div>
           </div>
@@ -165,7 +168,7 @@ export class Home extends Component {
       <Modal show={isModalActive} title="Sign up for our newsletter" onHide={hideModal}>
         <NewsletterSignupForm
           onSubmit={handleNewsletterSignup}
-          submitting={submitting}
+          submitting={isSubmittingModal}
           success={newsletterSignupSuccess === true}
           withError={newsletterSignupSuccess === false}
         />
@@ -257,7 +260,8 @@ function mapStateToProps(state) {
     isModalActive: state.session.isModalActive,
     newsletterSignupSuccess: state.session.newsletterSignupSuccess,
     selectedChoiceId: state.wizard.selectedChoiceId,
-    submitting: state.session.isSubmittingNewsletterSignup || state.wizard.submitting,
+    isSubmittingModal: state.session.isSubmittingNewsletterSignup,
+    isSubmittingQuestion: state.wizard.submitting,
   };
 }
 

@@ -28,7 +28,7 @@ export class NewResource extends Component {
       <Helmet title="New Resource"/>
       <div className="row">
         <ResourceForm
-          formTitle="Submit a Resource"
+          formTitle="Add a Resource"
           initialValues={resource}
           onSubmit={submitResource}
           tagSearchResults={tags}
@@ -59,7 +59,7 @@ function mapDispatchToProps(dispatch) {
   return {
     submitResource: (resource) => {
       return dispatch(submitResourceAction({ resource })).then(response => {
-        dispatch({ type: 'RECEIVE_RESOURCE_SUCCESS', response });
+        dispatch({ type: 'RECEIVE_RESOURCE_SUCCESS', payload: response });
         dispatch(push(`/resources/${response.id}`));
         return Promise.resolve();
       }, response => {
