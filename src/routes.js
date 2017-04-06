@@ -54,6 +54,7 @@ export default () => {
       <Route path="/wizard" component={QuestionWizard}/>
       <Route path="/my_resources" component={PersonalizedResources}/>
 
+      <Route path="/not_found" component={NotFound}/>
       <Route path="*" component={NotFound}/>
     </Route>
   );
