@@ -208,6 +208,11 @@ function handleRender(req, res) {
           req.session.user = null;
           console.info('Server 403 response. Redirecting to login');
           res.redirect('/login');
+        } else if (resp.status === 404) {
+          console.info('Server 404 response. Redirecting to not_found');
+          res.redirect('/not_found');
+        } else {
+          hydrateOnClient();
         }
       }).catch((_error) => {
         console.error('Rendering error:', _error);
