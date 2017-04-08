@@ -125,7 +125,7 @@ export class App extends Component {
               </LinkContainer>
               <LinkContainer to="/resources/new">
                 <MenuItem>
-                  Submit A Resources
+                  Add a Resource
                 </MenuItem>
               </LinkContainer>
             </NavDropdown>

@@ -9,6 +9,7 @@ export default class Question extends Component {
   static propTypes = {
     className: PropTypes.string,
     choices: PropTypes.array.isRequired,
+    enableKeybindings: PropTypes.bool.isRequired,
     error: PropTypes.string,
     stem: PropTypes.string.isRequired,
     selectChoice: PropTypes.func.isRequired,
@@ -18,7 +19,8 @@ export default class Question extends Component {
   };
 
   static defaultProps = {
-    className: ''
+    className: '',
+    enableKeybindings: true
   }
 
   componentDidMount() {
@@ -42,8 +44,12 @@ export default class Question extends Component {
   }
 
   keyUpHandler = (event) => {
+    if (!this.props.enableKeybindings) {
+      return;
+    }
+
+    event.preventDefault();
     if (_includes(KEYBOARD_CHOICES, event.key)) {
-      event.preventDefault();
       let selectedChoice = this.props.choices[+event.key - 1];
       if (selectedChoice) {
         this.props.selectChoice(selectedChoice.id);
@@ -51,7 +57,6 @@ export default class Question extends Component {
     }
 
     if (_includes(KEYBOARD_SUBMIT, event.key)) {
-      event.preventDefault();
       this.props.submitAnswer();
     }
   }
