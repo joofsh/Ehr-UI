@@ -120,7 +120,7 @@ export default class FormGroup extends Component {
           label={this.label()}
           type={this.type()}
           id={name}
-          placeholder={placeholder || `Enter ${this.label()}`}
+          placeholder={placeholder || `Enter ${this.label().toLowerCase()}`}
           bsStyle={error ? 'error' : null}
           help={error}
           children={children}

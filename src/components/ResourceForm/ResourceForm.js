@@ -96,8 +96,9 @@ export class ResourceForm extends Component {
                 isEditing={isEditing}
                 type="select"
                 multiple
+                name="Categories"
               >
-                <option disabled value="">Select A Category</option>
+                <option disabled value="">Select categories</option>
                 <option value="Housing">Housing</option>
                 <option value="Physical Health">Physical Health</option>
                 <option value="Mental Health">Mental Health</option>
@@ -144,7 +145,6 @@ export class ResourceForm extends Component {
         </div>
 
         <div className="form-group col-xs-12">
-          { error && <p className="text-danger pull-right error">{error}</p>}
           {isEditing ?
             <LoadingButton
               type="submit"
@@ -166,6 +166,9 @@ export class ResourceForm extends Component {
               </span>
             )
           }
+          <div className="errorWrapper pull-right">
+            { error && <p className="text-danger error">{error}</p>}
+          </div>
         </div>
       </form>);
   }
