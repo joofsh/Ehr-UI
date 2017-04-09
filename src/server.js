@@ -80,7 +80,6 @@ app.use('/api', (req, res) => {
 app.use(bodyParser.json());
 
 app.post('/authorize', (req, res) => {
-  console.log('REQ SESSION authorize', req.session);
   const client = new ApiClient(req);
   client.post('/api/users/authorize', { data: req.body }).then(resp => {
     req.session.user = resp;

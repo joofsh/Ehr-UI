@@ -1,3 +1,5 @@
+// Note: We specifically want to return the state via a function
+// so that the state is "copied" and never persists between requests
 export const initialState = () => {
   return {
     firstQuestion: null,
