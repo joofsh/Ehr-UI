@@ -10,7 +10,7 @@ export const initialState = () => {
     isSubmittingNewsletterSignup: false,
     error: null
   };
-}
+};
 
 export function buildUser(user = {}) {
   return {
