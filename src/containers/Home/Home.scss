@@ -7,6 +7,11 @@
     width: 200px;
     height: 100px;
   }
+  // Override specific to Homepage because we don't use the regular
+  // top nav
+  .brand-logo {
+    left: -25px;
+  }
   .btn-brand {
     background-color: $brand-primary;
     border-color: darken($brand-primary, 10%);

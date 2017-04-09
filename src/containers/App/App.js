@@ -72,7 +72,6 @@ export class App extends Component {
           <Navbar.Brand>
             <IndexLink to="/">
               <div className="brand-logo">
-                <p className="beta-tag">Beta</p>
               </div>
               <h1 className="sr-only">DC Resources</h1>
             </IndexLink>

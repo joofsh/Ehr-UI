@@ -76,7 +76,6 @@ export class Home extends Component {
           <div className="col-sm-12">
             <div className="navbar-brand">
               <div className="brand-logo">
-                <p className="beta-tag">Beta</p>
               </div>
               <h1 className="sr-only">DC Resources</h1>
             </div>
