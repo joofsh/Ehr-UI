@@ -17,20 +17,13 @@ body, html, #root, #root > div {
   .brand-logo {
     position: absolute;
     top: -3px;
-    left: 5px;
+    left: -10px;
     background: url('./dcr_resources_1.png') no-repeat center center;
     $size: 40px;
     width: 180px;
     height: 60px;
     background-size: 80%;
     display: inline-block;
-    margin-right: 10px;
-  }
-  .beta-tag {
-    color: $brand-primary;
-    position: absolute;
-    right: -15px;
-    bottom: 5px;
   }
   .brand-title {
     margin-left: 30px;
