@@ -21,7 +21,8 @@ const UNRESTRICTED_PATHS = [
   /^\/login$/, // login
   /^\/resources(.*)?/, // resources & subroutes
   /^\/(debug|context).html/, // testing pages
-  /^\/not_found/
+  /^\/not_found/,
+  /^\/healthcheck/
 ];
 
 const PATHS_WITHOUT_TOPNAV = [

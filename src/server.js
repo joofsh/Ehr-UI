@@ -33,19 +33,6 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 // To server the static css & js in production
 app.use(express.static(path.join(__dirname, '..', 'static')));
 
-// Force SSL
-app.use((req, res, next) => {
-  if (!req.secure && !__DEVELOPMENT__) {
-    let host = req.get('Host');
-    if (!/^www/.test(host)) {
-      host = `www.${host}`;
-    }
-
-    return res.redirect(301, ['https://', host, req.url].join(''));
-  }
-  next();
-});
-
 const API_URL = `http://${config.apiHost}:${config.apiPort}`;
 console.log('API_URL: ', API_URL);
 
@@ -75,6 +62,19 @@ app.use(session({
 app.use('/api', (req, res) => {
   console.info('--- API Proxy request received: ', req.originalUrl);
   proxy.web(req, res);
+});
+
+// Force SSL
+app.use((req, res, next) => {
+  if (!req.secure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+    let host = req.get('Host');
+    if (!/^www/.test(host)) {
+      host = `www.${host}`;
+    }
+
+    return res.redirect(301, ['https://', host, req.url].join(''));
+  }
+  next();
 });
 
 app.use(bodyParser.json());
