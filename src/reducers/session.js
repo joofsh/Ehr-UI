@@ -1,12 +1,14 @@
-export const initialState = {
-  firstQuestion: null,
-  user: null,
-  isModalActive: false,
-  // null means no response, true is success, false is error
-  newsletterSignupSuccess: null,
-  isSubmittingNewsletterSignup: false,
-  error: null
-};
+export const initialState = () => {
+  return {
+    firstQuestion: null,
+    user: null,
+    isModalActive: false,
+    // null means no response, true is success, false is error
+    newsletterSignupSuccess: null,
+    isSubmittingNewsletterSignup: false,
+    error: null
+  };
+}
 
 export function buildUser(user = {}) {
   return {
@@ -20,7 +22,7 @@ export function buildUser(user = {}) {
   };
 }
 
-export default function session(state = initialState, action = {}) {
+export default function session(state = initialState(), action = {}) {
   switch (action.type) {
     case 'CLEAR_SESSION_USER':
       return {
@@ -53,7 +55,7 @@ export default function session(state = initialState, action = {}) {
       return {
         ...state,
         isRegisteringGuest: false,
-        user: buildUser(action.payload.user)
+        user: action.payload.user
       };
     case 'RECEIVE_NEWSLETTER_SIGNUP_SUCCESS':
       return {

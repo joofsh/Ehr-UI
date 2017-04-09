@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { buildUser } from 'src/reducers/session';
 
 import {
   LoadingSpinner,
@@ -124,7 +125,7 @@ function mapStateToProps(state) {
     resources,
     searchValue: state.search.resourceFilter,
     isFetching: state.resource.isFetching,
-    user: state.session.user
+    user: buildUser(state.session.user)
   };
 }
 

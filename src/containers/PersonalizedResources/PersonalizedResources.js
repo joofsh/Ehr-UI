@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { PersonalizedResourceRow, LoadingSpinner } from 'src/components';
+import { buildUser } from 'src/reducers/session';
 import _forOwn from 'lodash/forOwn';
 import _isEmpty from 'lodash/isEmpty';
 import Helmet from 'react-helmet';
@@ -9,7 +10,7 @@ import Helmet from 'react-helmet';
 function fetchPersonalizedResourcesAction(state) {
   let path, userId;
 
-  if (state.session.user.isStaff()) {
+  if (buildUser(state.session.user).isStaff()) {
     path = `/api/demo/wizard/resources`;
   } else {
     userId = state.session.user.id;
@@ -109,7 +110,7 @@ export class PersonalizedResources extends Component {
 function mapStateToProps(state) {
   return {
     // TOOD: refactor this to work with not current user guests
-    user: state.session.user,
+    user: buildUser(state.session.user),
     resources: state.wizard.resources,
     isLoaded: !!state.wizard.resourcesLastUpdated
   };

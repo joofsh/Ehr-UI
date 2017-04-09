@@ -33,6 +33,19 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 // To server the static css & js in production
 app.use(express.static(path.join(__dirname, '..', 'static')));
 
+// Force SSL
+app.use((req, res, next) => {
+  if (!req.secure && !__DEVELOPMENT__) {
+    let host = req.get('Host');
+    if (!/^www/.test(host)) {
+      host = `www.${host}`;
+    }
+
+    return res.redirect(301, ['https://', host, req.url].join(''));
+  }
+  next();
+});
+
 const API_URL = `http://${config.apiHost}:${config.apiPort}`;
 console.log('API_URL: ', API_URL);
 
@@ -67,10 +80,11 @@ app.use('/api', (req, res) => {
 app.use(bodyParser.json());
 
 app.post('/authorize', (req, res) => {
+  console.log('REQ SESSION authorize', req.session);
   const client = new ApiClient(req);
   client.post('/api/users/authorize', { data: req.body }).then(resp => {
     req.session.user = resp;
-    let user = Server.filterSessionForClient(req.session, false).user;
+    let user = Server.filterSessionForClient(req.session).user;
     res.status = resp.status;
     res.send(user);
   }, err => {
@@ -83,7 +97,7 @@ app.post('/users/guests', (req, res) => {
   const client = new ApiClient(req);
   client.post('/api/users/guests').then(resp => {
     req.session.user = resp;
-    let user = Server.filterSessionForClient(req.session, false).user;
+    let user = Server.filterSessionForClient(req.session).user;
     res.status = resp.status;
     res.send(user);
   }, err => {
@@ -145,8 +159,6 @@ proxy.on('error', (error, req, res) => {
 
 function handleRender(req, res) {
   let sessionForClient = Server.filterSessionForClient(req.session);
-
-  console.log('REQ SESSION: ', req.session.user && req.session.user.token);
 
   const client = new ApiClient(req);
   const memoryHistory = createMemoryHistory(req.originalUrl);
