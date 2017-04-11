@@ -66,7 +66,12 @@ app.use('/api', (req, res) => {
 
 // Force SSL
 app.use((req, res, next) => {
-  if (!req.secure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+  let schema = req.headers['x-forwarded-proto'];
+  console.log('HEADERS -- x-forwarded-proto', schema);
+
+  let http = schema && schema === 'http';
+
+  if (http && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
     let host = req.get('Host');
     if (!/^www/.test(host)) {
       host = `www.${host}`;
