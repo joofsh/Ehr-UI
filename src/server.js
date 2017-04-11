@@ -76,10 +76,12 @@ app.use((req, res, next) => {
     host = `www.${host}`;
   }
 
-  res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  // res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
   if (isWithoutPrefix && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
-    return res.redirect(301, ['https://', host, req.url].join(''));
+    let url = ['https://', host, req.url].join('');
+    console.log('redirecting to:', url);
+    return res.redirect(301, url);
   }
 
   next();
