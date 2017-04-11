@@ -70,16 +70,18 @@ app.use((req, res, next) => {
   console.log('HEADERS -- x-forwarded-proto', schema);
 
   let host = req.get('Host');
-  let isWithoutPrefix = !/^www/.test(host);
-  let shouldRedirect = isWithoutPrefix;
+  let isWithoutPrefix = !/\/\/www\./.test(host);
 
   if (isWithoutPrefix) {
     host = `www.${host}`;
   }
 
+  res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+
   if (isWithoutPrefix && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
     return res.redirect(301, ['https://', host, req.url].join(''));
   }
+
   next();
 });
 
