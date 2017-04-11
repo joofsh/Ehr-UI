@@ -71,18 +71,18 @@ app.use((req, res, next) => {
   console.log('req secure?', req.secure);
 
   let host = req.get('Host');
-  let isWithoutPrefix = !/\/\/www\./.test(host);
+  let isWithoutPrefix = !/www\./.test(host);
 
   console.log('host', host);
   console.log('isWithoutPrefix?', isWithoutPrefix)
 
   // res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
-  if (isWithoutPrefix && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+  if (isWithoutPrefix && __DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
     if (isWithoutPrefix) {
       host = `www.${host}`;
     }
-    let url = ['https://', host, req.url].join('');
+    let url = ['http://', host, req.url].join('');
     console.log('redirecting to:', url);
     return res.redirect(301, url);
   }
