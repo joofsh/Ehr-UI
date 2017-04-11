@@ -66,16 +66,18 @@ app.use('/api', (req, res) => {
 
 // Force SSL
 app.use((req, res, next) => {
+  let schema = req.headers['x-forwarded-proto'];
+  console.log('HEADERS -- x-forwarded-proto', schema);
+
   let host = req.get('Host');
   let isWithoutPrefix = !/^www/.test(host);
-  let shouldRedirect = isWithoutPrefix || !req.secure;
+  let shouldRedirect = isWithoutPrefix;
 
   if (isWithoutPrefix) {
     host = `www.${host}`;
   }
 
-  console.log(isWithoutPrefix, shouldRedirect);
-  if (shouldRedirect && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+  if (isWithoutPrefix && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
     return res.redirect(301, ['https://', host, req.url].join(''));
   }
   next();
