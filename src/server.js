@@ -68,9 +68,9 @@ app.use('/api', (req, res) => {
 app.use((req, res, next) => {
   let schema = req.headers['x-forwarded-proto'];
   console.log('HEADERS -- x-forwarded-proto', schema);
-  let isHttps = schema === 'https';
+  let isNotHttps = schema && schema !== 'https';
 
-  if (!isHttps && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+  if (isNotHttps && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
     let host = req.get('Host');
     if (!/^www/.test(host)) {
       host = `www.${host}`;
