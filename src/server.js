@@ -82,7 +82,7 @@ app.use((req, res, next) => {
     if (isWithoutPrefix) {
       host = `www.${host}`;
     }
-    let url = ['http://', host, req.url].join('');
+    let url = ['https://', host, req.url].join('');
     console.log('redirecting to:', url);
     return res.redirect(301, url);
   }
