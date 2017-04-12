@@ -66,20 +66,18 @@ app.use('/api', (req, res) => {
 
 // Force SSL
 app.use((req, res, next) => {
-  let schema = req.headers['x-forwarded-proto'];
   let host = req.get('Host');
+  let schema = req.headers['x-forwarded-proto'];
   let isSecure = schema && schema === 'https';
 
-  console.log('host', host, ' secure? ',  isSecure);
-
-  // res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
   if (!isSecure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
    if(!/www\./.test(host)) {
       host = `www.${host}`;
     }
     let url = `https://${host}${req.url}`;
-    console.log('redirecting to:', url);
+    console.log('SSL Required. Redirecting to:', url);
     return res.redirect(301, url);
   }
 
