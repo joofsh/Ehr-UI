@@ -67,22 +67,18 @@ app.use('/api', (req, res) => {
 // Force SSL
 app.use((req, res, next) => {
   let schema = req.headers['x-forwarded-proto'];
-  console.log('HEADERS -- x-forwarded-proto', schema);
-  console.log('req secure?', req.secure);
-
   let host = req.get('Host');
-  let isWithoutPrefix = !/www\./.test(host);
+  let isSecure = schema && schema === 'https';
 
-  console.log('host', host);
-  console.log('isWithoutPrefix?', isWithoutPrefix);
+  console.log('host', host, ' secure? ',  isSecure);
 
   // res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
-  if (isWithoutPrefix && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
-    if (isWithoutPrefix) {
+  if (!isSecure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+   if(!/www\./.test(host)) {
       host = `www.${host}`;
     }
-    let url = ['https://', host, req.url].join('');
+    let url = `https://${host}${req.url}`;
     console.log('redirecting to:', url);
     return res.redirect(301, url);
   }
