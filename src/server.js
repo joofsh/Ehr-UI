@@ -74,11 +74,11 @@ app.use((req, res, next) => {
   let isWithoutPrefix = !/www\./.test(host);
 
   console.log('host', host);
-  console.log('isWithoutPrefix?', isWithoutPrefix)
+  console.log('isWithoutPrefix?', isWithoutPrefix);
 
   // res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
-  if (isWithoutPrefix && __DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+  if (isWithoutPrefix && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
     if (isWithoutPrefix) {
       host = `www.${host}`;
     }
