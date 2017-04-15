@@ -18,6 +18,10 @@ export default class PersonalizedResourceRow extends Component {
     </span>);
   }
 
+  resourceLink() {
+    return `/resources/${this.props.resource.id}`;
+  }
+
   render() {
     let {
       resource,
@@ -37,11 +41,11 @@ export default class PersonalizedResourceRow extends Component {
     require('./PersonalizedResourceRow.scss');
     return (<div className="row form-horizontal PersonalizedResourceRow">
       <div className="col-lg-12">
-        <Link to={`/resources/${id}`}><h4>{title}</h4></Link>
+        <Link to={this.resourceLink()}><h4>{title}</h4></Link>
         <p><MultilineValue value={description}/></p>
 
         <div className="col-md-4 resourceMap">
-          <ResourceMap resources={[resource]} activeResourceId={resource.id}/>
+          <ResourceMap resources={[resource]} activeResourceId={id}/>
         </div>
         <div className="col-md-8">
           <FormInfo className="col-sm-6 col-xs-12" label="Category" value={category}/>
@@ -56,6 +60,8 @@ export default class PersonalizedResourceRow extends Component {
             value={note}
             labelClassName="col-xs-3 tipLabel"
             valueClassName="col-xs-9 tipValue"
+            truncate={2}
+            seeMoreLink={this.resourceLink()}
           />
         </div>
       </div>

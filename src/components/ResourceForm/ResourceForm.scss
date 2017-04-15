@@ -16,4 +16,10 @@
     line-height: 37px;
     margin-right: 20px;
   }
+
+  @media (max-width: $screen-sm-max) {
+    legend {
+      padding: 0 15px;
+    }
+  }
 }

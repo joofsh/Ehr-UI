@@ -9,6 +9,15 @@ export default class FormInfo extends Component {
     label: PropTypes.string.isRequired,
     labelClassName: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+
+    // A number that determines after how many new lines we truncate the content
+    // trunate=1 means we only show 1 line
+    truncate: PropTypes.number,
+
+    // If we do truncate, then show a "See More" link. This prop is the string url
+    // to more details
+    seeMoreLink: PropTypes.string,
+
     valueClassName: PropTypes.string.isRequired,
     value: PropTypes.node
   }
@@ -20,14 +29,19 @@ export default class FormInfo extends Component {
   }
 
   getValue() {
-    let { type, value } = this.props;
+    let { type, value, seeMoreLink, truncate } = this.props;
     let content;
 
     if (value) {
       if (type === 'url') {
         content = <a target="_blank" href={value}>{value}</a>;
       } else if (_isString(value)) {
-        content = <MultilineValue value={value}/>;
+        content =
+          (<MultilineValue
+            value={value}
+            truncate={truncate}
+            seeMoreLink={seeMoreLink}
+          />);
       } else {
         content = value;
       }
