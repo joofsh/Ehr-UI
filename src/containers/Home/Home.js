@@ -95,7 +95,7 @@ export class Home extends Component {
           <div className="row row-mainContent">
             <div className="col-md-6">
               <h2 className="banner-title">
-                Find resources in 5 minutes or less
+                Find Resources in 5 Minutes or Less
               </h2>
             </div>
             <div className="col-md-6">

@@ -80,7 +80,7 @@ describe('Acceptance - App', () => {
     // Homepage
     visit('/');
     expect(wrapper.exists()).toBe(true);
-    expect(wrapper.find('.banner-title').text()).toInclude('Find resources');
+    expect(wrapper.find('.banner-title').text()).toInclude('Find Resources');
     expect(wrapper.find('.question').text()).toInclude(questions[0].stem);
     expect(wrapper.find('.question').text()).toInclude(questions[0].choices[0].stem);
 
