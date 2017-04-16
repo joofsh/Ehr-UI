@@ -139,6 +139,12 @@ describe('Acceptance - App', () => {
 
     expect(currentURL()).toBe('/questions');
     expect(wrapper.find('.questionForm').length).toBe(2);
+    click(wrapper.find('.fa-pencil').first());
+
+    await pause();
+
+    // TODO(jd): Fix this test. Why doesn't this trigger
+    // expect(wrapper.find('input#stem').length).toBe(1);
   }));
 
   it('renders tags', asyncTest(async () => {

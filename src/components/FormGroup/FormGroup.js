@@ -3,6 +3,7 @@ import FormControls from 'react-bootstrap/lib/FormControls/Static';
 import Input from 'react-bootstrap/lib/Input';
 import string from 'src/utils/string';
 import _isArray from 'lodash/isArray';
+import _isString from 'lodash/isArray';
 
 import { MultilineValue } from 'src/components';
 
@@ -88,6 +89,20 @@ export default class FormGroup extends Component {
     return isEditing === undefined ? true : isEditing;
   }
 
+  placeholder() {
+    let label = this.label();
+    let placeholder = this.props.placeholder;
+    let val = '';
+
+    if (placeholder) {
+      val = placeholder;
+    } if (_isString(label)) {
+      val = `Enter ${label.toLowerCase()}`
+    }
+
+    return val
+  }
+
   type() {
     let { type } = this.props;
     let val;
@@ -104,7 +119,6 @@ export default class FormGroup extends Component {
   render() {
     let {
       name,
-      placeholder,
       error,
       labelClassName,
       wrapperClassName,
@@ -120,7 +134,7 @@ export default class FormGroup extends Component {
           label={this.label()}
           type={this.type()}
           id={name}
-          placeholder={placeholder || `Enter ${this.label().toLowerCase()}`}
+          placeholder={this.placeholder()}
           bsStyle={error ? 'error' : null}
           help={error}
           children={children}
