@@ -8,6 +8,8 @@ import _find from 'lodash/find';
 import _forOwn from 'lodash/forOwn';
 import Helmet from 'react-helmet';
 
+const FEEDBACK_EMAIL = 'DCResources.community@gmail.com';
+
 function fetchResourceAction(id) {
   return {
     type: 'CALL_API',
@@ -39,6 +41,12 @@ export class Resource extends Component {
     this.props.fetchResource(+this.props.params.id);
   }
 
+  feedbackLink() {
+    let { title, id } = this.props.resource;
+    let subject = encodeURIComponent(`Feedback for ${title} - ${id}`);
+    return `mailto:${FEEDBACK_EMAIL}?Subject=${subject}`;
+  }
+
   render() {
     let {
       resource,
@@ -56,7 +64,7 @@ export class Resource extends Component {
     }
 
     require('./Resource.scss');
-    return (<div className="container container-resource col-xs-12">
+    return (<div className="container Resource col-xs-12">
       <Helmet title={resource.title} />
       <div className="row">
         <div className="clearfix">
@@ -80,6 +88,10 @@ export class Resource extends Component {
           tagSearchResults={tags}
           className="col-xs-12"
         />
+        <p className="feedback-link">
+          Do you have feedback about this resource? Email us:{' '}
+          <a href={this.feedbackLink()}>{FEEDBACK_EMAIL}</a>
+        </p>
       </div>
     </div>);
   }

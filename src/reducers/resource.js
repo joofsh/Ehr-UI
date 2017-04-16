@@ -7,6 +7,8 @@ export const initialState = {
   isEditing: false,
   isTogglingPublishState: false,
   lastUpdated: null,
+  // This is the count of total resources from the API
+  resourceCount: null,
   resources: []
 };
 
@@ -104,6 +106,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         isFetching: false,
+        resourceCount: action.payload.count,
         resources: _resources,
         lastUpdated: Date.now()
       };
