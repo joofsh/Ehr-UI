@@ -39,6 +39,12 @@ export class Resource extends Component {
     this.props.fetchResource(+this.props.params.id);
   }
 
+  feedbackLink() {
+    let { title, id } = this.props.resource;
+    let subject = encodeURIComponent(`${title} - ${id}`);
+    return `mailto:dcresources.community@gmail.com?Subject=${subject}`;
+  }
+
   render() {
     let {
       resource,
@@ -56,7 +62,7 @@ export class Resource extends Component {
     }
 
     require('./Resource.scss');
-    return (<div className="container container-resource col-xs-12">
+    return (<div className="container Resource col-xs-12">
       <Helmet title={resource.title} />
       <div className="row">
         <div className="clearfix">
@@ -80,6 +86,10 @@ export class Resource extends Component {
           tagSearchResults={tags}
           className="col-xs-12"
         />
+        <p className="feedback-link">
+          Do you have feedback about this resource? Email us:{' '}
+          <a href={this.feedbackLink()}>DCResources.community@gmail.com</a>
+        </p>
       </div>
     </div>);
   }

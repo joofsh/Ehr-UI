@@ -93,7 +93,13 @@ function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchResources: () => {
       dispatch((dispatch, getState) => {
-        if (getState().resource.lastUpdated && getState().resource.resources.length) {
+        let resourceState = getState().resource;
+
+        // If we have a total resource count from the API, and it matches
+        // the number of resources we already have cached on the frontend, then
+        // we skip this API call
+        if (resourceState.resourceCount &&
+          resourceState.resources.length >= resourceState.resourceCount) {
           return;
         }
 
