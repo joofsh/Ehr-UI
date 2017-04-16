@@ -26,7 +26,7 @@ module.exports = Object.assign({
   sessionSecretKey: process.env.SESSION_SECRET_KEY || 'my_secret_key',
 
   // DC Resources API
-  apiHost: process.env.APIHOST || 'localhost',
+  apiHost: process.env.APIHOST || 'http://localhost',
   apiPort: process.env.APIPORT || 4000,
   apiVersion: process.env.APIVERSION || 'v1',
 

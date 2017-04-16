@@ -33,7 +33,7 @@ app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
 // To server the static css & js in production
 app.use(express.static(path.join(__dirname, '..', 'static')));
 
-const API_URL = `http://${config.apiHost}:${config.apiPort}`;
+const API_URL = `${config.apiHost}:${config.apiPort}`;
 console.log('API_URL: ', API_URL);
 
 const proxy = httpProxy.createProxyServer({
