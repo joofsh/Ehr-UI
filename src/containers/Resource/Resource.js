@@ -43,7 +43,7 @@ export class Resource extends Component {
 
   feedbackLink() {
     let { title, id } = this.props.resource;
-    let subject = encodeURIComponent(`${title} - ${id}`);
+    let subject = encodeURIComponent(`Feedback for ${title} - ${id}`);
     return `mailto:${FEEDBACK_EMAIL}?Subject=${subject}`;
   }
 
