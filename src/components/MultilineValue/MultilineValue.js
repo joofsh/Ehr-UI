@@ -14,13 +14,9 @@ export default class MultilineValue extends Component {
     seeMoreLink: PropTypes.string,
   };
 
-  static defaultProps = {
-    value: ''
-  }
-
   render() {
     let { value, seeMoreLink, truncate } = this.props;
-    let _value = value.split('\n').filter((v) => v.length);
+    let _value = (value || '').split('\n').filter((v) => v.length);
     let isTruncating = truncate && _value.length > truncate;
 
     if (isTruncating) {

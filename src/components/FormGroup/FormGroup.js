@@ -88,6 +88,20 @@ export default class FormGroup extends Component {
     return isEditing === undefined ? true : isEditing;
   }
 
+  placeholder() {
+    let label = this.label();
+    let placeholder = this.props.placeholder;
+    let val = '';
+
+    if (placeholder) {
+      val = placeholder;
+    } if (label) {
+      val = `Enter ${label.toLowerCase()}`
+    }
+
+    return val
+  }
+
   type() {
     let { type } = this.props;
     let val;
@@ -104,7 +118,6 @@ export default class FormGroup extends Component {
   render() {
     let {
       name,
-      placeholder,
       error,
       labelClassName,
       wrapperClassName,
@@ -120,7 +133,7 @@ export default class FormGroup extends Component {
           label={this.label()}
           type={this.type()}
           id={name}
-          placeholder={placeholder || `Enter ${this.label().toLowerCase()}`}
+          placeholder={this.placeholder()}
           bsStyle={error ? 'error' : null}
           help={error}
           children={children}
