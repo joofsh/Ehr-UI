@@ -3,6 +3,7 @@ import FormControls from 'react-bootstrap/lib/FormControls/Static';
 import Input from 'react-bootstrap/lib/Input';
 import string from 'src/utils/string';
 import _isArray from 'lodash/isArray';
+import _isString from 'lodash/isArray';
 
 import { MultilineValue } from 'src/components';
 
@@ -95,7 +96,7 @@ export default class FormGroup extends Component {
 
     if (placeholder) {
       val = placeholder;
-    } if (label) {
+    } if (_isString(label)) {
       val = `Enter ${label.toLowerCase()}`
     }
 
