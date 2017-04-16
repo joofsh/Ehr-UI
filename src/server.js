@@ -73,9 +73,9 @@ app.use((req, res, next) => {
   res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
   if (!isSecure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
-   if(!/www\./.test(host)) {
-      host = `www.${host}`;
-    }
+    if (!/www\./.test(host)) {
+     host = `www.${host}`;
+   }
     let url = `https://${host}${req.url}`;
     console.log('SSL Required. Redirecting to:', url);
     return res.redirect(301, url);

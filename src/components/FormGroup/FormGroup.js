@@ -97,10 +97,10 @@ export default class FormGroup extends Component {
     if (placeholder) {
       val = placeholder;
     } if (_isString(label)) {
-      val = `Enter ${label.toLowerCase()}`
+      val = `Enter ${label.toLowerCase()}`;
     }
 
-    return val
+    return val;
   }
 
   type() {
