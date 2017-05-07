@@ -152,7 +152,8 @@ export class Home extends Component {
         </div>
       </div>
       <div className="col-lg-12 footer">
-        <div className="newsletterModalLink">
+        <div className="footer-links">
+          <Link to="/about-us">Learn More</Link>
           <a href="#" onClick={showModal}>Sign up for our newsletter</a>
         </div>
         <div className="legal-disclaimer">

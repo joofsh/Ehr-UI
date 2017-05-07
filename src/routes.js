@@ -2,6 +2,7 @@ import React from 'react';
 import { IndexRoute, Route } from 'react-router';
 
 import {
+  AboutUs,
   AdvocatesHome,
   App,
   Healthcheck,
@@ -27,6 +28,7 @@ export default () => {
       <IndexRoute component={Home}/>
       <Route path="/advocates" component={AdvocatesHome}/>
 
+      <Route path="/about-us" component={AboutUs}/>
       <Route path="/login" component={Login}/>
       <Route path="/healthcheck" component={Healthcheck}/>
 
