@@ -1,3 +1,4 @@
+export AboutUs from './AboutUs/AboutUs';
 export AdvocatesHome from './AdvocatesHome/AdvocatesHome';
 export App from './App/App';
 export Healthcheck from './Healthcheck/Healthcheck';

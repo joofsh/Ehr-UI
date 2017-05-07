@@ -83,8 +83,11 @@
   .resource-text {
     padding: 30px 0;
   }
-  .newsletterModalLink {
+  .footer-links {
     margin: 20px 0;
+    a {
+      margin-left: 30px;
+    }
   }
   .footer {
     text-align: center;
