@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { ResourceForm, LoadingSpinner, ToggleButton } from 'src/components';
+import { ResourceForm, LoadingSpinner, ToggleButton, DisqusThread } from 'src/components';
 import { fetchTagsAction } from 'src/actions';
 import { reset } from 'redux-form';
 import string from 'src/utils/string';
@@ -88,10 +88,12 @@ export class Resource extends Component {
           tagSearchResults={tags}
           className="col-xs-12"
         />
-        <p className="feedback-link">
-          Do you have feedback about this resource? Email us:{' '}
-          <a href={this.feedbackLink()}>{FEEDBACK_EMAIL}</a>
-        </p>
+        <h3>Comments or Feedback</h3>
+        <DisqusThread
+          className
+          identifier={`Resource-${resource.id}`}
+          title={`Comments or Feedback for ${resource.title}`}
+        />
       </div>
     </div>);
   }
