@@ -1,6 +1,7 @@
 export AddressForm from './AddressForm/AddressForm';
 export ChoiceForm from './ChoiceForm/ChoiceForm';
 export DataTable from './DataTable/DataTable';
+export DisqusThread from './DisqusThread/DisqusThread';
 export FormGroup from './FormGroup/FormGroup';
 export FormGroupTag from './FormGroupTag/FormGroupTag';
 export LoadingButton from './LoadingButton/LoadingButton';
