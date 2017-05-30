@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 const DISQUS_CONFIG = [
   'shortname', 'identifier', 'title', 'url', 'category_id', 'onNewComment'
