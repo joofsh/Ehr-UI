@@ -4,7 +4,8 @@ import {
   AddressForm,
   FormGroup,
   LoadingButton,
-  FormGroupTag
+  FormGroupTag,
+  TagIcons
 } from 'src/components';
 
 export class ResourceForm extends Component {
@@ -89,6 +90,7 @@ export class ResourceForm extends Component {
               </h2>
             </legend>
             <div className="col-md-9 col-offset-3">
+              <TagIcons tags={tags.value}/>
               <FormGroup {...title} isEditing={isEditing}/>
               <FormGroup {...description} isEditing={isEditing} type="textarea"/>
               <FormGroup

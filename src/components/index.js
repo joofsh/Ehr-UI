@@ -19,6 +19,7 @@ export ResourceMap from './ResourceMap/ResourceMap';
 export ResourceMarker from './ResourceMarker/ResourceMarker';
 export ResourceRow from './ResourceRow/ResourceRow';
 export SearchBar from './SearchBar/SearchBar';
+export TagIcons from './TagIcons/TagIcons';
 export TagForm from './TagForm/TagForm';
 export MultilineValue from './MultilineValue/MultilineValue';
 export ToggleButton from './ToggleButton/ToggleButton';
