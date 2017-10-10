@@ -65,24 +65,24 @@ app.use('/api', (req, res) => {
 });
 
 // Force SSL
-app.use((req, res, next) => {
-  let host = req.get('Host');
-  let schema = req.headers['x-forwarded-proto'];
-  let isSecure = schema && schema === 'https';
+// app.use((req, res, next) => {
+  // let host = req.get('Host');
+  // let schema = req.headers['x-forwarded-proto'];
+  // let isSecure = schema && schema === 'https';
 
-  res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  // res.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
-  if (!isSecure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
-    if (!/www\./.test(host)) {
-      host = `www.${host}`;
-    }
-    let url = `https://${host}${req.url}`;
-    console.log('SSL Required. Redirecting to:', url);
-    return res.redirect(301, url);
-  }
+  // if (!isSecure && !__DEVELOPMENT__ && !/healthcheck/.test(req.url)) {
+    // if (!/www\./.test(host)) {
+      // host = `www.${host}`;
+    // }
+    // let url = `https://${host}${req.url}`;
+    // console.log('SSL Required. Redirecting to:', url);
+    // return res.redirect(301, url);
+  // }
 
-  next();
-});
+  // next();
+// });
 
 app.use(bodyParser.json());
 
