@@ -97,7 +97,7 @@ export default class TagIcons extends Component {
 
   tagInfo(tag) {
     return _find(TAG_ICON_MAPPING, (iconInfo, key) => {
-      return tag.name.match(key)
+      return tag.name.match(key);
     });
   }
 
@@ -110,7 +110,7 @@ export default class TagIcons extends Component {
           title={tag.name}
           style={{ color: tag.color }}
           className="large"
-        />)
+        />);
       })}
     </div>);
   }
